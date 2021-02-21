@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="condiciones">
+        <item>23.9°C(75°F) Aire 50% RH 1 atm</item>
+        <item>10°C(50°F) Aire 97% RH 1 atm</item>
+        <item>20°C(68°F) Aire STP</item>
+        <item>40°C(104°F) Aire 23% RH 1 atm</item>
+        <item>50°C(122°F) Aire 11% RH 1 atm</item>
+
+    </string-array>
+
+    <string-array name="dimensiones">
+        <item>3</item>
+        <item>3.5</item>
+        <item>4</item>
+        <item>4.5</item>
+        <item>5</item>
+        <item>5.5</item>
+        <item>6</item>
+        <item>6.5</item>
+        <item>7</item>
+        <item>7</item>
+        <item>7.5</item>
+        <item>8</item>
+        <item>8.5</item>
+        <item>9</item>
+        <item>9.5</item>
+        <item>10</item>
+        <item>10.5</item>
+        <item>11</item>
+        <item>11.5</item>
+        <item>12</item>
+        <item>12.5</item>
+        <item>13</item>
+        <item>13.5</item>
+        <item>14</item>
+        <item>14.5</item>
+        <item>15</item>
+        <item>15.5</item>
+        <item>16</item>
+        <item>16.5</item>
+        <item>17</item>
+        <item>17.5</item>
+        <item>18</item>
+        <item>18.5</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>32</item>
+        <item>34</item>
+        <item>36</item>
+        <item>38</item>
+        <item>40</item>
+        <item>42</item>
+        <item>44</item>
+        <item>46</item>
+        <item>48</item>
+        <item>50</item>
+        <item>52</item>
+        <item>54</item>
+        <item>56</item>
+        <item>58</item>
+        <item>60</item>
+        <item>62</item>
+        <item>64</item>
+        <item>66</item>
+        <item>68</item>
+        <item>70</item>
+        <item>72</item>
+        <item>74</item>
+        <item>76</item>
+        <item>78</item>
+        <item>80</item>
+        <item>82</item>
+        <item>84</item>
+        <item>86</item>
+        <item>88</item>
+        <item>90</item>
+        <item>92</item>
+        <item>94</item>
+        <item>96</item>
+        <item>98</item>
+        <item>100</item>
+
+    </string-array>
+
+    <string-array name="tipo_instalacion">
+        <item>Seleccione N° de lados libres</item>
+        <item>1 lado libre</item>
+        <item>2 lados libres</item>
+        <item>3 lados libres</item>
+        <item>4 lados libres</item>
+        <item>2 lados libres especial</item>
+        <item>3 lados libres especial</item>
+    </string-array>
+
+    <string-array name="tipo_montaje">
+        <item>Ligero</item>
+        <item>Medio</item>
+        <item>Pesado</item>
+        <item>Extra pesado</item>
+    </string-array>
+
+    <string-array name="factor_velocidad">
+        <item>50</item>
+        <item>60</item>
+        <item>70</item>
+        <item>80</item>
+        <item>90</item>
+        <item>100</item>
+        <item>110</item>
+        <item>120</item>
+        <item>130</item>
+        <item>140</item>
+        <item>150</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,188 @@
+<resources>
+    <string name="app_name">HVAC TOOLS</string>
+    <string name="dimducto">DimDucto</string>
+    <string name="cargatermica">Carga Termica</string>
+    <string name="extraccioncampana">Extraccion Campana</string>
+
+
+    //DimDucto
+    <string name="cond">Condiciones de aire</string>
+    <string name="Fluid_density">Densidad del aire</string>
+    <string name="Fluid_viscosity">Viscosidad cinemática</string>
+    <string name="Specific_Heat">Calor especifico</string>
+    <string name="Energy_factor">Factor de energía</string>
+
+    //UNIDADES
+    <string name="lb_ft3">lb/ft³.</string>
+    <string name="lb_fth.">ft²/s.</string>
+    <string name="Btu_lbF">Btu/lb·°F.</string>
+    <string name="Btu_hFcfm">Btu/h·°F·cfm.</string>
+    <string name="ft2">ft²</string>
+    <string name="ft_min">ft/min</string>
+    <string name="inWC">in.WC</string>
+    <string name="cfm">cfm</string>
+    <string name="inWC_100ft">in.WC/100ft</string>
+    <string name="fpm">fpm</string>
+    <string name="in">in</string>
+
+    <string name="Flow_rate">Caudal</string>
+    <string name="Head_loss">Pérdida estática</string>
+    <string name="Velocity">Velocidad</string>
+    <string name="Eq_dia">Diámetro equivalente</string>
+    <string name="Duct_size">Dim. Ducto</string>
+
+    <string name="Eq_DIA">Diámetro equivalente</string>
+    <string name="Flow_Area">Área</string>
+    <string name="Fluid_Velocity">Velocidad del fluido</string>
+    <string name="Reynolds">Número de Reynolds</string>
+    <string name="Friction_fact">Factor de fricción</string>
+    <string name="Velocity_Press">Presión Dinámica</string>
+    <string name="Calcular">CALCULAR</string>
+    <string name="Borrar">BORRAR</string>
+
+    //Codigo Java
+    <string name="Perd_Falt">Introducir la "Pérdida estática</string>
+    <string name="Caudal_Falt">Introducir el "Caudal"</string>
+    <string name="Fun_indip">Función no disponible por el momento</string>
+    <string name="Cad_Perd">Introducir Caudal y Pérdida estática</string>
+
+
+    //Carga Termica
+
+    <string name="actualizar">ACTUALIZAR</string>
+    <string name="guia">GUIA</string>
+    <string name="textview6">TextView6</string>
+
+    //ExtraccionCampana
+
+    <string name="tipo_instalacion">
+        <item> 2 lados libres</item>
+        <item> 3 lados libres</item>
+        <item> 4 lados libres</item>
+    </string>
+
+    <string name="ignore">ignore</string>
+    <string name="largo">Largo</string>
+    <string name="ancho">Ancho</string>
+    <string name="Captacion">Alt. captacion</string>
+    <string name="calcular">Calcular</string>
+    <string name="perimetro">Perímetro libre</string>
+    <string name="pared">Pared</string>
+    <string name="simple_isla">Simple isla</string>
+
+    <string name="montaje">Tipo de montaje</string>
+    <string name="tipo_trabajo">Tipo de trabajo</string>
+    <string name="facto_campana">Factor (ft²/min)</string>
+    <string name="velocidad_lineal">Velocidad (ft/min)</string>
+    <string name="velocidad_lineal_SI">Velocidad (m/min)</string>
+
+    <string name="ligero">Ligero</string>
+    <string name="medio">Medio</string>
+    <string name="pesado">Pesado</string>
+    <string name="extra_pesado">Extra pesado</string>
+    <string name="tipo_montaje_trabajo">Tipo de montaje y trabajo:</string>
+    <string name="altura_perm_vel">Alt. captacion, perimetro y vel.:</string>
+    <string name="caudal_per_result">Caudal x perímetro</string>
+    <string name="caudal_cap_result">Caudal x área de captación</string>
+    <string name="caudal_pro_result">Caudal promedio</string>
+
+
+    <string name="unidad_campana">Ft</string>
+    <string name="texto_spinner1">Seleccione N° de lados libres</string>
+    <string name="Intro_largo">Introducir el largo de la campana</string>
+    <string name="Intro_ancho">Introducir el ancho de la campana</string>
+    <string name="Intro_alt">Introducir altura de captacion</string>
+    <string name="Intro_largo_ancho">Introducir largo y ancho de campana</string>
+    <string name="Intro_largo_alt">Introducir largo y altura de campana</string>
+    <string name="Intro_ancho_alt">Introducir ancho y altura de campana</string>
+    <string name="lados_libres">Introducir el N° de lados libres</string>
+    <string name="Dimensiones">Introducir las dimensiones de la campana</string>
+    <string name="Selec_tipo_montaje">Seleccione el tipo de montaje</string>
+    <string name="Selec_tipo_trabajo">Seleccione el tipo de trabajo</string>
+
+    <string name="boton_calcular">Calcular</string>
+    <string name="boton_borrar">Borrar</string>
+
+    //Calculo refrigerante
+    <string-array name="Sist_Unidad">
+        <item >S.I.</item>
+        <item >EE.UU.</item>
+    </string-array>
+
+    <string-array name="Dia_Tub">
+        <item>Ø</item>
+        <item>⅛</item>
+        <item >¼</item>
+        <item >⅜</item>
+        <item >½</item>
+        <item >⅝</item>
+        <item >¾</item>
+        <item >⅞</item>
+        <item >1</item>
+        <item >1⅛</item>
+        <item >1¼</item>
+        <item >1½</item>
+        <item >2</item>
+        <item >2½</item>
+        <item >3</item>
+        <item >3½</item>
+        <item >4</item>
+    </string-array>
+
+    <string-array name="R410_SI_Liq">
+        <item >1060.00</item>
+        <item >1070.00</item>
+        <item >1100.00</item>
+    </string-array>
+
+    <string-array name="R410_SI_Vap">
+        <item >4.12</item>
+        <item >4.20</item>
+    </string-array>
+
+    <string-array name="R410_EEUU_Liq">
+        <item >66.174</item>
+        <item >66.798</item>
+        <item >68.671</item>
+    </string-array>
+
+    <string-array name="R410_EEUU_Vap">
+        <item >0.257</item>
+        <item >0.262</item>
+    </string-array>
+
+    <string-array name="R22_SI_Liq">
+        <item >1190.00</item>
+        <item >1194.00</item>
+        <item >1210.00</item>
+    </string-array>
+
+    <string-array name="R22_SI_Vap">
+        <item >3.60</item>
+        <item >4.50</item>
+        <item >4.70</item>
+    </string-array>
+
+    <string-array name="R22_EEUU_Liq">
+        <item >74.289</item>
+        <item >74.539</item>
+        <item >75.538</item>
+    </string-array>
+
+    <string-array name="R22_EEUU_Vap">
+        <item >0.225</item>
+        <item >0.281</item>
+        <item >0.293</item>
+    </string-array>
+
+    <string name="gas_r22">R22</string>
+    <string name="gas_r410">R410</string>
+    <string name="carga_total">Carga Total</string>
+    <string name="del_sistema.">del Sistema.</string>
+    <string name="unidad_kg">Kg</string>
+    <string name="intro_long">Introducir longitud de tuberías</string>
+    <string name="selct_refr">Seleccione el refrigerante</string>
+    <string name="selct_sist_unid">Seleccione el sistema de unidad</string>
+
+
+</resources>
