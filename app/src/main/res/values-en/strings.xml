@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HVAC TOOLS</string>
+    <string name="dimducto">DimDucto</string>
+    <string name="cargatermica">Thermal load</string>
+    <string name="extraccioncampana">Hood Extraction</string>
+    <string name="cond">Air conditions</string>
+    <string name="Fluid_density">Air density</string>
+    <string name="Fluid_viscosity">Kinematic viscosity</string>
+    <string name="Specific_Heat">Specific heat</string>
+    <string name="Energy_factor">Power factor</string>
+    <string name="lb_ft3">lb/ft³.</string>
+    <string name="lb_fth.">ft²/s.</string>
+    <string name="Btu_lbF">Btu/lb·°F.</string>
+    <string name="Btu_hFcfm">Btu/h·°F·cfm.</string>
+    <string name="ft2">ft²</string>
+    <string name="ft_min">ft/min</string>
+    <string name="inWC">in.WC</string>
+    <string name="cfm">cfm</string>
+    <string name="inWC_100ft">in.WC/100ft</string>
+    <string name="fpm">fpm</string>
+    <string name="in">in</string>
+    <string name="Flow_rate">Flow</string>
+    <string name="Head_loss">Static loss</string>
+    <string name="Velocity">Velocity</string>
+    <string name="Eq_dia">Equivalent diameter</string>
+    <string name="Duct_size">Dim. Duct</string>
+    <string name="Eq_DIA">Equivalent diameter</string>
+    <string name="Flow_Area">Area</string>
+    <string name="Fluid_Velocity">Fluid velocity</string>
+    <string name="Reynolds">Reynolds number</string>
+    <string name="Friction_fact">Friction factor</string>
+    <string name="Velocity_Press">Dynamic pressure</string>
+    <string name="Calcular">CALCULATE</string>
+    <string name="Borrar">DELETE</string>
+    <string name="Perd_Falt">Enter Static Loss</string>
+    <string name="Caudal_Falt">Enter the \"Flow\"</string>
+    <string name="Fun_indip">Function not available at the moment</string>
+    <string name="Cad_Perd">Enter Flow and Static Loss</string>
+    <string name="actualizar">TO UPDATE</string>
+    <string name="guia">GUIDE</string>
+    <string name="ignore">ignore</string>
+    <string name="largo">Long</string>
+    <string name="ancho">Width</string>
+    <string name="Captacion">Catc. height</string>
+    <string name="calcular">Calculate</string>
+    <string name="perimetro">Free perimeter</string>
+    <string name="pared">Wall</string>
+    <string name="simple_isla">Simple island</string>
+    <string name="montaje">Mounting type</string>
+    <string name="tipo_trabajo">Type of job</string>
+    <string name="facto_campana">Factor (ft²/min)</string>
+    <string name="velocidad_lineal">Speed (ft/min)</string>
+    <string name="velocidad_lineal_SI">Speed (m/min)</string>
+    <string name="ligero">Light</string>
+    <string name="medio">Half</string>
+    <string name="pesado">heavy</string>
+    <string name="extra_pesado">Extra heavy</string>
+    <string name="tipo_montaje_trabajo">Type of assembly and work:</string>
+    <string name="altura_perm_vel">Hgt. catch, perimeter and speed:</string>
+    <string name="caudal_per_result">Flow x perimeter</string>
+    <string name="caudal_cap_result">Flow x catchment area</string>
+    <string name="caudal_pro_result">Average flow</string>
+    <string name="unidad_campana">Ft</string>
+    <string name="texto_spinner1">Select No. of free sides</string>
+    <string name="Intro_largo">Enter the length of the hood</string>
+    <string name="Intro_ancho">Enter the width of the hood</string>
+    <string name="Intro_alt">Enter pickup height</string>
+    <string name="Intro_largo_ancho">Enter bell length and width</string>
+    <string name="Intro_largo_alt">Enter bell length and height</string>
+    <string name="Intro_ancho_alt">Enter hood width and height</string>
+    <string name="lados_libres">Enter the N°. of free sides</string>
+    <string name="Dimensiones">Enter the dimensions of the hood</string>
+    <string name="Selec_tipo_montaje">Select mounting type</string>
+    <string name="Selec_tipo_trabajo">Select job type</string>
+    <string name="boton_calcular">Calculate</string>
+    <string name="boton_borrar">Erase</string>
+    <string name="gas_r22">R22</string>
+    <string name="gas_r410">R410</string>
+    <string name="carga_total">Total load</string>
+    <string name="del_sistema.">of the system.</string>
+    <string name="unidad_kg">Kg</string>
+    <string name="intro_long">Enter pipe length</string>
+    <string name="selct_refr">Select the refrigerant</string>
+    <string name="selct_sist_unid">Select unit system</string>
+    <string name="ladoA">Side A (m)</string>
+    <string name="ladoB">Side B (m)</string>
+    <string name="aream2">Superficie m²</string>
+    <string name="factorBTUm2">Factor »(BTU/Hr)/m²</string>
+    <string name="dimensiones">Dimensions</string>
+    <string name="tituloCargaTermica">Method → Factor by area</string>
+    <string name="factor500a800">Factor: 500 to 800</string>
+    <string name="ofiPocosVidrios">*Offices with few glasses.</string>
+    <string name="casas">*Houses.</string>
+    <string name="recintoParedesSombras">*Enclosure with walls and glass exposed to shadows.</string>
+    <string name="localesRompeSol">*Premises in buildings with sun break.</string>
+    <string name="localesEntrePisos">*Premises between floors.</string>
+    <string name="factorMayor800">Factor: greater than 800</string>
+    <string name="oficinasVidrios">*Oficinas con vidrios.</string>
+    <string name="casasRadiacionSolar">* Houses exposed to solar radiation.</string>
+    <string name="casaCieloRazo">* Houses with a ceiling only.</string>
+    <string name="localParedVidrio">* Premises in buildings with exterior glass walls.</string>
+    <string name="recepcion">*Offices and receptions with a moderate number of people. </string>
+    <string name="flujoInyeccion">CFM injection</string>
+
+
+    <string-array name="tipo_instalacion">
+        <item>Select No. of free sides</item>
+        <item>1 free side</item>
+        <item>2 free sides</item>
+        <item>3 free sides</item>
+        <item>4 free sides</item>
+        <item>2 special free sides</item>
+        <item>3 free sides special</item>
+    </string-array>
+
+</resources>

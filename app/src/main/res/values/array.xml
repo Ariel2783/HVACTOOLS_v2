@@ -93,16 +93,6 @@
 
     </string-array>
 
-    <string-array name="tipo_instalacion">
-        <item>Seleccione N° de lados libres</item>
-        <item>1 lado libre</item>
-        <item>2 lados libres</item>
-        <item>3 lados libres</item>
-        <item>4 lados libres</item>
-        <item>2 lados libres especial</item>
-        <item>3 lados libres especial</item>
-    </string-array>
-
     <string-array name="tipo_montaje">
         <item>Ligero</item>
         <item>Medio</item>

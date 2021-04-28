@@ -42,7 +42,7 @@
 
     //Codigo Java
     <string name="Perd_Falt">Introducir la "Pérdida estática</string>
-    <string name="Caudal_Falt">Introducir el "Caudal"</string>
+    <string name="Caudal_Falt">Introducir el \"Caudal\"</string>
     <string name="Fun_indip">Función no disponible por el momento</string>
     <string name="Cad_Perd">Introducir Caudal y Pérdida estática</string>
 
@@ -51,15 +51,39 @@
 
     <string name="actualizar">ACTUALIZAR</string>
     <string name="guia">GUIA</string>
-    <string name="textview6">TextView6</string>
+    <string name="ladoA">Lado A (m)</string>
+    <string name="ladoB">Lado B (m)</string>
+    <string name="aream2">Area m²</string>
+    <string name="factorBTUm2">Factor »(BTU/Hr)/m²</string>
+    <string name="dimensiones">Dimensiones</string>
+    <string name="tituloCargaTermica">Metodo → Factor por area</string>
+    <string name="factor500a800">Factor: 500 a 800</string>
+    <string name="ofiPocosVidrios">*Oficinas con pocos vidrios.</string>
+    <string name="casas">*Casas.</string>
+    <string name="recintoParedesSombras">*Recinto con paredes y vidrios expuestos a sombras.</string>
+    <string name="localesRompeSol">*Locales en edificios con rompe sol.</string>
+    <string name="localesEntrePisos">*Locales entre pisos.</string>
+    <string name="factorMayor800">Factor: mayor a 800</string>
+    <string name="oficinasVidrios">*Oficinas con vidrios.</string>
+    <string name="casasRadiacionSolar">*Casas expuestas a radiación solar.</string>
+    <string name="casaCieloRazo">*Casas solo con cielo raso.</string>
+    <string name="localParedVidrio">*Locales en edificios con paredes exteriores de vidrios.</string>
+    <string name="recepcion">*Oficionas y recepciones con una cantidad moderada de personas.</string>
+
+
 
     //ExtraccionCampana
+    <string-array name="tipo_instalacion">
+        <item>Seleccione N° de lados libres</item>
+        <item>1 lado libre</item>
+        <item>2 lados libres</item>
+        <item>3 lados libres</item>
+        <item>4 lados libres</item>
+        <item>2 lados libres especial</item>
+        <item>3 lados libres especial</item>
 
-    <string name="tipo_instalacion">
-        <item> 2 lados libres</item>
-        <item> 3 lados libres</item>
-        <item> 4 lados libres</item>
-    </string>
+    </string-array>
+    <string name="flujoInyeccion">CFM inyeccion</string>
 
     <string name="ignore">ignore</string>
     <string name="largo">Largo</string>

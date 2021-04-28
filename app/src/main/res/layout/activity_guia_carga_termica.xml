@@ -32,7 +32,7 @@
                 android:id="@+id/textView35"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Factor: 600 a 800"
+                android:text="@string/factor500a800"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -41,31 +41,31 @@
                 android:id="@+id/textView40"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="*Oficinas con pocos vidrios." />
+                android:text="@string/ofiPocosVidrios" />
 
             <TextView
                 android:id="@+id/textView42"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="*Casas." />
+                android:text="@string/casas" />
 
             <TextView
                 android:id="@+id/textView44"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="*Recinto con paredes y vidrios expuestos a sombras." />
+                android:text="@string/recintoParedesSombras" />
 
             <TextView
                 android:id="@+id/textView45"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="*Locales en edificios con rompe sol." />
+                android:text="@string/localesRompeSol" />
 
             <TextView
                 android:id="@+id/textView46"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="*Locales entre pisos." />
+                android:text="@string/localesEntrePisos" />
         </LinearLayout>
 
         <LinearLayout
@@ -78,7 +78,7 @@
                 android:id="@+id/textView47"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Factor: 800 a 1,000"
+                android:text="@string/factorMayor800"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -87,31 +87,31 @@
                 android:id="@+id/textView48"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="*Oficinas con vidrios." />
+                android:text="@string/oficinasVidrios" />
 
             <TextView
                 android:id="@+id/textView49"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="*Casas expuestas a radiación solar." />
+                android:text="@string/casasRadiacionSolar" />
 
             <TextView
                 android:id="@+id/textView50"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="*Casas solo con cielo raso." />
+                android:text="@string/casaCieloRazo" />
 
             <TextView
                 android:id="@+id/textView51"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="*Locales en edificios con paredes exteriores de vidrios." />
+                android:text="@string/localParedVidrio" />
 
             <TextView
                 android:id="@+id/textView52"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Oficionas y recepciones con una cantidad moderada de personas." />
+                android:text="@string/recepcion" />
         </LinearLayout>
     </LinearLayout>
 

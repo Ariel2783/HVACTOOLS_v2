@@ -66,12 +66,17 @@ public class ExtraccionCampana extends AppCompatActivity {
             {
                 select01 = spin01.getSelectedItem().toString();
 
-                if (select01.equals("1 lado libre"))   {img01.setImageResource(R.drawable.camp_4);}
+                if (select01.equals("1 lado libre") | select01.equals("1 free side")) {img01.setImageResource(R.drawable.camp_4);}
+
                 if (select01.equals("2 lados libres")) {img01.setImageResource(R.drawable.camp_1);}
-                if (select01.equals("3 lados libres")) {img01.setImageResource(R.drawable.camp_2);}
-                if (select01.equals("4 lados libres")) {img01.setImageResource(R.drawable.camp_3);}
-                if (select01.equals("2 lados libres especial")) {img01.setImageResource(R.drawable.camp_6);}
-                if (select01.equals("3 lados libres especial")) {img01.setImageResource(R.drawable.camp_5);}
+                if (select01.equals("2 free sides")) {img01.setImageResource(R.drawable.camp_1_en);}
+
+                if (select01.equals("3 lados libres") | select01.equals("3 free sides")) {img01.setImageResource(R.drawable.camp_2);}
+                if (select01.equals("4 lados libres") | select01.equals("4 free sides")) {img01.setImageResource(R.drawable.camp_3);}
+                if (select01.equals("2 lados libres especial") | select01.equals("2 special free sides"))
+                    {img01.setImageResource(R.drawable.camp_6);}
+                if (select01.equals("3 lados libres especial") | select01.equals("3 free sides special"))
+                    {img01.setImageResource(R.drawable.camp_5);}
             }
 
             @Override
@@ -117,22 +122,22 @@ public class ExtraccionCampana extends AppCompatActivity {
                     ld2 = Double.parseDouble(edt2.getText().toString());
                     alt_cap = Double.parseDouble(edt3.getText().toString());
 
-                    if (select01.equals("1 lado libre")) {
+                    if (select01.equals("1 lado libre") | select01.equals("1 free side")) {
                         per_ef = ld1;
                     }
-                    if (select01.equals("2 lados libres")) {
+                    if (select01.equals("2 lados libres") | select01.equals("2 free sides")) {
                         per_ef = ld1 + ld2;
                     }
-                    if (select01.equals("3 lados libres")) {
+                    if (select01.equals("3 lados libres") | select01.equals("3 free sides")) {
                         per_ef = ld1 + (2 * ld2);
                     }
-                    if (select01.equals("4 lados libres")) {
+                    if (select01.equals("4 lados libres") | select01.equals("4 free sides")) {
                         per_ef = (2 * ld1) + (2 * ld2);
                     }
-                    if (select01.equals("2 lados libres especial")) {
+                    if (select01.equals("2 lados libres especial") | select01.equals("2 special free sides")) {
                         per_ef = ld1 * 2;
                     }
-                    if (select01.equals("3 lados libres especial")) {
+                    if (select01.equals("3 lados libres especial") | select01.equals("3 free sides special ")) {
                         per_ef = (ld1 * 2) + ld2;
                     }
 
@@ -146,7 +151,7 @@ public class ExtraccionCampana extends AppCompatActivity {
                     txv26.setText(String.format("%.0f" + " CFM", cfm_1));
                     txv28.setText(String.format("%.0f" + " CFM", cfm_2));
                     txv30.setText(String.format("%.0f" + " CFM", cfm_3));
-                    txv31.setText(String.format("%.0f" + " CFM inyeccion", cfm_iny));
+                    txv31.setText(String.format("%.0f " + getResources().getString(R.string.flujoInyeccion), cfm_iny));
                 }
             }
         }
