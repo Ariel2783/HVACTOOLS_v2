@@ -66,17 +66,24 @@ public class ExtraccionCampana extends AppCompatActivity {
             {
                 select01 = spin01.getSelectedItem().toString();
 
-                if (select01.equals("1 lado libre") | select01.equals("1 free side")) {img01.setImageResource(R.drawable.camp_4);}
+                if (select01.equals("1 lado libre")) {img01.setImageResource(R.drawable.camp_4);}
+                if (select01.equals("1 free side"))  {img01.setImageResource(R.drawable.camp_4_en);}
 
                 if (select01.equals("2 lados libres")) {img01.setImageResource(R.drawable.camp_1);}
                 if (select01.equals("2 free sides")) {img01.setImageResource(R.drawable.camp_1_en);}
 
-                if (select01.equals("3 lados libres") | select01.equals("3 free sides")) {img01.setImageResource(R.drawable.camp_2);}
-                if (select01.equals("4 lados libres") | select01.equals("4 free sides")) {img01.setImageResource(R.drawable.camp_3);}
-                if (select01.equals("2 lados libres especial") | select01.equals("2 special free sides"))
-                    {img01.setImageResource(R.drawable.camp_6);}
-                if (select01.equals("3 lados libres especial") | select01.equals("3 free sides special"))
-                    {img01.setImageResource(R.drawable.camp_5);}
+                if (select01.equals("3 lados libres")) {img01.setImageResource(R.drawable.camp_2);}
+                if (select01.equals("3 free sides")) {img01.setImageResource(R.drawable.camp_2_en);}
+
+                if (select01.equals("4 lados libres")) {img01.setImageResource(R.drawable.camp_3);}
+                if (select01.equals("4 free sides")) {img01.setImageResource(R.drawable.camp_3_en);}
+
+                if (select01.equals("2 lados libres especial")) {img01.setImageResource(R.drawable.camp_6);}
+                if (select01.equals("2 special free sides")) {img01.setImageResource(R.drawable.camp_6_en);}
+
+                if (select01.equals("3 lados libres especial")) {img01.setImageResource(R.drawable.camp_5);}
+                if (select01.equals("3 free sides special")) {img01.setImageResource(R.drawable.camp_5_en);}
+
             }
 
             @Override
