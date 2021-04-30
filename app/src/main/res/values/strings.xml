@@ -3,6 +3,7 @@
     <string name="dimducto">DimDucto</string>
     <string name="cargatermica">Carga Termica</string>
     <string name="extraccioncampana">Extraccion Campana</string>
+    <string name="calculoRefrig">Calculo Refrigerante</string>
 
 
     //DimDucto
@@ -201,12 +202,23 @@
 
     <string name="gas_r22">R22</string>
     <string name="gas_r410">R410</string>
-    <string name="carga_total">Carga Total</string>
-    <string name="del_sistema.">del Sistema.</string>
+    <string name="carga_total">Carga total del sistema</string>
     <string name="unidad_kg">Kg</string>
     <string name="intro_long">Introducir longitud de tuberías</string>
     <string name="selct_refr">Seleccione el refrigerante</string>
     <string name="selct_sist_unid">Seleccione el sistema de unidad</string>
-
+    <string name="refrigerante">Refrigerante</string>
+    <string name="sistemaUnidades">Sistema de Unidades</string>
+    <string name="cargaEva">Carga de Evaporador</string>
+    <string name="cargaCond">Carga de Condensador</string>
+    <string name="tubLiquido">Ø Tuberia de Líquido</string>
+    <string name="tubSuccion">Ø Tub. de Succión</string>
+    <string name="longTubLiquido">Long. Tub. Liq.</string>
+    <string name="longTubSuccion">Long. Tub. Succ.</string>
+    <string name="densidadLiq">Densidad  Liq. @ 25ºC.</string>
+    <string name="densidadSucc">Densidad Succ. @ 25ºC.</string>
+    <string name="tubLiq">Tub. Líq.</string>
+    <string name="tubSucc">Tub. Succ.</string>
+    <string name="totalTub">Total en Tub.</string>
 
 </resources>
