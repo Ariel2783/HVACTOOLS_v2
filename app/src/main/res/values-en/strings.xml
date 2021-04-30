@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">HVAC TOOLS</string>
-    <string name="dimducto">DimDucto</string>
+    <string name="dimducto">DimDuct</string>
     <string name="cargatermica">Thermal load</string>
     <string name="extraccioncampana">Hood Extraction</string>
     <string name="cond">Air conditions</string>
@@ -77,8 +77,7 @@
     <string name="boton_borrar">Erase</string>
     <string name="gas_r22">R22</string>
     <string name="gas_r410">R410</string>
-    <string name="carga_total">Total load</string>
-    <string name="del_sistema.">of the system.</string>
+    <string name="carga_total">Total system load</string>
     <string name="unidad_kg">Kg</string>
     <string name="intro_long">Enter pipe length</string>
     <string name="selct_refr">Select the refrigerant</string>
@@ -102,7 +101,20 @@
     <string name="localParedVidrio">* Premises in buildings with exterior glass walls.</string>
     <string name="recepcion">*Offices and receptions with a moderate number of people. </string>
     <string name="flujoInyeccion">CFM injection</string>
-
+    <string name="calculoRefrig">Refrigerant Calculation</string>
+    <string name="refrigerante">Refrigerant</string>
+    <string name="sistemaUnidades">Unit system</string>
+    <string name="cargaEva">Evaporator Charge</string>
+    <string name="cargaCond">Capacitor Charge</string>
+    <string name="tubLiquido">Ø Liquid Pipe</string>
+    <string name="tubSuccion">Ø Suction pipe</string>
+    <string name="longTubLiquido">Liquid Pipe Length</string>
+    <string name="longTubSuccion">Suction Pipe Length</string>
+    <string name="densidadLiq">Density Liq. @ 25ºC. </string>
+    <string name="densidadSucc">Density Succ. @ 25ºC. </string>
+    <string name="tubLiq">Liquid Pipe</string>
+    <string name="tubSucc">Suction Pipe</string>
+    <string name="totalTub">Total in Pipeline</string>
 
     <string-array name="tipo_instalacion">
         <item>Select No. of free sides</item>

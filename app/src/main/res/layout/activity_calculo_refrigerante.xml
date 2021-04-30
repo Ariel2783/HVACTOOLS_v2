@@ -35,7 +35,7 @@
                     android:layout_marginLeft="7dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:text="Refrigerante"
+                    android:text="@string/refrigerante"
                     android:textColor="@android:color/black" />
 
                 <RadioGroup
@@ -81,7 +81,7 @@
                     android:layout_marginLeft="7dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:text="Sistema de Unidades"
+                    android:text="@string/sistemaUnidades"
                     android:textColor="@android:color/black" />
 
                 <RadioGroup
@@ -172,7 +172,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
                 android:layout_weight="1"
-                android:text="Carga de Evaporador"
+                android:text="@string/cargaEva"
                 android:textColor="@android:color/black" />
 
             <TextView
@@ -181,7 +181,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
                 android:layout_weight="1"
-                android:text="Carga de Condensador"
+                android:text="@string/cargaCond"
                 android:textColor="@android:color/black" />
 
         </LinearLayout>
@@ -239,7 +239,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Ø Tub. de Líquido"
+                android:text="@string/tubLiquido"
                 android:textColor="@android:color/black" />
 
             <TextView
@@ -247,7 +247,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Ø Tub. de Succión"
+                android:text="@string/tubSuccion"
                 android:textColor="@android:color/black" />
 
         </LinearLayout>
@@ -306,7 +306,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
                 android:layout_weight="1"
-                android:text="Long. Tub. Liq."
+                android:text="@string/longTubLiquido"
                 android:textColor="@android:color/black" />
 
             <TextView
@@ -375,7 +375,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="top"
                 android:layout_weight="1"
-                android:text="Densidad  Liq. @ 25ºC."
+                android:text="@string/densidadLiq"
                 android:textColor="@android:color/black" />
 
             <TextView
@@ -384,7 +384,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="top"
                 android:layout_weight="1"
-                android:text="Densidad Succ. @ 25ºC."
+                android:text="@string/densidadSucc"
                 android:textColor="@android:color/black" />
 
         </LinearLayout>
@@ -496,7 +496,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.85"
-                android:text="Tub. Líq."
+                android:text="@string/tubLiq"
                 android:textColor="@android:color/black" />
 
             <TextView
@@ -504,7 +504,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.9"
-                android:text="Tub. Succ."
+                android:text="@string/tubSucc"
                 android:textColor="@android:color/black" />
 
             <TextView
@@ -512,7 +512,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.98"
-                android:text="Total en Tub."
+                android:text="@string/totalTub"
                 android:textColor="@android:color/black" />
 
         </LinearLayout>
@@ -565,14 +565,6 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="@string/carga_total"
-                    android:textColor="@android:color/black" />
-
-                <TextView
-                    android:id="@+id/textView33"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="@string/del_sistema."
                     android:textColor="@android:color/black" />
 
                 <Button
