@@ -95,7 +95,7 @@
     <string name="localesRompeSol">*Premises in buildings with sun break.</string>
     <string name="localesEntrePisos">*Premises between floors.</string>
     <string name="factorMayor800">Factor: greater than 800</string>
-    <string name="oficinasVidrios">*Oficinas con vidrios.</string>
+    <string name="oficinasVidrios">*Offices with glasses.</string>
     <string name="casasRadiacionSolar">* Houses exposed to solar radiation.</string>
     <string name="casaCieloRazo">* Houses with a ceiling only.</string>
     <string name="localParedVidrio">* Premises in buildings with exterior glass walls.</string>
