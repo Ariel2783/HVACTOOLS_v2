@@ -1,6 +1,8 @@
 package net.refriglobal.hvactools;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,6 +15,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 public class ExtraccionCampana extends AppCompatActivity {
 
     Spinner spin01, spin02, spin03;
@@ -22,6 +26,7 @@ public class ExtraccionCampana extends AppCompatActivity {
     String select01, select02, select03, fact_vel_str;
     RadioButton radbtn1, radbtn2, radbtn3, radbtn4, radbtn5, radbtn6;
     RadioGroup radgrp1, radgrp2;
+    FloatingActionButton configUnidades;
 
     double per_ef, ld1, ld2, alt_cap;
     double cfm_1, cfm_2, cfm_3, fact_vel, vel;
@@ -58,6 +63,15 @@ public class ExtraccionCampana extends AppCompatActivity {
         radbtn6 = findViewById(R.id.radioButton6);
         radgrp1 = findViewById(R.id.radiogroup1);
         radgrp2 = findViewById(R.id.radiogroup2);
+        configUnidades = findViewById(R.id.floatingActionButton);
+
+        configUnidades.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent unidades = new Intent(ExtraccionCampana.this, ExtraccionCampanaUnidades.class);
+                startActivity(unidades);
+            }
+        });
 
         spin01.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
@@ -115,6 +129,19 @@ public class ExtraccionCampana extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+
+        if (ExtraccionCampanaUnidades.tipoSitema == 'i')
+        {
+            Toast.makeText(this, "Prueba01", Toast.LENGTH_SHORT).show();
+        }
+
+        if (ExtraccionCampanaUnidades.tipoSitema == 'e')
+        {
+            Toast.makeText(this, "Prueba02", Toast.LENGTH_SHORT).show();
+        }
+
+
+
     }
 
     public void calcular(View view)
