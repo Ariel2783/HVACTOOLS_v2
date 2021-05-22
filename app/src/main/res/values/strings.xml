@@ -70,7 +70,7 @@
     <string name="casaCieloRazo">*Casas solo con cielo raso.</string>
     <string name="localParedVidrio">*Locales en edificios con paredes exteriores de vidrios.</string>
     <string name="recepcion">*Oficionas y recepciones con una cantidad moderada de personas.</string>
-
+    <string name="sistemasUnidades">Sistema de unidades</string>
 
 
     //ExtraccionCampana
@@ -124,80 +124,81 @@
     <string name="Dimensiones">Introducir las dimensiones de la campana</string>
     <string name="Selec_tipo_montaje">Seleccione el tipo de montaje</string>
     <string name="Selec_tipo_trabajo">Seleccione el tipo de trabajo</string>
+    <string name="Guardar">Guardar</string>
 
     <string name="boton_calcular">Calcular</string>
     <string name="boton_borrar">Borrar</string>
 
     //Calculo refrigerante
     <string-array name="Sist_Unidad">
-        <item >S.I.</item>
-        <item >EE.UU.</item>
+        <item>S.I.</item>
+        <item>EE.UU.</item>
     </string-array>
 
     <string-array name="Dia_Tub">
         <item>Ø</item>
         <item>⅛</item>
-        <item >¼</item>
-        <item >⅜</item>
-        <item >½</item>
-        <item >⅝</item>
-        <item >¾</item>
-        <item >⅞</item>
-        <item >1</item>
-        <item >1⅛</item>
-        <item >1¼</item>
-        <item >1½</item>
-        <item >2</item>
-        <item >2½</item>
-        <item >3</item>
-        <item >3½</item>
-        <item >4</item>
+        <item>¼</item>
+        <item>⅜</item>
+        <item>½</item>
+        <item>⅝</item>
+        <item>¾</item>
+        <item>⅞</item>
+        <item>1</item>
+        <item>1⅛</item>
+        <item>1¼</item>
+        <item>1½</item>
+        <item>2</item>
+        <item>2½</item>
+        <item>3</item>
+        <item>3½</item>
+        <item>4</item>
     </string-array>
 
     <string-array name="R410_SI_Liq">
-        <item >1060.00</item>
-        <item >1070.00</item>
-        <item >1100.00</item>
+        <item>1060.00</item>
+        <item>1070.00</item>
+        <item>1100.00</item>
     </string-array>
 
     <string-array name="R410_SI_Vap">
-        <item >4.12</item>
-        <item >4.20</item>
+        <item>4.12</item>
+        <item>4.20</item>
     </string-array>
 
     <string-array name="R410_EEUU_Liq">
-        <item >66.174</item>
-        <item >66.798</item>
-        <item >68.671</item>
+        <item>66.174</item>
+        <item>66.798</item>
+        <item>68.671</item>
     </string-array>
 
     <string-array name="R410_EEUU_Vap">
-        <item >0.257</item>
-        <item >0.262</item>
+        <item>0.257</item>
+        <item>0.262</item>
     </string-array>
 
     <string-array name="R22_SI_Liq">
-        <item >1190.00</item>
-        <item >1194.00</item>
-        <item >1210.00</item>
+        <item>1190.00</item>
+        <item>1194.00</item>
+        <item>1210.00</item>
     </string-array>
 
     <string-array name="R22_SI_Vap">
-        <item >3.60</item>
-        <item >4.50</item>
-        <item >4.70</item>
+        <item>3.60</item>
+        <item>4.50</item>
+        <item>4.70</item>
     </string-array>
 
     <string-array name="R22_EEUU_Liq">
-        <item >74.289</item>
-        <item >74.539</item>
-        <item >75.538</item>
+        <item>74.289</item>
+        <item>74.539</item>
+        <item>75.538</item>
     </string-array>
 
     <string-array name="R22_EEUU_Vap">
-        <item >0.225</item>
-        <item >0.281</item>
-        <item >0.293</item>
+        <item>0.225</item>
+        <item>0.281</item>
+        <item>0.293</item>
     </string-array>
 
     <string name="gas_r22">R22</string>
@@ -220,5 +221,14 @@
     <string name="tubLiq">Tub. Líq.</string>
     <string name="tubSucc">Tub. Succ.</string>
     <string name="totalTub">Total en Tub.</string>
+    <string name="title_activity_extraccion_campana_unidades">ExtraccionCampanaUnidades</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
 </resources>

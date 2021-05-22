@@ -9,32 +9,36 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/havactoolstheme">
+        <activity android:name=".ExtraccionCampanaUnidades"></activity>
         <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-9324779143406518~9250232464"/>
+            android:value="ca-app-pub-9324779143406518~9250232464" />
 
-
-
-  <activity android:name=".MainActivity_ppa"
+        <activity
+            android:name=".MainActivity_ppa"
             android:screenOrientation="portrait">
-      <intent-filter>
-          <action android:name="android.intent.action.MAIN" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-          <category android:name="android.intent.category.LAUNCHER" />
-      </intent-filter>
-  </activity>
-  <activity android:name=".DimDucto"
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".DimDucto"
             android:screenOrientation="portrait" />
-  <activity android:name=".CargaTermica"
-            android:screenOrientation="portrait"/>
-  <activity android:name=".guia_carga_termica"
-            android:screenOrientation="portrait"/>
-  <activity android:name=".ExtraccionCampana"
-            android:screenOrientation="portrait"/>
-  <activity android:name=".CalculoRefrigerante"
-            android:screenOrientation="portrait">
-  </activity>
-</application>
+        <activity
+            android:name=".CargaTermica"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".guia_carga_termica"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ExtraccionCampana"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CalculoRefrigerante"
+            android:screenOrientation="portrait" />
+    </application>
 
 </manifest>

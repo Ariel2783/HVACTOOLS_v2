@@ -115,6 +115,8 @@
     <string name="tubLiq">Liquid Pipe</string>
     <string name="tubSucc">Suction Pipe</string>
     <string name="totalTub">Total in Pipeline</string>
+    <string name="sistemasUnidades">Unit system</string>
+    <string name="Guardar">Save</string>
 
     <string-array name="tipo_instalacion">
         <item>Select No. of free sides</item>
