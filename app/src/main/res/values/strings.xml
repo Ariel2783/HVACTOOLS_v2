@@ -4,7 +4,9 @@
     <string name="cargatermica">Carga Termica</string>
     <string name="extraccioncampana">Extraccion Campana</string>
     <string name="calculoRefrig">Calculo Refrigerante</string>
-
+    <string name="consultaCerrarApp">¿Desea salir de HVACTOOLS?</string>
+    <string name="si">Sí</string>
+    <string name="no">No</string>
 
     //DimDucto
     <string name="cond">Condiciones de aire</string>

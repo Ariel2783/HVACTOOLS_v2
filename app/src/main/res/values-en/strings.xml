@@ -117,6 +117,9 @@
     <string name="totalTub">Total in Pipeline</string>
     <string name="sistemasUnidades">Unit system</string>
     <string name="Guardar">Save</string>
+    <string name="consultaCerrarApp">Do you want to exit HVACTOOLS?</string>
+    <string name="si">Yes</string>
+    <string name="no">Cancel</string>
 
     <string-array name="tipo_instalacion">
         <item>Select No. of free sides</item>

@@ -1,9 +1,15 @@
 package net.refriglobal.hvactools;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,12 +23,13 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class ExtraccionCampana extends AppCompatActivity {
+public class ExtraccionCampana extends AppCompatActivity
+{
 
     Spinner spin01, spin02, spin03;
     ImageView img01;
     EditText edt1, edt2, edt3;
-    TextView txv9, txv14, txv15, txv16, txv26, txv28, txv30, txv31;
+    TextView txv26, txv28, txv30, txv31;
     String select01, select02, select03, fact_vel_str;
     RadioButton radbtn1, radbtn2, radbtn3, radbtn4, radbtn5, radbtn6;
     RadioGroup radgrp1, radgrp2;
@@ -30,6 +37,7 @@ public class ExtraccionCampana extends AppCompatActivity {
 
     double per_ef, ld1, ld2, alt_cap;
     double cfm_1, cfm_2, cfm_3, fact_vel, vel;
+    int ed1Usuario;
 
     /**
      ld1-> largo de campana
@@ -40,6 +48,8 @@ public class ExtraccionCampana extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); /** Muestra la flecha de retorno*/
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_extraccion_campana);
 
@@ -49,7 +59,6 @@ public class ExtraccionCampana extends AppCompatActivity {
         edt1    = findViewById(R.id.editText1);
         edt2    = findViewById(R.id.editText2);
         edt3    = findViewById(R.id.editText3);
-        txv9    = findViewById(R.id.textView9);
         txv26   = findViewById(R.id.textView26);
         txv28   = findViewById(R.id.textView28);
         txv30   = findViewById(R.id.textView30);
@@ -64,14 +73,6 @@ public class ExtraccionCampana extends AppCompatActivity {
         radgrp1 = findViewById(R.id.radiogroup1);
         radgrp2 = findViewById(R.id.radiogroup2);
         configUnidades = findViewById(R.id.floatingActionButton);
-
-        configUnidades.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent unidades = new Intent(ExtraccionCampana.this, ExtraccionCampanaUnidades.class);
-                startActivity(unidades);
-            }
-        });
 
         spin01.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
@@ -130,18 +131,21 @@ public class ExtraccionCampana extends AppCompatActivity {
             }
         });
 
-        if (ExtraccionCampanaUnidades.tipoSitema == 'i')
+        if (ExtraccionCampanaUnidades.tipoSitemaUnidad == 'i')
         {
             Toast.makeText(this, "Prueba01", Toast.LENGTH_SHORT).show();
         }
 
-        if (ExtraccionCampanaUnidades.tipoSitema == 'e')
+        if (ExtraccionCampanaUnidades.tipoSitemaUnidad == 'e')
         {
             Toast.makeText(this, "Prueba02", Toast.LENGTH_SHORT).show();
         }
+    }
 
-
-
+    public void configsist(View view)
+    {
+        Intent unidades = new Intent(ExtraccionCampana.this, ExtraccionCampanaUnidades.class);
+        startActivity(unidades);
     }
 
     public void calcular(View view)
@@ -501,5 +505,18 @@ public class ExtraccionCampana extends AppCompatActivity {
         edt1.setText(String.format("")); edt2.setText(String.format("")); edt3.setText(String.format(""));
         txv26.setText(String.format("")); txv28.setText(String.format("")); txv30.setText(String.format(""));
     }
+
+    /**Accion para regresar la pantanlla anterior*/
+   @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case android.R.id.home: finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
 }

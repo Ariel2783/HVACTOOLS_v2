@@ -32,7 +32,7 @@
             android:id="@+id/radioButtonSI"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:checked="true"
+            android:checked="false"
             android:text="S.I." />
 
         <RadioButton
@@ -40,16 +40,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
+            android:checked="false"
             android:text="EE.UU." />
     </RadioGroup>
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/buttonGuardar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="20dp"
-        android:onClick="guardarSistema"
+        android:onClick="guardarSistemaUnidad"
         android:text="@string/Guardar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
