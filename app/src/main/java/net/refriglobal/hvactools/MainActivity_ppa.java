@@ -46,7 +46,7 @@ public class MainActivity_ppa extends AppCompatActivity {
         {
             @Override
             public void onClick(View v) {
-                Intent intent_1 = new Intent(MainActivity_ppa.this, DimDucto.class);
+                Intent intent_1 = new Intent(MainActivity_ppa.this, DimDucto_Temporal.class);
                 startActivity(intent_1);
             }
         });
@@ -109,6 +109,6 @@ public class MainActivity_ppa extends AppCompatActivity {
     }
 
 }
-/**
+/*
  * pd: 7/3../0/2/1../5./5./2./0../{c}{h}{i}{d}{c}{h}{i}{d}
  */

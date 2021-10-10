@@ -27,7 +27,7 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".DimDucto"
+            android:name=".DimDucto_Temporal"
             android:screenOrientation="portrait" />
         <activity
             android:name=".CargaTermica"

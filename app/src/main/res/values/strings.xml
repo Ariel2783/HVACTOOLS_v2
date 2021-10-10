@@ -35,7 +35,7 @@
     <string name="Duct_size">Dim. Ducto</string>
 
     <string name="Eq_DIA">Diámetro equivalente</string>
-    <string name="Flow_Area">Área</string>
+    <string name="Flow_Area">Área de flujo</string>
     <string name="Fluid_Velocity">Velocidad del fluido</string>
     <string name="Reynolds">Número de Reynolds</string>
     <string name="Friction_fact">Factor de fricción</string>

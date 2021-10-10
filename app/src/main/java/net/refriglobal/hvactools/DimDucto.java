@@ -19,52 +19,53 @@ public class DimDucto extends AppCompatActivity {
     CheckBox chk1, chk2, chk3, chk4;
     EditText edt1, edt2, edt3, edt4, edt5, edt6;
 
-    double[][][]MA;
-    double[][][]VEL;
+    double[][]MA;
+    double[][]VEL;
     double []PE;
     double []D;
     double []DIAEQV;
     double []D1;
     double [][]D2;
     double [][]D3;
-    double x1, x2, d1, d2;
+    double flujoArie, perdidaEstatica, d1, d2; //CONTINUAR.
     double vel, vel2, dia, area1, area2, diaeqv;
     double diamin, diamax, vel_sup, vel_inf;
     double diafict1, diafict2, vel_fict1, vel_fict2;
     double perd1, perd2, perd_new;
     int i, z, v, s;
-    int a, b, g, n, w, m, h; //a => cuando la perd. introducida por el usuario-
+    int indexPerdida, b, g, n, w, m, h; //a => cuando la perd. introducida por el usuario-
     // coincide exactamente con unos de los valores de la matriz "PE".
     //b y g => cuando la perd. introducida por el usuario no-
     //coincide exactamente con unos de los valores de la matriz "PE".
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dim_ducto);
 
-        spin1 = (Spinner) findViewById(R.id.spinner1);
-        tv11 = (TextView) findViewById(R.id.textView11);
-        tv12 = (TextView) findViewById(R.id.textView12);
-        tv13 = (TextView) findViewById(R.id.textView13);
-        tv14 = (TextView) findViewById(R.id.textView14);
-        tv29 = (TextView) findViewById(R.id.textView29);
-        tv30 = (TextView) findViewById(R.id.textView30);
-        tv32 = (TextView) findViewById(R.id.textView32);
-        tv34 = (TextView) findViewById(R.id.textView34);
-        tv36 = (TextView) findViewById(R.id.textView36);
+        spin1 = findViewById(R.id.spinner1);
+        tv11 = findViewById(R.id.textViewDensidadAire);
+        tv12 = findViewById(R.id.TextViewViscoCinematica);
+        tv13 = findViewById(R.id.textViewCalorEspcf);
+        tv14 = findViewById(R.id.textViewFacEnergia);
+        tv29 = findViewById(R.id.textViewDiaEqvFinal);
+        tv30 = findViewById(R.id.textViewAreaFlujo);
+        tv32 = findViewById(R.id.textViewVelFluidoFinal);
+        tv34 = findViewById(R.id.textViewNumReynolds);
+        tv36 = findViewById(R.id.textViewPerdestaticaFinal);
 
-        chk1 = (CheckBox) findViewById(R.id.checkBox);
-        chk2 = (CheckBox) findViewById(R.id.checkBox2);
-        chk3 = (CheckBox) findViewById(R.id.checkBox3);
-        chk4 = (CheckBox) findViewById(R.id.checkBox4);
+        chk1 = findViewById(R.id.checkBoxCaudal);
+        chk2 = findViewById(R.id.checkBoxPedEstatica);
+        chk3 = findViewById(R.id.checkBoxVelocidad);
+        chk4 = findViewById(R.id.checkBoxDiaEqv);
 
-        edt1 = (EditText) findViewById(R.id.editText1);
-        edt2 = (EditText) findViewById(R.id.editText2);
-        edt3 = (EditText) findViewById(R.id.editText3);
-        edt5 = (EditText) findViewById(R.id.editText5);
-        edt4 = (EditText) findViewById(R.id.editText4);
-        edt6 = (EditText) findViewById(R.id.editText6);
+        edt1 = findViewById(R.id.editTextCFM);
+        edt2 = findViewById(R.id.editTextPerdEstatica);
+        edt3 = findViewById(R.id.editTextVelocidad);
+        edt5 = findViewById(R.id.editTextLadoADucto);
+        edt4 = findViewById(R.id.editTextDiaEqv);
+        edt6 = findViewById(R.id.editTextLadoBDucto);
 
         //Seleccion de opciones del Spinner (condiciones)
         spin1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
@@ -112,10 +113,10 @@ public class DimDucto extends AppCompatActivity {
             }
         });
 
-        MA=new double[31][37][1]; //MA[i][j][y], [DIAMETRO], [FILAS],[PERDIDAS, CFM]
+        MA=new double[31][37]; //MA[i][j][y], [DIAMETRO], [FILAS-PERDIDAS],[= CFM]
         this.valores_1(); //CARGA LA MATRIS CON LOS VALORES, DIAMETROS, CFM Y PERDIDAS.
 
-        VEL=new double[35][37][1]; //VEL[i][j][y], [VELOCIDAD], [FILAS],[PERDIDAS, CFM]
+        VEL=new double[35][37]; //VEL[i][j][y], [VELOCIDAD], [FILAS-PERDIDAS],[= CFM]
         this.valores_2(); //CARGA LA MATRIS CON LOS VALORES, VELOCIDAD, CFM Y PERDIDAS.
 
         PE = new double [37]; //Matriz con los valores de las perdidas
@@ -155,76 +156,76 @@ public class DimDucto extends AppCompatActivity {
 
             if (edt1.getText().toString().length() > 0 & edt2.getText().toString().length() > 0)
             {
-                x1 = Double.parseDouble(edt1.getText().toString()); //CFM, conversion de variable.
-                x2 = Double.parseDouble(edt2.getText().toString()); //Perdida, conversion de variable.
+                flujoArie = Double.parseDouble(edt1.getText().toString()); //CFM, conversion de variable.
+                perdidaEstatica = Double.parseDouble(edt2.getText().toString()); //Perdida, conversion de variable.
 
-                if(x1 <= 75000 & x2 <= 6.75) //Limite maximo (75,000 CFM), Limite maximo de perdida(6.75 plg/100ft),
+                if(flujoArie <= 75000 & perdidaEstatica <= 6.75) //Limite maximo (75,000 CFM), Limite maximo de perdida(6.75 plg/100ft),
                 {
-                    if (x1 >= 10 & x2 >= 0.01) //Limite minimo (10 CFM), Limite minimo de perdida(0.01 plg/100ft),
+                    if (flujoArie >= 10 & perdidaEstatica >= 0.01) //Limite minimo (10 CFM), Limite minimo de perdida(0.01 plg/100ft),
                     {
-                        //Sentencia para determiar cuando no hay coincidencia en la matriz y requiere interpolacion.
-                        if (dia == 0)
+                        /*
+                         * Metodo para determinar si la perdida introducida por el usuario concide con los valores exacto
+                         * de las matrices, correspondiente a un valor fijo del grafico de perdidas y friccion.
+                         * De no coincidir se guardaran los valores fijos mayor y menor a los del usuario, para utilizarlo
+                         * en las interpolaciones.
+                         * a => cuando la perd. introducida por el usuario
+                         * coincide exactamente con unos de los valores de la matriz "PE".
+                         * b y g => cuando la perd. introducida por el usuario no-
+                         * coincide exactamente con unos de los valores de la matriz "PE".
+                         */
+                        indexPerdida = 0;
+                        int x=0;
+                        while (x < PE.length)
                         {
-                            /**
-                             * Metodo para determinar si la perdida introducida por el usuario concide con los valores exacto
-                             * de las matrices, correspondiente a un valor fijo del grafico de perdidas y friccion.
-                             * De no coincidir se guardaran los valores fijos mayor y menor a los del usuario, para utilizarlo
-                             * en las interpolaciones.
-                             * a => cuando la perd. introducida por el usuario
-                             * coincide exactamente con unos de los valores de la matriz "PE".
-                             * b y g => cuando la perd. introducida por el usuario no-
-                             * coincide exactamente con unos de los valores de la matriz "PE".
-                             */
-                            a = 0;
-                            for (int x = 0; x < 37; x++)
+                            if (PE[x] == perdidaEstatica)
                             {
-                                if (PE[x] == x2)
+                                indexPerdida = x; //Perdida exacta
+                                /*
+                                 * Metodo para cuando la perdida coincide, Caso1.
+                                 * para el caso1, "a" es distinto de 0 "cero" (a!=0)
+                                 */
+                            }
+                            x++;
+                        }
+
+                        //cuando la perdida no es exacta
+                        if (indexPerdida == 0)
+                        {
+                            for (int t = 0; t < 37; t++)
+                            {
+                                if (PE[t] < perdidaEstatica)
                                 {
-                                    a = x; //Perdida exacta
+                                    b = t; //valor menor que del usuario
+                                    g = (t-1); //valor mayor que del usuario
+                                    break;
                                     /**
-                                     * Metodo para cuando la perdida coincide, Caso1.
-                                     * para el caso1, "a" es distinto de 0 "cero" (a!=0)
+                                     * Metodo para cuando la perdida no coincide, Caso2, caso3.
                                      */
                                 }
                             }
-                            //cuando la perdida no es exacta
-                            if (a == 0)
+                        }
+                        /**
+                         * Final
+                         */
+                        if (indexPerdida != 0) //Caso Ideal, la perdida y los CFM introducido coincide con los valores de la matriz.
+                        {
+                            for (i = 0; i < 31; i++) //diametro
                             {
-                                for (int t = 0; t < 37; t++)
+                                if (MA[i][indexPerdida] == flujoArie) //x1-cfm.
                                 {
-                                    if (PE[t] < x2)
-                                    {
-                                        b = t; //valor menor que del usuario
-                                        g = (t-1); //valor mayor que del usuario
-                                        t = 39; //para terminar el ciclo
-                                        /**
-                                         * Metodo para cuando la perdida no coincide, Caso2, caso3.
-                                         */
-                                    }
+                                    this.diametros_1(); //Asignacion de diametros.
+                                    edt4.setText(String.format("%.2f", dia)); //Muestra el diametro.
+                                    this.area1(); //Calculo del area1.
+                                    this.cal_vel(); //Proceso para determinar la velocidad, segun la perdida y caudal seleccionado.
                                 }
-                            }
-                            /**
-                             * Final
-                             */
-                            if (a != 0) //Caso Ideal, la perdida y los CFM introducido coincide con los valores de la matriz.
-                            {
-                                for (i = 0; i < 31; i++) //diametro
-                                {
-                                    if (MA[i][a][0] == x1) //x1-cfm.
-                                    {
-                                        this.diametros_1(); //Asignacion de diametros.
-                                        edt4.setText(String.format("%.2f", dia)); //Muestra el diametro.
-                                        this.area1(); //Calculo del area1.
-                                        this.cal_vel(); //Proceso para determinar la velocidad, segun la perdida y caudal seleccionado.
-                                    }
-                                }
-                            }
-
-                            if(dia == 0 )
-                            {
-                                this.interpolacion_1();
                             }
                         }
+
+                        if(dia == 0 )
+                        {
+                            this.interpolacion_1();
+                        }
+
                     }
                 }
                 this.alertas();//Mensajes de alerta.
@@ -233,7 +234,7 @@ public class DimDucto extends AppCompatActivity {
         }
         this.num_reynolds(); //calculo del numero de Reynolds.
 
-        tv36.setText(String.format("%.3f", x2)+" "); //muestra la perdida / 100 ft en la parte inferior
+        tv36.setText(String.format("%.3f", perdidaEstatica)+" "); //muestra la perdida / 100 ft en la parte inferior
 
         //Instrucciones para dimesionar el ducto retangular en caso de que este tenga valor.
         if (edt5.getText().toString().length() > 0)
@@ -246,18 +247,18 @@ public class DimDucto extends AppCompatActivity {
     public void interpolacion_1(){
 
         //(CASO 1: perd. coincide, flujo no)
-        if (a!=0) //significa que contiene un valor, debido a la comparacion con la matriz "PE".
+        if (indexPerdida!=0) //significa que contiene un valor, debido a la comparacion con la matriz "PE".
         {
             for (i = 0; i < 31; i++) //diametro
             {
-                if (MA[i][a][0] > x1) //Comparacion del valor mayor, de los CFM
+                if (MA[i][indexPerdida] > flujoArie) //Comparacion del valor mayor, de los CFM
                 {
-                    if (MA[i-1][a][0] < x1) //Comparacion del valor menor
+                    if (MA[i-1][indexPerdida] < flujoArie) //Comparacion del valor menor
                     {
                         this.diametros_3(); //Asignacion de diametros.
 
-                        double c = MA[i][a][0] - MA[i-1][a][0]; //Diferencia entre los Cfm, superior e inferior
-                        double d = (x1 - MA[i-1][a][0]) / c;  //Diferencia entre cfm inferior y del usuario, entre c, para sbaer la fraccion.
+                        double c = MA[i][indexPerdida] - MA[i-1][indexPerdida]; //Diferencia entre los Cfm, superior e inferior
+                        double d = (flujoArie - MA[i-1][indexPerdida]) / c;  //Diferencia entre cfm inferior y del usuario, entre c, para sbaer la fraccion.
 
                         double e = (diamax - diamin) * d;
                         dia = diamin + e;  //Valor del diametro interpolado.
@@ -265,7 +266,7 @@ public class DimDucto extends AppCompatActivity {
                         edt4.setText(String.format("%.1f", dia)); //Muestra el diametro
                         this.area1(); //Calculo del area1.
                         this.cal_vel(); //Proceso para determinar la velocidad, segun la perdida y caudal seleccionado.
-
+                        break;
                     }
                 }
             }
@@ -282,19 +283,19 @@ public class DimDucto extends AppCompatActivity {
         {
             for (i=0; i<31; i++) //diametro
             {
-                if (MA[i][g][0] > x1) //El CFM de la perdida mayor debe ser mayor al CFM introducido por el usuario.
+                if (MA[i][g] > flujoArie) //El CFM de la perdida mayor debe ser mayor al CFM introducido por el usuario.
                 {
-                    if (MA[i-1][g][0] < x1) //Comparacion de los CFM del (i-1)-diametro anterior, a "i", los CFM del (i-1) deben ser menor a los CFM del usuario
+                    if (MA[i-1][g] < flujoArie) //Comparacion de los CFM del (i-1)-diametro anterior, a "i", los CFM del (i-1) deben ser menor a los CFM del usuario
                     {
                         //Interpolacion para encontrar el diametro ficticio #1.
                         this.diametros_3(); //Asignacion de diametros.
 
-                        double c = MA[i][g][0] - MA[i-1][g][0]; //diferencia de CFM, para usarlo como unidad.
-                        double d = (x1 - MA[i-1][b][0]) / c;
+                        double c = MA[i][g] - MA[i-1][g]; //diferencia de CFM, para usarlo como unidad.
+                        double d = (flujoArie - MA[i-1][b]) / c;
                         double e = d * (diamax - diamin);
                         diafict1 = diamin + e; //diametro ficticio #1, que sera utilizado mas adelante.
                         perd1 = PE[g];   //perdida del diametro ficticio #1.
-                        i = 32; //Valores asignados para terminar el ciclo del for, para evitar que se produzca otra busqueda de valores.
+                        break;
                     }
                 }
             }//Salida Caso 3, diametro ficticio #1.
@@ -302,25 +303,25 @@ public class DimDucto extends AppCompatActivity {
             //Caso 3, diametro ficticio #2.
             for (i=0; i<31; i++) //diametro
             {
-                if (MA[i][b][0] > x1)
+                if (MA[i][b] > flujoArie)
                 {
-                    if (MA[i-1][b][0] < x1)
+                    if (MA[i-1][b] < flujoArie)
                     {
                         //Interpolacion para encontrar el diametro ficticio #2.
                         this.diametros_3();
 
-                        double c = MA[i][b][0] - MA[i-1][b][0];
-                        double d = (x1 - MA[i-1][b][0]) / c;
+                        double c = MA[i][b] - MA[i-1][b];
+                        double d = (flujoArie - MA[i-1][b]) / c;
                         double e = d * (diamax - diamin);
                         diafict2 = diamin + e;
                         perd2 = PE[b];
-                        i = 32; //Valores asignados para terminar el ciclo del for.
+                        break;
                     }
                 }
             }//Salida Caso 3, diametro ficticio #2.
 
             //Interpolacion final del caso 3
-            double m = (x2 - perd2) / (perd1 - perd2);
+            double m = (perdidaEstatica - perd2) / (perd1 - perd2);
             double f = m * Math.abs((diafict1 - diafict2));
 
             if (diafict1 < diafict2)
@@ -343,15 +344,15 @@ public class DimDucto extends AppCompatActivity {
 
         //Caso Ideal, cuando el caudal y la perdida coinciden con los valores de la matriz de velocidad.
 
-        if(a!=0)
+        if(indexPerdida!=0)
         {
             for (v = 0; v < 35; v++) //Velocidad
             {
-                if (VEL[v][a][0] == x1)
+                if (VEL[v][indexPerdida] == flujoArie)
                 {
                     this.velocidad_1();  //Extrae la velocidad correspondiente
                     edt3.setText(String.format("%.1f", vel)); //muestra la velocidad
-                    v = 36; //Terminacion del ciclo.
+                    break;
                 }
             }
         }
@@ -367,22 +368,22 @@ public class DimDucto extends AppCompatActivity {
 
     public void cal_vel_inter() {
         //Caso 1-vel, perdida concide, flujo no
-        if (a != 0) //significa que "a" contiene un valor, debido a la comparacion con la matriz "PE".
+        if (indexPerdida != 0) //significa que "a" contiene un valor, debido a la comparacion con la matriz "PE".
         {
             for (v = 0; v < 35; v++) //Matriz de Velocidad
             {
-                if (VEL[v][a][0] > x1) //1ª etapa, los cfm encontrados, deben ser mayor a los cfm del usuario.
+                if (VEL[v][indexPerdida] > flujoArie) //1ª etapa, los cfm encontrados, deben ser mayor a los cfm del usuario.
                 {
-                    if (VEL[v - 1][a][0] < x1) //2ª etapa, los cfm encontrados, deben ser menor a los cfm del usuario.
+                    if (VEL[v - 1][indexPerdida] < flujoArie) //2ª etapa, los cfm encontrados, deben ser menor a los cfm del usuario.
                     {
-                        double c = VEL[v][a][0] - VEL[v - 1][a][0]; //Diferencia entre los cfm superiores e inferiores.
-                        double d = (x1 - VEL[v - 1][a][0]) / c; //Diferencia entre los cfm de usuario y cfm inferiores, entre c, para saber la fraccion.
+                        double c = VEL[v][indexPerdida] - VEL[v - 1][indexPerdida]; //Diferencia entre los cfm superiores e inferiores.
+                        double d = (flujoArie - VEL[v - 1][indexPerdida]) / c; //Diferencia entre los cfm de usuario y cfm inferiores, entre c, para saber la fraccion.
 
                         this.velocidad_2(); //cargar velocidades
                         double e = (vel_sup - vel_inf) * d;
                         vel = vel_inf + e;
                         edt3.setText(String.format("%.1f", vel)); //muestra la velocidad
-
+                        break;
                         /**
                          * Revisar caso 1 vel 2017-07-03, resuelto
                          */
@@ -403,19 +404,19 @@ public class DimDucto extends AppCompatActivity {
             //Calculo de velocidad ficticia #1
             for(v = 0; v < 35; v++) //Matriz de Velocidad
             {
-                if(VEL[v][g][0] > x1) //Verificacion de los cfm, deben ser mayor que los introducidos por el usuario.
+                if(VEL[v][g] > flujoArie) //Verificacion de los cfm, deben ser mayor que los introducidos por el usuario.
                 {
-                    if (VEL[v-1][g][0] < x1) //Los CFm deben ser menor a los introducidos por el usuario.
+                    if (VEL[v-1][g] < flujoArie) //Los CFm deben ser menor a los introducidos por el usuario.
                     {
                         //interpolacion para determinar la velocidad ficticia #1.
                         this.velocidad_2(); //asignacion de los valores de velocida
                         //cfm sup       cfm inferior
-                        double c = VEL[v][g][0] - VEL[v-1][g][0]; //Diferencia de velocidad superior e inferior.
-                        double d = (x1 - VEL[v-1][g][0]) / c;
+                        double c = VEL[v][g] - VEL[v-1][g]; //Diferencia de velocidad superior e inferior.
+                        double d = (flujoArie - VEL[v-1][g]) / c;
                         double e = d * (vel_sup - vel_inf);
                         vel_fict1 = vel_inf + e; //Velocidad ficticia #1, sera utilizada mas adelante.
                         perd1 = PE[g]; //valor para ser utilizada en el calculo final.
-                        v = 36; //Valores asignados para terminar el ciclo del for, para evitar que se produzca otra busqueda de valores.
+                        break;
                     }
                 }
             } //Salida de velocidad ficticia #1.
@@ -424,24 +425,24 @@ public class DimDucto extends AppCompatActivity {
             //Caso 3-vel, velocidad ficticia #2.
             for(v = 0; v < 35; v++) //Matriz de Velocidad
             {
-                if (VEL[v][b][0] > x1) //Los cfm deben ser mayor a los introducidos por el usuario.
+                if (VEL[v][b] > flujoArie) //Los cfm deben ser mayor a los introducidos por el usuario.
                 {
-                    if (VEL[v-1][b][0] < x1) //los cfm deben ser menor a los del usuario.
+                    if (VEL[v-1][b] < flujoArie) //los cfm deben ser menor a los del usuario.
                     {
                         //interpolacion para determinar la velocidad ficticia #2.
                         this.velocidad_2(); //asignacion de los valores de velocida
                         //Velocida sup   velocida inferior
-                        double c = VEL[v][b][0] - VEL[v-1][b][0];
-                        double d = (x1 - VEL[v-1][b][0]) / c;
+                        double c = VEL[v][b] - VEL[v-1][b];
+                        double d = (flujoArie - VEL[v-1][b]) / c;
                         double e = d * (vel_sup - vel_inf);
                         vel_fict2 = vel_inf + e;
                         perd2 = PE[b]; //valor para ser utilizada en el calculo final.
-                        v = 36; //Valores asignados para terminar el ciclo del for, para evitar que se produzca otra busqueda de valores.
+                        break;
                     }
                 }
             }
 
-            double m = (x2 - perd2)/(perd1 - perd2);
+            double m = (perdidaEstatica - perd2)/(perd1 - perd2);
             double f = m * (vel_fict1 - vel_fict2);
             vel = vel_fict2 + f;
             edt3.setText(String.format("%.1f", vel)); // Muestra la velocidad.
@@ -454,7 +455,7 @@ public class DimDucto extends AppCompatActivity {
 
         //Calculo de la velocidad del aire en funcion del diametro encontrado en la grafica.
         this.area1();
-        vel2 = x1/area1;
+        vel2 = flujoArie/area1;
         tv32.setText(String.format("%.0f", vel2)+" ");
     }
 
@@ -491,6 +492,7 @@ public class DimDucto extends AppCompatActivity {
                 for (int x = 0; x < 24; x++) {
                     if (D[x] == diaeqv) {
                         n = x; //diametro equivalente exacto a los valores de la grafica de ducto retangular
+                        break;
                     }
                 }
 
@@ -501,7 +503,7 @@ public class DimDucto extends AppCompatActivity {
                         if (D[x] > diaeqv) {
                             w = x; //diametro equivalente mayor
                             m = (x - 1); //diametro equivalente menor
-                            x = 25; //intruccion para terminar el ciclo.
+                            break;
                         }
                     }
                 }
@@ -510,6 +512,7 @@ public class DimDucto extends AppCompatActivity {
                 for (int k = 0; k < 80; k++) {
                     if (D1[k] == d1) {
                         h = k; //caso ideal, cuando el valor introducido por el usuario concuerda con un valor de la grafica.
+                        break;
                     }
                 }
 
@@ -517,7 +520,7 @@ public class DimDucto extends AppCompatActivity {
                 if (n != 0) {
                     d2 = D2[n][h];  //[n]=> numero del diametro, [h]=> numero de fila
 
-                    /** #002
+                    /* #002
                      * La siguiente sentencia es para hacer un cambio de eje en la comparacion de los valores
                      * ya en ciertos casos el valor vertical, no tiene valor horizontal para ciertos diametros eqv.
                      * por ende se pasa a usar el eje horizontal correspondiente a la matriz "D3".
@@ -537,7 +540,7 @@ public class DimDucto extends AppCompatActivity {
                     double u = (D2[w][h] - D2[m][h]) * y;
                     d2 = D2[m][h] + u;
 
-                    /** #003
+                    /* #003
                      * Igual que en el inciso #002
                      */
                     if (d2 == 0)
@@ -598,10 +601,10 @@ public class DimDucto extends AppCompatActivity {
 
             tv29.setText(String.format("%.2f", diaeqv)+" ");
             tv30.setText(String.format("%.4f", area2)+" ");
-            tv32.setText(String.format("%.0f", (x1/area2))+" ");
+            tv32.setText(String.format("%.0f", (flujoArie/area2))+" ");
 
             //Calculo del nuemro Reynold
-            double Re = (((x1/area2)/60)*(diaeqv/12))/(1.6738e-4);
+            double Re = (((flujoArie/area2)/60)*(diaeqv/12))/(1.6738e-4);
             tv34.setText(String.format("%.0f", Re)+" ");
 
             for (int x = 0; x < 31; x++)
@@ -609,7 +612,7 @@ public class DimDucto extends AppCompatActivity {
                 if (DIAEQV[x] == diaeqv)
                 {
                     n = x; //diametro equivalente exacto a los valores de la grafica de perdidas.
-                    x =  32;
+                    break;
                 }
             }
 
@@ -624,7 +627,7 @@ public class DimDucto extends AppCompatActivity {
                         double ds = x; //diametro equivalente mayor
                         double di = (x-1); //diametro equivalente menor
                         n = x; //se escogue que este sea el diametro por desicion propia.
-                        x = 32; //intruccion para terminar el ciclo.
+                        break;
                     }
                 }
             }
@@ -632,11 +635,11 @@ public class DimDucto extends AppCompatActivity {
             //Esta opcion nunca ocurria posiblemente
             for(int r = 0; r < 37; r++)
             {
-                if(MA[n][r][0] == x1)
+                if(MA[n][r] == flujoArie)
                 {
                     PE[r]=perd_new;
                     tv36.setText(String.format("%.3f", perd_new)+" ");
-                    r = 38;
+                    break;
                 }
             }
 
@@ -644,12 +647,12 @@ public class DimDucto extends AppCompatActivity {
             {
                 for(int r = 0; r < 37; r++)
                 {
-                    if(MA[n][r][0] < x1)
+                    if(MA[n][r] < flujoArie)
                     {
                         perd_new = PE[r];
                         tv36.setText(String.format("%.3f", perd_new)+" ");
                         //tv34.setText(Integer.toString(n)+"/"+Integer.toString(r));  //Instruccion para revisar el codigo.
-                        r = 38;
+                        break;
                     }
                 }
             }
@@ -1064,7 +1067,7 @@ public class DimDucto extends AppCompatActivity {
 
     public void alertas(){
 
-        if(x1 > 75000) //Mensaje de alerta cuando los cfm estan fuera de rango
+        if(flujoArie > 75000) //Mensaje de alerta cuando los cfm estan fuera de rango
         {
             AlertDialog.Builder msg_cfm = new AlertDialog.Builder(this);
             msg_cfm.setTitle("Fuera de rango");
@@ -1074,7 +1077,7 @@ public class DimDucto extends AppCompatActivity {
             msg_cfm.show();
         }
 
-        if(x2 > 6.75) //Mensaje de alerta cuando la perdida esta fuera de rango
+        if(perdidaEstatica > 6.75) //Mensaje de alerta cuando la perdida esta fuera de rango
         {
             AlertDialog.Builder msg_perd = new AlertDialog.Builder(this);
             msg_perd.setTitle("Fuera de rango");
@@ -1084,7 +1087,7 @@ public class DimDucto extends AppCompatActivity {
             msg_perd.show();
         }
 
-        if(x1 < 10) //Mensaje de alerta cuando los cfm estan fuera de rango
+        if(flujoArie < 10) //Mensaje de alerta cuando los cfm estan fuera de rango
         {
             AlertDialog.Builder msg_cfm = new AlertDialog.Builder(this);
             msg_cfm.setTitle("Fuera de rango");
@@ -1094,7 +1097,7 @@ public class DimDucto extends AppCompatActivity {
             msg_cfm.show();
         }
 
-        if(x2 < 0.01) //Mensaje de alerta cuando la perdida esta fuera de rango
+        if(perdidaEstatica < 0.01) //Mensaje de alerta cuando la perdida esta fuera de rango
         {
             AlertDialog.Builder msg_perd = new AlertDialog.Builder(this);
             msg_perd.setTitle("Fuera de rango");
@@ -1151,82 +1154,87 @@ public class DimDucto extends AppCompatActivity {
 
     public void valores_1() { //Valores de la matriz, perdida, flujo, diametro
 
-        MA[0][0][0]=30;	    MA[1][0][0]=66;	    MA[2][0][0]=195;	MA[3][0][0]=423;	MA[4][0][0]=766;	MA[5][0][0]=1232;	MA[6][0][0]=1854;	MA[7][0][0]=2639;	MA[8][0][0]=3579;	MA[9][0][0]=4730;	MA[10][0][0]=7642;	MA[11][0][0]=11124;	MA[12][0][0]=15155;	MA[13][0][0]=21358;	MA[14][0][0]=28789;	MA[15][0][0]=36625;
-        MA[0][1][0]=29;	    MA[1][1][0]=63;	    MA[2][1][0]=188;	MA[3][1][0]=405;	MA[4][1][0]=732;	MA[5][1][0]=1177;	MA[6][1][0]=1770;	MA[7][1][0]=2520;	MA[8][1][0]=3415;	MA[9][1][0]=4509;	MA[10][1][0]=7307;	MA[11][1][0]=10614;	MA[12][1][0]=15155;	MA[13][1][0]=20351;	MA[14][1][0]=27418;	MA[15][1][0]=34881;
-        MA[0][2][0]=27;	    MA[1][2][0]=59;	    MA[2][2][0]=176;	MA[3][2][0]=380;	MA[4][2][0]=687;	MA[5][2][0]=1102;	MA[6][2][0]=1664;	MA[7][2][0]=2369;	MA[8][2][0]=3208;	MA[9][2][0]=4250;	MA[10][2][0]=6864;	MA[11][2][0]=9970;	MA[12][2][0]=14235;	MA[13][2][0]=19233;	MA[14][2][0]=25608;	MA[15][2][0]=32577;
-        MA[0][3][0]=26;	    MA[1][3][0]=55;	    MA[2][3][0]=163;	MA[3][3][0]=352;	MA[4][3][0]=638;	MA[5][3][0]=1029;	MA[6][3][0]=1549;	MA[7][3][0]=2205;	MA[8][3][0]=2985;	MA[9][3][0]=3947;	MA[10][3][0]=6407;	MA[11][3][0]=9335;	MA[12][3][0]=13288;	MA[13][3][0]=17990;	MA[14][3][0]=23917;	MA[15][3][0]=30426;
-        MA[0][4][0]=24;	    MA[1][4][0]=51;	    MA[2][4][0]=151;	MA[3][4][0]=324;	MA[4][4][0]=588;	MA[5][4][0]=945;	MA[6][4][0]=1425;	MA[7][4][0]=2032;	MA[8][4][0]=2752;	MA[9][4][0]=3639;	MA[10][4][0]=5906;	MA[11][4][0]=8606;	MA[12][4][0]=12287;	MA[13][4][0]=16585;	MA[14][4][0]=22121;	MA[15][4][0]=28141;
-        MA[0][5][0]=21;	    MA[1][5][0]=46;	    MA[2][5][0]=136;	MA[3][5][0]=294;	MA[4][5][0]=532;	MA[5][5][0]=855;	MA[6][5][0]=1292;	MA[7][5][0]=1844;	MA[8][5][0]=2497;	MA[9][5][0]=3308;	MA[10][5][0]=5376;	MA[11][5][0]=7834;	MA[12][5][0]=11186;	MA[13][5][0]=15167;	MA[14][5][0]=20260;	MA[15][5][0]=25775;
-        MA[0][6][0]=19;	    MA[1][6][0]=41; 	MA[2][6][0]=121;	MA[3][6][0]=259;	MA[4][6][0]=472;	MA[5][6][0]=759;	MA[6][6][0]=1145;	MA[7][6][0]=1638;	MA[8][6][0]=2217;	MA[9][6][0]=2932;	MA[10][6][0]=4788;	MA[11][6][0]=6999;	MA[12][6][0]=9994;	MA[13][6][0]=13624;	MA[14][6][0]=18021;	MA[15][6][0]=22926;
-        MA[0][7][0]=18;	    MA[1][7][0]=38;	    MA[2][7][0]=113;	MA[3][7][0]=241;	MA[4][7][0]=439;	MA[5][7][0]=707;	MA[6][7][0]=1067;	MA[7][7][0]=1524;	MA[8][7][0]=2063;	MA[9][7][0]=2733;	MA[10][7][0]=4469;	MA[11][7][0]=6534;	MA[12][7][0]=9300;	MA[13][7][0]=12683;	MA[14][7][0]=16831;	MA[15][7][0]=21412;
-        MA[0][8][0]=16;	    MA[1][8][0]=35;	    MA[2][8][0]=103;	MA[3][8][0]=222;	MA[4][8][0]=404;	MA[5][8][0]=649;	MA[6][8][0]=984;	MA[7][8][0]=1405;	MA[8][8][0]=1902;	MA[9][8][0]=2523;	MA[10][8][0]=4133;	MA[11][8][0]=6042;	MA[12][8][0]=8600;	MA[13][8][0]=11692;	MA[14][8][0]=15567;	MA[15][8][0]=19804;
-        MA[0][9][0]=15;	    MA[1][9][0]=32;	    MA[2][9][0]=94;	    MA[3][9][0]=201;	MA[4][9][0]=365;	MA[5][9][0]=589;	MA[6][9][0]=891;	MA[7][9][0]=1275;	MA[8][9][0]=1726;	MA[9][9][0]=2290;	MA[10][9][0]=3757;	MA[11][9][0]=5500;	MA[12][9][0]=7853;	MA[13][9][0]=10639;	MA[14][9][0]=14120;	MA[15][9][0]=17963;
-        MA[0][10][0]=13;    MA[1][10][0]=28;	MA[2][10][0]=83;	MA[3][10][0]=178;	MA[4][10][0]=324;	MA[5][10][0]=522;	MA[6][10][0]=791;	MA[7][10][0]=1132;	MA[8][10][0]=1532;	MA[9][10][0]=2030;	MA[10][10][0]=3346;	MA[11][10][0]=4899;	MA[12][10][0]=6994;	MA[13][10][0]=9557;	MA[14][10][0]=12559;MA[15][10][0]=16135;
-        MA[0][11][0]=11;    MA[1][11][0]=24;	MA[2][11][0]=71;	MA[3][11][0]=152;	MA[4][11][0]=277;	MA[5][11][0]=447;	MA[6][11][0]=678;	MA[7][11][0]=971;	MA[8][11][0]=1319;	MA[9][11][0]=1744;	MA[10][11][0]=2879;	MA[11][11][0]=4229;	MA[12][11][0]=6038;	MA[13][11][0]=8282;	MA[14][11][0]=10849;MA[15][11][0]=13802;
-        MA[0][12][0]=10;    MA[1][12][0]=19;	MA[2][12][0]=57;	MA[3][12][0]=122;	MA[4][12][0]=223;	MA[5][12][0]=359;	MA[6][12][0]=546;	MA[7][12][0]=782;	MA[8][12][0]=1063;	MA[9][12][0]=1407;	MA[10][12][0]=2335;	MA[11][12][0]=3439;	MA[12][12][0]=4895;	MA[13][12][0]=6747;	MA[14][12][0]=8839;	MA[15][12][0]=11244;
-        MA[1][13][0]=19;	MA[2][13][0]=54;	MA[3][13][0]=115;	MA[4][13][0]=211;	MA[5][13][0]=340;	MA[6][13][0]=516;	MA[7][13][0]=739;	MA[8][13][0]=1001;	MA[9][13][0]=1328;	MA[10][13][0]=2207;	MA[11][13][0]=3261;	MA[12][13][0]=4642;	MA[13][13][0]=6364;	MA[14][13][0]=8336;	MA[15][13][0]=10605;
-        MA[1][14][0]=18;	MA[2][14][0]=51;	MA[3][14][0]=108;	MA[4][14][0]=197;	MA[5][14][0]=318;	MA[6][14][0]=483;	MA[7][14][0]=693;	MA[8][14][0]=940;	MA[9][14][0]=1248;	MA[10][14][0]=2079;	MA[11][14][0]=3073;	MA[12][14][0]=4374;	MA[13][14][0]=6002;	MA[14][14][0]=7862;	MA[15][14][0]=10002;
-        MA[1][15][0]=18;	MA[2][15][0]=47;	MA[3][15][0]=101;	MA[4][15][0]=184;	MA[5][15][0]=296;	MA[6][15][0]=450;	MA[7][15][0]=646;	MA[8][15][0]=878;	MA[9][15][0]=1163;	MA[10][15][0]=1941;	MA[11][15][0]=2868;	MA[12][15][0]=4082;	MA[13][15][0]=5605;	MA[14][15][0]=7272;	MA[15][15][0]=9341;
-        MA[1][16][0]=17;	MA[2][16][0]=43;	MA[3][16][0]=92;	MA[4][16][0]=169;	MA[5][16][0]=272;	MA[6][16][0]=415;	MA[7][16][0]=595;	MA[8][16][0]=807;	MA[9][16][0]=1072;	MA[10][16][0]=1789;	MA[11][16][0]=2644;	MA[12][16][0]=3775;	MA[13][16][0]=5184;	MA[14][16][0]=6725;	MA[15][16][0]=8640;
-        MA[1][17][0]=17;	MA[2][17][0]=39;	MA[3][17][0]=84;	MA[4][17][0]=153;	MA[5][17][0]=247;	MA[6][17][0]=377;	MA[7][17][0]=541;	MA[8][17][0]=732;	MA[9][17][0]=973;	MA[10][17][0]=1624;	MA[11][17][0]=2400;	MA[12][17][0]=3426;	MA[13][17][0]=4702;	MA[14][17][0]=6160;	MA[15][17][0]=7836;
-        MA[1][18][0]=16;	MA[2][18][0]=35;	MA[3][18][0]=74;	MA[4][18][0]=135;	MA[5][18][0]=218;	MA[6][18][0]=334;	MA[7][18][0]=479;	MA[8][18][0]=652;	MA[9][18][0]=864;	MA[10][18][0]=1442;	MA[11][18][0]=2130;	MA[12][18][0]=3042;	MA[13][18][0]=4183;	MA[14][18][0]=5479;	MA[15][18][0]=6970;
-        MA[1][19][0]=15;	MA[2][19][0]=32;	MA[3][19][0]=69;	MA[4][19][0]=126;	MA[5][19][0]=204;	MA[6][19][0]=310;	MA[7][19][0]=446;	MA[8][19][0]=607;	MA[9][19][0]=804;	MA[10][19][0]=1342;	MA[11][19][0]=1989;	MA[12][19][0]=2839;	MA[13][19][0]=3906;	MA[14][19][0]=5068;	MA[15][19][0]=6510;
-        MA[1][20][0]=15;	MA[2][20][0]=30;	MA[3][20][0]=64;	MA[4][20][0]=116;	MA[5][20][0]=187;	MA[6][20][0]=286;	MA[7][20][0]=412;	MA[8][20][0]=559;	MA[9][20][0]=741;	MA[10][20][0]=1237;	MA[11][20][0]=1833;	MA[12][20][0]=2618;	MA[13][20][0]=3613;	MA[14][20][0]=4702;	MA[15][20][0]=5963;
-        MA[1][21][0]=14;	MA[2][21][0]=27;	MA[3][21][0]=58;	MA[4][21][0]=105;	MA[5][21][0]=170;	MA[6][21][0]=260;	MA[7][21][0]=374;	MA[8][21][0]=508;	MA[9][21][0]=672;	MA[10][21][0]=1122;	MA[11][21][0]=1666;	MA[12][21][0]=2383;	MA[13][21][0]=3277;	MA[14][21][0]=4258;	MA[15][21][0]=5408;
-        MA[1][22][0]=13;	MA[2][22][0]=24;	MA[3][22][0]=51;	MA[4][22][0]=93;	MA[5][22][0]=151;	MA[6][22][0]=231;	MA[7][22][0]=332;	MA[8][22][0]=451;	MA[9][22][0]=597;	MA[10][22][0]=1000;	MA[11][22][0]=1482;	MA[12][22][0]=2116;	MA[13][22][0]=2915;	MA[14][22][0]=3787;	MA[15][22][0]=4858;
-        MA[1][23][0]=13;	MA[2][23][0]=21;	MA[3][23][0]=44;	MA[4][23][0]=80;	MA[5][23][0]=129;	MA[6][23][0]=197;	MA[7][23][0]=285;	MA[8][23][0]=387;	MA[9][23][0]=512;	MA[10][23][0]=855;	MA[11][23][0]=1273;	MA[12][23][0]=1815;	MA[13][23][0]=2494;	MA[14][23][0]=3250;	MA[15][23][0]=4156;
-        MA[1][24][0]=12;	MA[2][24][0]=17;	MA[3][24][0]=35;	MA[4][24][0]=64;	MA[5][24][0]=104;	MA[6][24][0]=159;	MA[7][24][0]=229;	MA[8][24][0]=312;	MA[9][24][0]=413;	MA[10][24][0]=691;	MA[11][24][0]=1029;	MA[12][24][0]=1471;	MA[13][24][0]=2012;	MA[14][24][0]=2627;	MA[15][24][0]=3353;
-        MA[1][25][0]=11;	MA[2][25][0]=16;	MA[3][25][0]=33;	MA[4][25][0]=60;	MA[5][25][0]=98;	MA[6][25][0]=150;	MA[7][25][0]=216;	MA[8][25][0]=294;	MA[9][25][0]=391;	MA[10][25][0]=653;	MA[11][25][0]=973;	MA[12][25][0]=1391;	MA[13][25][0]=1897;	MA[14][25][0]=2481;	MA[15][25][0]=3162;
-        MA[2][26][0]=15;	MA[3][26][0]=31;	MA[4][26][0]=57;	MA[5][26][0]=92;	MA[6][26][0]=141;	MA[7][26][0]=203;	MA[8][26][0]=277;	MA[9][26][0]=368;	MA[10][26][0]=613;	MA[11][26][0]=915;	MA[12][26][0]=1306;	MA[13][26][0]=1789;	MA[14][26][0]=2337;	MA[15][26][0]=2982;
-        MA[2][27][0]=14;	MA[3][27][0]=28;	MA[4][27][0]=53;	MA[5][27][0]=85;	MA[6][27][0]=131;	MA[7][27][0]=190;	MA[8][27][0]=257;	MA[9][27][0]=342;	MA[10][27][0]=571;	MA[11][27][0]=853;	MA[12][27][0]=1216;	MA[13][27][0]=1671;	MA[14][27][0]=2164;	MA[15][27][0]=2758;
-        MA[2][28][0]=13;	MA[3][28][0]=26;	MA[4][28][0]=49;	MA[5][28][0]=79;	MA[6][28][0]=121;	MA[7][28][0]=175;	MA[8][28][0]=237;	MA[9][28][0]=315;	MA[10][28][0]=526;	MA[11][28][0]=786;	MA[12][28][0]=1121;	MA[13][28][0]=1531;	MA[14][28][0]=2005;	MA[15][28][0]=2551;
-        MA[2][29][0]=12;	MA[3][29][0]=24;	MA[4][29][0]=44;	MA[5][29][0]=71;	MA[6][29][0]=109;	MA[7][29][0]=158;	MA[8][29][0]=215;	MA[9][29][0]=286;	MA[10][29][0]=478;	MA[11][29][0]=713;	MA[12][29][0]=1020;	MA[13][29][0]=1402;	MA[14][29][0]=1825;	MA[15][29][0]=2314;
-        MA[2][30][0]=11;	MA[3][30][0]=21;	MA[4][30][0]=39;	MA[5][30][0]=63;	MA[6][30][0]=97;	MA[7][30][0]=141;	MA[8][30][0]=191;	MA[9][30][0]=254;	MA[10][30][0]=424;	MA[11][30][0]=633;	MA[12][30][0]=906;	MA[13][30][0]=1235;	MA[14][30][0]=1615;	MA[15][30][0]=2058;
-        MA[3][31][0]=19;	MA[4][31][0]=36;	MA[5][31][0]=59;	MA[6][31][0]=90;	MA[7][31][0]=131;	MA[8][31][0]=178;	MA[9][31][0]=237;	MA[10][31][0]=393;	MA[11][31][0]=588;	MA[12][31][0]=843;	MA[13][31][0]=1153;	MA[14][31][0]=1506;	MA[15][31][0]=1922;
-        MA[3][32][0]=18;	MA[4][32][0]=33;	MA[5][32][0]=54;	MA[6][32][0]=83;	MA[7][32][0]=121;	MA[8][32][0]=164;	MA[9][32][0]=218;	MA[10][32][0]=361;	MA[11][32][0]=540;	MA[12][32][0]=775;	MA[13][32][0]=1067;	MA[14][32][0]=1393;	MA[15][32][0]=1778;
-        MA[3][33][0]=16;	MA[4][33][0]=30;	MA[5][33][0]=49;	MA[6][33][0]=75;	MA[7][33][0]=109;	MA[8][33][0]=149;	MA[9][33][0]=198;	MA[10][33][0]=327;	MA[11][33][0]=490;	MA[12][33][0]=701;	MA[13][33][0]=968;	MA[14][33][0]=1261;	MA[15][33][0]=1613;
-        MA[3][34][0]=15;	MA[4][34][0]=27;	MA[5][34][0]=43;	MA[6][34][0]=67;	MA[7][34][0]=97;	MA[8][34][0]=133;	MA[9][34][0]=176;	MA[10][34][0]=289;	MA[11][34][0]=433;	MA[12][34][0]=620;	MA[13][34][0]=861;	MA[14][34][0]=1128;	MA[15][34][0]=1434;
-        MA[3][35][0]=12;	MA[4][35][0]=23;	MA[5][35][0]=37;	MA[6][35][0]=57;	MA[7][35][0]=83;	MA[8][35][0]=114;	MA[9][35][0]=151;	MA[10][35][0]=247;	MA[11][35][0]=370;	MA[12][35][0]=530;	MA[13][35][0]=736;	MA[14][35][0]=966;	MA[15][35][0]=1227;
-        MA[3][36][0]=10;	MA[4][36][0]=18;	MA[5][36][0]=30;	MA[6][36][0]=46;	MA[7][36][0]=67;	MA[8][36][0]=92;	MA[9][36][0]=122;	MA[10][36][0]=198;	MA[11][36][0]=297;	MA[12][36][0]=425;	MA[13][36][0]=600;	MA[14][36][0]=779;	MA[15][36][0]=1000;
+        MA[0][0]=30;	    MA[1][0]=66;	    MA[2][0]=195;	MA[3][0]=423;	MA[4][0]=766;	MA[5][0]=1232;	MA[6][0]=1854;	MA[7][0]=2639;	MA[8][0]=3579;	MA[9][0]=4730;	MA[10][0]=7642;	MA[11][0]=11124;	MA[12][0]=15155;	MA[13][0]=21358;	MA[14][0]=28789;	MA[15][0]=36625;
+        MA[0][1]=29;	    MA[1][1]=63;	    MA[2][1]=188;	MA[3][1]=405;	MA[4][1]=732;	MA[5][1]=1177;	MA[6][1]=1770;	MA[7][1]=2520;	MA[8][1]=3415;	MA[9][1]=4509;	MA[10][1]=7307;	MA[11][1]=10614;	MA[12][1]=15155;	MA[13][1]=20351;	MA[14][1]=27418;	MA[15][1]=34881;
+        MA[0][2]=27;	    MA[1][2]=59;	    MA[2][2]=176;	MA[3][2]=380;	MA[4][2]=687;	MA[5][2]=1102;	MA[6][2]=1664;	MA[7][2]=2369;	MA[8][2]=3208;	MA[9][2]=4250;	MA[10][2]=6864;	MA[11][2]=9970;	    MA[12][2]=14235;	MA[13][2]=19233;	MA[14][2]=25608;	MA[15][2]=32577;
+        MA[0][3]=26;	    MA[1][3]=55;	    MA[2][3]=163;	MA[3][3]=352;	MA[4][3]=638;	MA[5][3]=1029;	MA[6][3]=1549;	MA[7][3]=2205;	MA[8][3]=2985;	MA[9][3]=3947;	MA[10][3]=6407;	MA[11][3]=9335;	    MA[12][3]=13288;	MA[13][3]=17990;	MA[14][3]=23917;	MA[15][3]=30426;
+        MA[0][4]=24;	    MA[1][4]=51;	    MA[2][4]=151;	MA[3][4]=324;	MA[4][4]=588;	MA[5][4]=945;	MA[6][4]=1425;	MA[7][4]=2032;	MA[8][4]=2752;	MA[9][4]=3639;	MA[10][4]=5906;	MA[11][4]=8606;	    MA[12][4]=12287;	MA[13][4]=16585;	MA[14][4]=22121;	MA[15][4]=28141;
+        MA[0][5]=21;	    MA[1][5]=46;	    MA[2][5]=136;	MA[3][5]=294;	MA[4][5]=532;	MA[5][5]=855;	MA[6][5]=1292;	MA[7][5]=1844;	MA[8][5]=2497;	MA[9][5]=3308;	MA[10][5]=5376;	MA[11][5]=7834; 	MA[12][5]=11186;	MA[13][5]=15167;	MA[14][5]=20260;	MA[15][5]=25775;
+        MA[0][6]=19;	    MA[1][6]=41; 	    MA[2][6]=121;	MA[3][6]=259;	MA[4][6]=472;	MA[5][6]=759;	MA[6][6]=1145;	MA[7][6]=1638;	MA[8][6]=2217;	MA[9][6]=2932;	MA[10][6]=4788;	MA[11][6]=6999;	    MA[12][6]=9994;	    MA[13][6]=13624;	MA[14][6]=18021;	MA[15][6]=22926;
+        MA[0][7]=18;	    MA[1][7]=38;	    MA[2][7]=113;	MA[3][7]=241;	MA[4][7]=439;	MA[5][7]=707;	MA[6][7]=1067;	MA[7][7]=1524;	MA[8][7]=2063;	MA[9][7]=2733;	MA[10][7]=4469;	MA[11][7]=6534;	    MA[12][7]=9300;	    MA[13][7]=12683;	MA[14][7]=16831;	MA[15][7]=21412;
+        MA[0][8]=16;	    MA[1][8]=35;	    MA[2][8]=103;	MA[3][8]=222;	MA[4][8]=404;	MA[5][8]=649;	MA[6][8]=984;	MA[7][8]=1405;	MA[8][8]=1902;	MA[9][8]=2523;	MA[10][8]=4133;	MA[11][8]=6042;	    MA[12][8]=8600;	    MA[13][8]=11692;	MA[14][8]=15567;	MA[15][8]=19804;
+        MA[0][9]=15;	    MA[1][9]=32;	    MA[2][9]=94;	MA[3][9]=201;	MA[4][9]=365;	MA[5][9]=589;	MA[6][9]=891;	MA[7][9]=1275;	MA[8][9]=1726;	MA[9][9]=2290;	MA[10][9]=3757;	MA[11][9]=5500;	    MA[12][9]=7853;	    MA[13][9]=10639;	MA[14][9]=14120;	MA[15][9]=17963;
+        MA[0][10]=13;       MA[1][10]=28;	    MA[2][10]=83;	MA[3][10]=178;	MA[4][10]=324;	MA[5][10]=522;	MA[6][10]=791;	MA[7][10]=1132;	MA[8][10]=1532;	MA[9][10]=2030;	MA[10][10]=3346;	MA[11][10]=4899;	MA[12][10]=6994;	MA[13][10]=9557;	MA[14][10]=12559;   MA[15][10]=16135;
+        MA[0][11]=11;       MA[1][11]=24;	    MA[2][11]=71;	MA[3][11]=152;	MA[4][11]=277;	MA[5][11]=447;	MA[6][11]=678;	MA[7][11]=971;	MA[8][11]=1319;	MA[9][11]=1744;	MA[10][11]=2879;	MA[11][11]=4229;	MA[12][11]=6038;	MA[13][11]=8282;	MA[14][11]=10849;   MA[15][11]=13802;
+        MA[0][12]=10;       MA[1][12]=19;	    MA[2][12]=57;	MA[3][12]=122;	MA[4][12]=223;	MA[5][12]=359;	MA[6][12]=546;	MA[7][12]=782;	MA[8][12]=1063;	MA[9][12]=1407;	MA[10][12]=2335;	MA[11][12]=3439;	MA[12][12]=4895;	MA[13][12]=6747;	MA[14][12]=8839;	MA[15][12]=11244;
+                            MA[1][13]=19;	    MA[2][13]=54;	MA[3][13]=115;	MA[4][13]=211;	MA[5][13]=340;	MA[6][13]=516;	MA[7][13]=739;	MA[8][13]=1001;	MA[9][13]=1328;	MA[10][13]=2207;	MA[11][13]=3261;	MA[12][13]=4642;	MA[13][13]=6364;	MA[14][13]=8336;	MA[15][13]=10605;
+                            MA[1][14]=18;	    MA[2][14]=51;	MA[3][14]=108;	MA[4][14]=197;	MA[5][14]=318;	MA[6][14]=483;	MA[7][14]=693;	MA[8][14]=940;	MA[9][14]=1248;	MA[10][14]=2079;	MA[11][14]=3073;	MA[12][14]=4374;	MA[13][14]=6002;	MA[14][14]=7862;	MA[15][14]=10002;
+                            MA[1][15]=18;	    MA[2][15]=47;	MA[3][15]=101;	MA[4][15]=184;	MA[5][15]=296;	MA[6][15]=450;	MA[7][15]=646;	MA[8][15]=878;	MA[9][15]=1163;	MA[10][15]=1941;	MA[11][15]=2868;	MA[12][15]=4082;	MA[13][15]=5605;	MA[14][15]=7272;	MA[15][15]=9341;
+                            MA[1][16]=17;	    MA[2][16]=43;	MA[3][16]=92;	MA[4][16]=169;	MA[5][16]=272;	MA[6][16]=415;	MA[7][16]=595;	MA[8][16]=807;	MA[9][16]=1072;	MA[10][16]=1789;	MA[11][16]=2644;	MA[12][16]=3775;	MA[13][16]=5184;	MA[14][16]=6725;	MA[15][16]=8640;
+                            MA[1][17]=17;	    MA[2][17]=39;	MA[3][17]=84;	MA[4][17]=153;	MA[5][17]=247;	MA[6][17]=377;	MA[7][17]=541;	MA[8][17]=732;	MA[9][17]=973;	MA[10][17]=1624;	MA[11][17]=2400;	MA[12][17]=3426;	MA[13][17]=4702;	MA[14][17]=6160;	MA[15][17]=7836;
+                            MA[1][18]=16;	    MA[2][18]=35;	MA[3][18]=74;	MA[4][18]=135;	MA[5][18]=218;	MA[6][18]=334;	MA[7][18]=479;	MA[8][18]=652;	MA[9][18]=864;	MA[10][18]=1442;	MA[11][18]=2130;	MA[12][18]=3042;	MA[13][18]=4183;	MA[14][18]=5479;	MA[15][18]=6970;
+                            MA[1][19]=15;	    MA[2][19]=32;	MA[3][19]=69;	MA[4][19]=126;	MA[5][19]=204;	MA[6][19]=310;	MA[7][19]=446;	MA[8][19]=607;	MA[9][19]=804;	MA[10][19]=1342;	MA[11][19]=1989;	MA[12][19]=2839;	MA[13][19]=3906;	MA[14][19]=5068;	MA[15][19]=6510;
+                            MA[1][20]=15;	    MA[2][20]=30;	MA[3][20]=64;	MA[4][20]=116;	MA[5][20]=187;	MA[6][20]=286;	MA[7][20]=412;	MA[8][20]=559;	MA[9][20]=741;	MA[10][20]=1237;	MA[11][20]=1833;	MA[12][20]=2618;	MA[13][20]=3613;	MA[14][20]=4702;	MA[15][20]=5963;
+                            MA[1][21]=14;	    MA[2][21]=27;	MA[3][21]=58;	MA[4][21]=105;	MA[5][21]=170;	MA[6][21]=260;	MA[7][21]=374;	MA[8][21]=508;	MA[9][21]=672;	MA[10][21]=1122;	MA[11][21]=1666;	MA[12][21]=2383;	MA[13][21]=3277;	MA[14][21]=4258;	MA[15][21]=5408;
+                            MA[1][22]=13;	    MA[2][22]=24;	MA[3][22]=51;	MA[4][22]=93;	MA[5][22]=151;	MA[6][22]=231;	MA[7][22]=332;	MA[8][22]=451;	MA[9][22]=597;	MA[10][22]=1000;	MA[11][22]=1482;	MA[12][22]=2116;	MA[13][22]=2915;	MA[14][22]=3787;	MA[15][22]=4858;
+                            MA[1][23]=13;	    MA[2][23]=21;	MA[3][23]=44;	MA[4][23]=80;	MA[5][23]=129;	MA[6][23]=197;	MA[7][23]=285;	MA[8][23]=387;	MA[9][23]=512;	MA[10][23]=855;	    MA[11][23]=1273;	MA[12][23]=1815;	MA[13][23]=2494;	MA[14][23]=3250;	MA[15][23]=4156;
+                            MA[1][24]=12;	    MA[2][24]=17;	MA[3][24]=35;	MA[4][24]=64;	MA[5][24]=104;	MA[6][24]=159;	MA[7][24]=229;	MA[8][24]=312;	MA[9][24]=413;	MA[10][24]=691;	    MA[11][24]=1029;	MA[12][24]=1471;	MA[13][24]=2012;	MA[14][24]=2627;	MA[15][24]=3353;
+                            MA[1][25]=11;	    MA[2][25]=16;	MA[3][25]=33;	MA[4][25]=60;	MA[5][25]=98;	MA[6][25]=150;	MA[7][25]=216;	MA[8][25]=294;	MA[9][25]=391;	MA[10][25]=653;	    MA[11][25]=973;	    MA[12][25]=1391;	MA[13][25]=1897;	MA[14][25]=2481;	MA[15][25]=3162;
+                                                MA[2][26]=15;	MA[3][26]=31;	MA[4][26]=57;	MA[5][26]=92;	MA[6][26]=141;	MA[7][26]=203;	MA[8][26]=277;	MA[9][26]=368;	MA[10][26]=613;	    MA[11][26]=915;	    MA[12][26]=1306;	MA[13][26]=1789;	MA[14][26]=2337;	MA[15][26]=2982;
+                                                MA[2][27]=14;	MA[3][27]=28;	MA[4][27]=53;	MA[5][27]=85;	MA[6][27]=131;	MA[7][27]=190;	MA[8][27]=257;	MA[9][27]=342;	MA[10][27]=571;	    MA[11][27]=853;	    MA[12][27]=1216;	MA[13][27]=1671;	MA[14][27]=2164;	MA[15][27]=2758;
+                                                MA[2][28]=13;	MA[3][28]=26;	MA[4][28]=49;	MA[5][28]=79;	MA[6][28]=121;	MA[7][28]=175;	MA[8][28]=237;	MA[9][28]=315;	MA[10][28]=526;	    MA[11][28]=786;	    MA[12][28]=1121;	MA[13][28]=1531;	MA[14][28]=2005;	MA[15][28]=2551;
+                                                MA[2][29]=12;	MA[3][29]=24;	MA[4][29]=44;	MA[5][29]=71;	MA[6][29]=109;	MA[7][29]=158;	MA[8][29]=215;	MA[9][29]=286;	MA[10][29]=478;	    MA[11][29]=713;	    MA[12][29]=1020;	MA[13][29]=1402;	MA[14][29]=1825;	MA[15][29]=2314;
+                                                MA[2][30]=11;	MA[3][30]=21;	MA[4][30]=39;	MA[5][30]=63;	MA[6][30]=97;	MA[7][30]=141;	MA[8][30]=191;	MA[9][30]=254;	MA[10][30]=424;	    MA[11][30]=633;	    MA[12][30]=906;	    MA[13][30]=1235;	MA[14][30]=1615;	MA[15][30]=2058;
+                                                                MA[3][31]=19;	MA[4][31]=36;	MA[5][31]=59;	MA[6][31]=90;	MA[7][31]=131;	MA[8][31]=178;	MA[9][31]=237;	MA[10][31]=393;	MA[11][31]=588;	    MA[12][31]=843;	    MA[13][31]=1153;	MA[14][31]=1506;	MA[15][31]=1922;
+                                                                MA[3][32]=18;	MA[4][32]=33;	MA[5][32]=54;	MA[6][32]=83;	MA[7][32]=121;	MA[8][32]=164;	MA[9][32]=218;	MA[10][32]=361;	MA[11][32]=540;	    MA[12][32]=775; 	MA[13][32]=1067;	MA[14][32]=1393;	MA[15][32]=1778;
+                                                                MA[3][33]=16;	MA[4][33]=30;	MA[5][33]=49;	MA[6][33]=75;	MA[7][33]=109;	MA[8][33]=149;	MA[9][33]=198;	MA[10][33]=327;	MA[11][33]=490;	    MA[12][33]=701;	    MA[13][33]=968;	    MA[14][33]=1261;	MA[15][33]=1613;
+                                                                MA[3][34]=15;	MA[4][34]=27;	MA[5][34]=43;	MA[6][34]=67;	MA[7][34]=97;	MA[8][34]=133;	MA[9][34]=176;	MA[10][34]=289;	MA[11][34]=433;	    MA[12][34]=620;	    MA[13][34]=861;	    MA[14][34]=1128;	MA[15][34]=1434;
+                                                                MA[3][35]=12;	MA[4][35]=23;	MA[5][35]=37;	MA[6][35]=57;	MA[7][35]=83;	MA[8][35]=114;	MA[9][35]=151;	MA[10][35]=247;	MA[11][35]=370;	    MA[12][35]=530;	    MA[13][35]=736;	    MA[14][35]=966; 	MA[15][35]=1227;
+                                                                MA[3][36]=10;	MA[4][36]=18;	MA[5][36]=30;	MA[6][36]=46;	MA[7][36]=67;	MA[8][36]=92;	MA[9][36]=122;	MA[10][36]=198;	MA[11][36]=297;	    MA[12][36]=425;	    MA[13][36]=600;	    MA[14][36]=779;	    MA[15][36]=1000;
 
 
-        MA[16][0][0]=46745;	MA[17][0][0]=57720;	MA[18][0][0]=68173;	MA[19][0][0]=83272;	MA[20][0][0]=97662;	MA[21][0][0]=0;	    MA[22][0][0]=0;	    MA[23][0][0]=0;	    MA[24][0][0]=0; 	MA[25][0][0]=0;     MA[26][0][0]=0;	    MA[27][0][0]=0;	        MA[28][0][0]=0;	        MA[29][0][0]=0;	    MA[30][0][0]=0;
-        MA[16][1][0]=44519;	MA[17][1][0]=54548;	MA[18][1][0]=64436;	MA[19][1][0]=79178;	MA[20][1][0]=92860;	MA[21][1][0]=0;	    MA[22][1][0]=0;	    MA[23][1][0]=0;	    MA[24][1][0]=0; 	MA[25][1][0]=0;	    MA[26][1][0]=0;	    MA[27][1][0]=0;	        MA[28][1][0]=0;	        MA[29][1][0]=0;	    MA[30][1][0]=0;
-        MA[16][2][0]=41579;	MA[17][2][0]=51614;	MA[18][2][0]=60837;	MA[19][2][0]=74675;	MA[20][2][0]=87579;	MA[21][2][0]=0;	    MA[22][2][0]=0;	    MA[23][2][0]=0;	    MA[24][2][0]=0; 	MA[25][2][0]=0;	    MA[26][2][0]=0;	    MA[27][2][0]=0;	        MA[28][2][0]=0;	        MA[29][2][0]=0;	    MA[30][2][0]=0;
-        MA[16][3][0]=38833;	MA[17][3][0]=48212;	MA[18][3][0]=56820;	MA[19][3][0]=69744;	MA[20][3][0]=81796;	MA[21][3][0]=95931;	MA[22][3][0]=0;	    MA[23][3][0]=0;	    MA[24][3][0]=0;	    MA[25][3][0]=0;	    MA[26][3][0]=0; 	MA[27][3][0]=0; 	    MA[28][3][0]=0;	        MA[29][3][0]=0;	    MA[30][3][0]=0;
-        MA[16][4][0]=35917;	MA[17][4][0]=44591;	MA[18][4][0]=52724;	MA[19][4][0]=64506;	MA[20][4][0]=75766;	MA[21][4][0]=88726;	MA[22][4][0]=0;	    MA[23][4][0]=0;	    MA[24][4][0]=0;	    MA[25][4][0]=0;	    MA[26][4][0]=0;	    MA[27][4][0]=0; 	    MA[28][4][0]=0;	        MA[29][4][0]=0;	    MA[30][4][0]=0;
-        MA[16][5][0]=32897;	MA[17][5][0]=40775;	MA[18][5][0]=48134;	MA[19][5][0]=58508;	MA[20][5][0]=68842;	MA[21][5][0]=81265;	MA[22][5][0]=95205;	MA[23][5][0]=0;	    MA[24][5][0]=0;     MA[25][5][0]=0;	    MA[26][5][0]=0;	    MA[27][5][0]=0;	        MA[28][5][0]=0;	        MA[29][5][0]=0;	    MA[30][5][0]=0;
-        MA[16][6][0]=29261;	MA[17][6][0]=36210;	MA[18][6][0]=42814;	MA[19][6][0]=52552;	MA[20][6][0]=61835;	MA[21][6][0]=72285;	MA[22][6][0]=84776;	MA[23][6][0]=0;	    MA[24][6][0]=0;	    MA[25][6][0]=0;	    MA[26][6][0]=0;	    MA[27][6][0]=0;	        MA[28][6][0]=0; 	    MA[29][6][0]=0;	    MA[30][6][0]=0;
-        MA[16][7][0]=27329;	MA[17][7][0]=33985;	MA[18][7][0]=39987;	MA[19][7][0]=49242;	MA[20][7][0]=57752;	MA[21][7][0]=67731;	MA[22][7][0]=79178;	MA[23][7][0]=91498;	MA[24][7][0]=0; 	MA[25][7][0]=0;	    MA[26][7][0]=0;	    MA[27][7][0]=0;	        MA[28][7][0]=0;	        MA[29][7][0]=0;	    MA[30][7][0]=0;
-        MA[16][8][0]=25277;	MA[17][8][0]=31330;	MA[18][8][0]=36984;	MA[19][8][0]=45544;	MA[20][8][0]=53414;	MA[21][8][0]=62645;	MA[22][8][0]=73231;	MA[23][8][0]=85052;	MA[24][8][0]=96766;	MA[25][8][0]=0; 	MA[26][8][0]=0;	    MA[27][8][0]=0;	        MA[28][8][0]=0;	        MA[29][8][0]=0;	    MA[30][8][0]=0;
-        MA[16][9][0]=22926;	MA[17][9][0]=28556;	MA[18][9][0]=33874;	MA[19][9][0]=41309;	MA[20][9][0]=48678;	MA[21][9][0]=56820;	MA[22][9][0]=66639;	MA[23][9][0]=77144;	MA[24][9][0]=88150;MA[25][9][0]=0;	    MA[26][9][0]=0;	    MA[27][9][0]=0;	        MA[28][9][0]=0;	        MA[29][9][0]=0;	    MA[30][9][0]=0;
-        MA[16][10][0]=20593;MA[17][10][0]=25442;MA[18][10][0]=30229;MA[19][10][0]=37104;MA[20][10][0]=43440;MA[21][10][0]=51036;MA[22][10][0]=59856;MA[23][10][0]=69066;MA[24][10][0]=79178;MA[25][10][0]=0;	MA[26][10][0]=0;	MA[27][10][0]=0;	    MA[28][10][0]=0;	    MA[29][10][0]=0;    MA[30][10][0]=0;
-        MA[16][11][0]=17788;MA[17][11][0]=22010;MA[18][11][0]=26112;MA[19][11][0]=32052;MA[20][11][0]=37524;MA[21][11][0]=44086;MA[22][11][0]=51705;MA[23][11][0]=59556;MA[24][11][0]=68396;MA[25][11][0]=91560;MA[26][11][0]=0;	MA[27][11][0]=0;	    MA[28][11][0]=0;	    MA[29][11][0]=0;	MA[30][11][0]=0;
-        MA[16][12][0]=14492;MA[17][12][0]=17873;MA[18][12][0]=21343;MA[19][12][0]=26112;MA[20][12][0]=30670;MA[21][12][0]=36034;MA[22][12][0]=42124;MA[23][12][0]=48606;MA[24][12][0]=55903;MA[25][12][0]=75030;MA[26][12][0]=99912;MA[27][12][0]=0;	    MA[28][12][0]=0;	    MA[29][12][0]=0;	MA[30][12][0]=0;
-        MA[16][13][0]=13668;MA[17][13][0]=16886;MA[18][13][0]=20159;MA[19][13][0]=24627;MA[20][13][0]=28977;MA[21][13][0]=33985;MA[22][13][0]=39728;MA[23][13][0]=46291;MA[24][13][0]=52724;MA[25][13][0]=70887;MA[26][13][0]=94076;MA[27][13][0]=0;	    MA[28][13][0]=0;	    MA[29][13][0]=0;	MA[30][13][0]=0;
-        MA[16][14][0]=12891;MA[17][14][0]=15950;MA[18][14][0]=19046;MA[19][14][0]=23227;MA[20][14][0]=27370;MA[21][14][0]=32052;MA[22][14][0]=37590;MA[23][14][0]=43375;MA[24][14][0]=49725;MA[25][14][0]=66955;MA[26][14][0]=88726;MA[27][14][0]=0;	    MA[28][14][0]=0;	    MA[29][14][0]=0;	MA[30][14][0]=0;
-        MA[16][15][0]=12039;MA[17][15][0]=14826;MA[18][15][0]=17846;MA[19][15][0]=21693;MA[20][15][0]=25646;MA[21][15][0]=29935;MA[22][15][0]=35108;MA[23][15][0]=40643;MA[24][15][0]=46442;MA[25][15][0]=62238;MA[26][15][0]=82867;MA[27][15][0]=0;	    MA[28][15][0]=0;	    MA[29][15][0]=0;	MA[30][15][0]=0;
-        MA[16][16][0]=11135;MA[17][16][0]=13802;MA[18][16][0]=16453;MA[19][16][0]=20064;MA[20][16][0]=23643;MA[21][16][0]=27687;MA[22][16][0]=32472;MA[23][16][0]=37590;MA[24][16][0]=42954;MA[25][16][0]=57838;MA[26][16][0]=76395;MA[27][16][0]=100074;	MA[28][16][0]=0;	    MA[29][16][0]=0;	MA[30][16][0]=0;
-        MA[16][17][0]=10199;MA[17][17][0]=12519;MA[18][17][0]=14996;MA[19][17][0]=18377;MA[20][17][0]=21587;MA[21][17][0]=25359;MA[22][17][0]=29741;MA[23][17][0]=34430;MA[24][17][0]=39342;MA[25][17][0]=52896;MA[26][17][0]=69744;MA[27][17][0]=90475;	MA[28][17][0]=0;	    MA[29][17][0]=0;	MA[30][17][0]=0;
-        MA[16][18][0]=9072;	MA[17][18][0]=11244;MA[18][18][0]=13469;MA[19][18][0]=16399;MA[20][18][0]=19202;MA[21][18][0]=22778;MA[22][18][0]=26454;MA[23][18][0]=30625;MA[24][18][0]=34994;MA[25][18][0]=47274;MA[26][18][0]=62645;MA[27][18][0]=80476;	MA[28][18][0]=100074;	MA[29][18][0]=0;	MA[30][18][0]=0;
-        MA[16][19][0]=8473;	MA[17][19][0]=10502;MA[18][19][0]=12580;MA[19][19][0]=15316;MA[20][19][0]=17934;MA[21][19][0]=21067;MA[22][19][0]=24708;MA[23][19][0]=28603;MA[24][19][0]=32683;MA[25][19][0]=44296;MA[26][19][0]=58508;MA[27][19][0]=75030;	MA[28][19][0]=93062;	MA[29][19][0]=0;	MA[30][19][0]=0;
-        MA[16][20][0]=7836;	MA[17][20][0]=9745;	MA[18][20][0]=11654;MA[19][20][0]=14166;MA[20][20][0]=16750;MA[21][20][0]=19485;MA[22][20][0]=22852;MA[23][20][0]=26454;MA[24][20][0]=30229;MA[25][20][0]=40836;MA[26][20][0]=54290;MA[27][20][0]=69744;	MA[28][20][0]=85607;	MA[29][20][0]=0;	MA[30][20][0]=0;
-        MA[16][21][0]=7108;	MA[17][21][0]=8839;	MA[18][21][0]=10553;MA[19][21][0]=12849;MA[20][21][0]=15167;MA[21][21][0]=17905;MA[22][21][0]=20930;MA[23][21][0]=24187;MA[24][21][0]=27777;MA[25][21][0]=37347;MA[26][21][0]=49242;MA[27][21][0]=63767;	MA[28][21][0]=78409;	MA[29][21][0]=0;	MA[30][21][0]=0;
-        MA[16][22][0]=6384;	MA[17][22][0]=7836;	MA[18][22][0]=9479;	MA[19][22][0]=11541;MA[20][22][0]=13646;MA[21][22][0]=15926;MA[22][22][0]=18678;MA[23][22][0]=21622;MA[24][22][0]=24708;MA[25][22][0]=33328;MA[26][22][0]=43943;MA[27][22][0]=56905;	MA[28][22][0]=69744;	MA[29][22][0]=0;	MA[30][22][0]=0;
-        MA[16][23][0]=5461;	MA[17][23][0]=6769;	MA[18][23][0]=8162;	MA[19][23][0]=9969;	MA[20][23][0]=11788;MA[21][23][0]=13757;MA[22][23][0]=16135;MA[23][23][0]=18678;MA[24][23][0]=21343;MA[25][23][0]=28836;MA[26][23][0]=37959;MA[27][23][0]=49156;	MA[28][23][0]=60443;	MA[29][23][0]=92860;MA[30][23][0]=0;
-        MA[16][24][0]=4363;	MA[17][24][0]=5461;	MA[18][24][0]=6575;	MA[19][24][0]=8043;	MA[20][24][0]=9485;	MA[21][24][0]=11116;MA[22][24][0]=13017;MA[23][24][0]=15069;MA[24][24][0]=17388;MA[25][24][0]=23493;MA[26][24][0]=31275;MA[27][24][0]=40052;	MA[28][24][0]=49242;	MA[29][24][0]=75653;MA[30][24][0]=0;
-        MA[16][25][0]=4115;	MA[17][25][0]=5101;	MA[18][25][0]=6190;	MA[19][25][0]=7512;	MA[20][25][0]=8940;	MA[21][25][0]=10468;MA[22][25][0]=12277;MA[23][25][0]=14212;MA[24][25][0]=16240;MA[25][25][0]=22157;MA[26][25][0]=29548;MA[27][25][0]=37774;	MA[28][25][0]=46442;	MA[29][25][0]=71350;MA[30][25][0]=98353;
-        MA[16][26][0]=3881;	MA[17][26][0]=4811;	MA[18][26][0]=5818;	MA[19][26][0]=7085;	MA[20][26][0]=8328;	MA[21][26][0]=9791;	MA[22][26][0]=11466;MA[23][26][0]=13360;MA[24][26][0]=15316;MA[25][26][0]=20693;MA[26][26][0]=27549;MA[27][26][0]=35611;	MA[28][26][0]=43800;	MA[29][26][0]=67292;MA[30][26][0]=92558;
-        MA[16][27][0]=3590;	MA[17][27][0]=4449;	MA[18][27][0]=5381;	MA[19][27][0]=6617;	MA[20][27][0]=7786;	MA[21][27][0]=9131;	MA[22][27][0]=10709;MA[23][27][0]=12456;MA[24][27][0]=14305;MA[25][27][0]=19277;MA[26][27][0]=25729;MA[27][27][0]=33058;	MA[28][27][0]=40908;	MA[29][27][0]=62849;MA[30][27][0]=86447;
-        MA[16][28][0]=3320;	MA[17][28][0]=4121;	MA[18][28][0]=4970;	MA[19][28][0]=6061;	MA[20][28][0]=7124;	MA[21][28][0]=8445;	MA[22][28][0]=9905;	MA[23][28][0]=11429;MA[24][28][0]=13102;MA[25][28][0]=17829;MA[26][28][0]=23762;MA[27][28][0]=30563;	MA[28][28][0]=37468;	MA[29][28][0]=58129;MA[30][28][0]=79178;
-        MA[16][29][0]=2982;	MA[17][29][0]=3745;	MA[18][29][0]=4513;	MA[19][29][0]=5497;	MA[20][29][0]=6478;	MA[21][29][0]=7610;	MA[22][29][0]=8896;	MA[23][29][0]=10382;MA[24][29][0]=11884;MA[25][29][0]=16066;MA[26][29][0]=21444;MA[27][29][0]=27549;	MA[28][29][0]=34318;	MA[29][29][0]=52724;MA[30][29][0]=72520;
-        MA[16][30][0]=2653;	MA[17][30][0]=3309;	MA[18][30][0]=4002;	MA[19][30][0]=4842;	MA[20][30][0]=5734;	MA[21][30][0]=6757;	MA[22][30][0]=7913;	MA[23][30][0]=9206;	MA[24][30][0]=10570;MA[25][30][0]=14233;MA[26][30][0]=18984;MA[27][30][0]=24627;	MA[28][30][0]=30274;	MA[29][30][0]=46897;MA[30][30][0]=64506;
-        MA[16][31][0]=2477;	MA[17][31][0]=3061;	MA[18][31][0]=3702;	MA[19][31][0]=4522;	MA[20][31][0]=5346;	MA[21][31][0]=6302;	MA[22][31][0]=7391;	MA[23][31][0]=8575;	MA[24][31][0]=9777;	MA[25][31][0]=13274;MA[26][31][0]=17731;MA[27][31][0]=22738;	MA[28][31][0]=28092;	MA[29][31][0]=43375;MA[30][31][0]=60246;
-        MA[16][32][0]=2269;	MA[17][32][0]=2831;	MA[18][32][0]=3424;	MA[19][32][0]=4183;	MA[20][32][0]=4905;	MA[21][32][0]=5781;	MA[22][32][0]=6769;	MA[23][32][0]=7846;	MA[24][32][0]=9042;	MA[25][32][0]=12197;MA[26][32][0]=16240;MA[27][32][0]=21030;	MA[28][32][0]=25982;	MA[29][32][0]=40117;MA[30][32][0]=55722;
-        MA[16][33][0]=2058;	MA[17][33][0]=2551;	MA[18][33][0]=3081;	MA[19][33][0]=3794;	MA[20][33][0]=4456;	MA[21][33][0]=5243;	MA[22][33][0]=6140;	MA[23][33][0]=7143;	MA[24][33][0]=8202;	MA[25][33][0]=11080;MA[26][33][0]=14730;MA[27][33][0]=18951;	MA[28][33][0]=23489;	MA[29][33][0]=36387;MA[30][33][0]=50541;
-        MA[16][34][0]=1831;	MA[17][34][0]=2280;	MA[18][34][0]=2744;	MA[19][34][0]=3342;	MA[20][34][0]=3945;	MA[21][34][0]=4633;	MA[22][34][0]=5461;	MA[23][34][0]=6333;	MA[24][34][0]=7224;	MA[25][34][0]=9808;	MA[26][34][0]=13102;MA[27][34][0]=16912;	MA[28][34][0]=20758;	MA[29][34][0]=32052;MA[30][34][0]=44955;
-        MA[16][35][0]=1566;	MA[17][35][0]=1938;	MA[18][35][0]=2340;	MA[19][35][0]=2859;	MA[20][35][0]=3375;	MA[21][35][0]=3964;	MA[22][35][0]=4672;	MA[23][35][0]=5417;	MA[24][35][0]=6180;	MA[25][35][0]=8349;	MA[26][35][0]=11208;MA[27][35][0]=14420;	MA[28][35][0]=17788;	MA[29][35][0]=27418;MA[30][35][0]=38456;
-        MA[16][36][0]=1263;	MA[17][36][0]=1569;	MA[18][36][0]=1885;	MA[19][36][0]=2306;	MA[20][36][0]=2722;	MA[21][36][0]=3211;	MA[22][36][0]=3769;	MA[23][36][0]=4373;	MA[24][36][0]=4986;	MA[25][36][0]=6747;	MA[26][36][0]=8955;	MA[27][36][0]=11579;	MA[28][36][0]=14305;	MA[29][36][0]=22121;MA[30][36][0]=31330;
+        MA[16][0]=46745;	MA[17][0]=57720;	MA[18][0]=68173;	MA[19][0]=83272;	MA[20][0]=97662;	MA[21][0]=0;	    MA[22][0]=0;	    MA[23][0]=0;	    MA[24][0]=0; 	    MA[25][0]=0;     MA[26][0]=0;	    MA[27][0]=0;	        MA[28][0]=0;	        MA[29][0]=0;	    MA[30][0]=0;
+        MA[16][1]=44519;	MA[17][1]=54548;	MA[18][1]=64436;	MA[19][1]=79178;	MA[20][1]=92860;	MA[21][1]=0;	    MA[22][1]=0;	    MA[23][1]=0;	    MA[24][1]=0; 	    MA[25][1]=0;	    MA[26][1]=0;	    MA[27][1]=0;	        MA[28][1]=0;	        MA[29][1]=0;	    MA[30][1]=0;
+        MA[16][2]=41579;	MA[17][2]=51614;	MA[18][2]=60837;	MA[19][2]=74675;	MA[20][2]=87579;	MA[21][2]=0;	    MA[22][2]=0;	    MA[23][2]=0;	    MA[24][2]=0; 	    MA[25][2]=0;	    MA[26][2]=0;	    MA[27][2]=0;	        MA[28][2]=0;	        MA[29][2]=0;	    MA[30][2]=0;
+        MA[16][3]=38833;	MA[17][3]=48212;	MA[18][3]=56820;	MA[19][3]=69744;	MA[20][3]=81796;	MA[21][3]=95931;	MA[22][3]=0;	    MA[23][3]=0;	    MA[24][3]=0;	    MA[25][3]=0;	    MA[26][3]=0; 	MA[27][3]=0; 	    MA[28][3]=0;	        MA[29][3]=0;	    MA[30][3]=0;
+        MA[16][4]=35917;	MA[17][4]=44591;	MA[18][4]=52724;	MA[19][4]=64506;	MA[20][4]=75766;	MA[21][4]=88726;	MA[22][4]=0;	    MA[23][4]=0;	    MA[24][4]=0;	    MA[25][4]=0;	    MA[26][4]=0;	    MA[27][4]=0; 	    MA[28][4]=0;	        MA[29][4]=0;	    MA[30][4]=0;
+        MA[16][5]=32897;	MA[17][5]=40775;	MA[18][5]=48134;	MA[19][5]=58508;	MA[20][5]=68842;	MA[21][5]=81265;	MA[22][5]=95205;	MA[23][5]=0;	    MA[24][5]=0;        MA[25][5]=0;	    MA[26][5]=0;	    MA[27][5]=0;	        MA[28][5]=0;	        MA[29][5]=0;	    MA[30][5]=0;
+        MA[16][6]=29261;	MA[17][6]=36210;	MA[18][6]=42814;	MA[19][6]=52552;	MA[20][6]=61835;	MA[21][6]=72285;	MA[22][6]=84776;	MA[23][6]=0;	    MA[24][6]=0;	    MA[25][6]=0;	    MA[26][6]=0;	    MA[27][6]=0;	        MA[28][6]=0; 	    MA[29][6]=0;	    MA[30][6]=0;
+        MA[16][7]=27329;	MA[17][7]=33985;	MA[18][7]=39987;	MA[19][7]=49242;	MA[20][7]=57752;	MA[21][7]=67731;	MA[22][7]=79178;	MA[23][7]=91498;	MA[24][7]=0; 	    MA[25][7]=0;	    MA[26][7]=0;	    MA[27][7]=0;	        MA[28][7]=0;	        MA[29][7]=0;	    MA[30][7]=0;
+        MA[16][8]=25277;	MA[17][8]=31330;	MA[18][8]=36984;	MA[19][8]=45544;	MA[20][8]=53414;	MA[21][8]=62645;	MA[22][8]=73231;	MA[23][8]=85052;	MA[24][8]=96766;	MA[25][8]=0; 	MA[26][8]=0;	    MA[27][8]=0;	        MA[28][8]=0;	        MA[29][8]=0;	    MA[30][8]=0;
+        MA[16][9]=22926;	MA[17][9]=28556;	MA[18][9]=33874;	MA[19][9]=41309;	MA[20][9]=48678;	MA[21][9]=56820;	MA[22][9]=66639;	MA[23][9]=77144;	MA[24][9]=88150;    MA[25][9]=0;	    MA[26][9]=0;	    MA[27][9]=0;	        MA[28][9]=0;	        MA[29][9]=0;	    MA[30][9]=0;
+        MA[16][10]=20593;   MA[17][10]=25442;   MA[18][10]=30229;   MA[19][10]=37104;   MA[20][10]=43440;   MA[21][10]=51036;   MA[22][10]=59856;   MA[23][10]=69066;   MA[24][10]=79178;   MA[25][10]=0;	MA[26][10]=0;	MA[27][10]=0;	    MA[28][10]=0;	    MA[29][10]=0;    MA[30][10]=0;
+        MA[16][11]=17788;   MA[17][11]=22010;   MA[18][11]=26112;   MA[19][11]=32052;   MA[20][11]=37524;   MA[21][11]=44086;   MA[22][11]=51705;   MA[23][11]=59556;   MA[24][11]=68396;   MA[25][11]=91560;MA[26][11]=0;	MA[27][11]=0;	    MA[28][11]=0;	    MA[29][11]=0;	MA[30][11]=0;
+        MA[16][12]=14492;   MA[17][12]=17873;   MA[18][12]=21343;   MA[19][12]=26112;   MA[20][12]=30670;   MA[21][12]=36034;   MA[22][12]=42124;   MA[23][12]=48606;   MA[24][12]=55903;   MA[25][12]=75030;MA[26][12]=99912;MA[27][12]=0;	    MA[28][12]=0;	    MA[29][12]=0;	MA[30][12]=0;
+        MA[16][13]=13668;   MA[17][13]=16886;   MA[18][13]=20159;   MA[19][13]=24627;   MA[20][13]=28977;   MA[21][13]=33985;   MA[22][13]=39728;   MA[23][13]=46291;   MA[24][13]=52724;   MA[25][13]=70887;MA[26][13]=94076;MA[27][13]=0;	    MA[28][13]=0;	    MA[29][13]=0;	MA[30][13]=0;
+        MA[16][14]=12891;   MA[17][14]=15950;   MA[18][14]=19046;   MA[19][14]=23227;   MA[20][14]=27370;   MA[21][14]=32052;   MA[22][14]=37590;   MA[23][14]=43375;   MA[24][14]=49725;   MA[25][14]=66955;MA[26][14]=88726;MA[27][14]=0;	    MA[28][14]=0;	    MA[29][14]=0;	MA[30][14]=0;
+        MA[16][15]=12039;   MA[17][15]=14826;   MA[18][15]=17846;   MA[19][15]=21693;   MA[20][15]=25646;   MA[21][15]=29935;   MA[22][15]=35108;   MA[23][15]=40643;   MA[24][15]=46442;   MA[25][15]=62238;MA[26][15]=82867;MA[27][15]=0;	    MA[28][15]=0;	    MA[29][15]=0;	MA[30][15]=0;
+        MA[16][16]=11135;   MA[17][16]=13802;   MA[18][16]=16453;   MA[19][16]=20064;   MA[20][16]=23643;   MA[21][16]=27687;   MA[22][16]=32472;   MA[23][16]=37590;   MA[24][16]=42954;   MA[25][16]=57838;MA[26][16]=76395;MA[27][16]=100074;	MA[28][16]=0;	    MA[29][16]=0;	MA[30][16]=0;
+        MA[16][17]=10199;   MA[17][17]=12519;   MA[18][17]=14996;   MA[19][17]=18377;   MA[20][17]=21587;   MA[21][17]=25359;   MA[22][17]=29741;   MA[23][17]=34430;   MA[24][17]=39342;MA[25][17]=52896;MA[26][17]=69744;MA[27][17]=90475;	MA[28][17]=0;	    MA[29][17]=0;	MA[30][17]=0;
+        MA[16][18]=9072;	MA[17][18]=11244;   MA[18][18]=13469;   MA[19][18]=16399;   MA[20][18]=19202;   MA[21][18]=22778;   MA[22][18]=26454;   MA[23][18]=30625;   MA[24][18]=34994;MA[25][18]=47274;MA[26][18]=62645;MA[27][18]=80476;	MA[28][18]=100074;	MA[29][18]=0;	MA[30][18]=0;
+        MA[16][19]=8473;	MA[17][19]=10502;   MA[18][19]=12580;   MA[19][19]=15316;   MA[20][19]=17934;   MA[21][19]=21067;   MA[22][19]=24708;   MA[23][19]=28603;   MA[24][19]=32683;MA[25][19]=44296;MA[26][19]=58508;MA[27][19]=75030;	MA[28][19]=93062;	MA[29][19]=0;	MA[30][19]=0;
+        MA[16][20]=7836;	MA[17][20]=9745;	MA[18][20]=11654;   MA[19][20]=14166;   MA[20][20]=16750;   MA[21][20]=19485;   MA[22][20]=22852;   MA[23][20]=26454;   MA[24][20]=30229;MA[25][20]=40836;MA[26][20]=54290;MA[27][20]=69744;	MA[28][20]=85607;	MA[29][20]=0;	MA[30][20]=0;
+        MA[16][21]=7108;	MA[17][21]=8839;	MA[18][21]=10553;   MA[19][21]=12849;   MA[20][21]=15167;   MA[21][21]=17905;   MA[22][21]=20930;   MA[23][21]=24187;   MA[24][21]=27777;MA[25][21]=37347;MA[26][21]=49242;MA[27][21]=63767;	MA[28][21]=78409;	MA[29][21]=0;	MA[30][21]=0;
+        MA[16][22]=6384;	MA[17][22]=7836;	MA[18][22]=9479;	MA[19][22]=11541;   MA[20][22]=13646;   MA[21][22]=15926;   MA[22][22]=18678;   MA[23][22]=21622;   MA[24][22]=24708;MA[25][22]=33328;MA[26][22]=43943;MA[27][22]=56905;	MA[28][22]=69744;	MA[29][22]=0;	MA[30][22]=0;
+        MA[16][23]=5461;	MA[17][23]=6769;	MA[18][23]=8162;	MA[19][23]=9969;	MA[20][23]=11788;   MA[21][23]=13757;   MA[22][23]=16135;   MA[23][23]=18678;   MA[24][23]=21343;MA[25][23]=28836;MA[26][23]=37959;MA[27][23]=49156;	MA[28][23]=60443;	MA[29][23]=92860;MA[30][23]=0;
+        MA[16][24]=4363;	MA[17][24]=5461;	MA[18][24]=6575;	MA[19][24]=8043;	MA[20][24]=9485;	MA[21][24]=11116;   MA[22][24]=13017;   MA[23][24]=15069;   MA[24][24]=17388;MA[25][24]=23493;MA[26][24]=31275;MA[27][24]=40052;	MA[28][24]=49242;	MA[29][24]=75653;MA[30][24]=0;
+        MA[16][25]=4115;	MA[17][25]=5101;	MA[18][25]=6190;	MA[19][25]=7512;	MA[20][25]=8940;	MA[21][25]=10468;   MA[22][25]=12277;   MA[23][25]=14212;   MA[24][25]=16240;MA[25][25]=22157;MA[26][25]=29548;MA[27][25]=37774;	MA[28][25]=46442;	MA[29][25]=71350;MA[30][25]=98353;
+        MA[16][26]=3881;	MA[17][26]=4811;	MA[18][26]=5818;	MA[19][26]=7085;	MA[20][26]=8328;	MA[21][26]=9791;	MA[22][26]=11466;   MA[23][26]=13360;   MA[24][26]=15316;MA[25][26]=20693;MA[26][26]=27549;MA[27][26]=35611;	MA[28][26]=43800;	MA[29][26]=67292;MA[30][26]=92558;
+        MA[16][27]=3590;	MA[17][27]=4449;	MA[18][27]=5381;	MA[19][27]=6617;	MA[20][27]=7786;	MA[21][27]=9131;	MA[22][27]=10709;   MA[23][27]=12456;   MA[24][27]=14305;MA[25][27]=19277;MA[26][27]=25729;MA[27][27]=33058;	MA[28][27]=40908;	MA[29][27]=62849;MA[30][27]=86447;
+        MA[16][28]=3320;	MA[17][28]=4121;	MA[18][28]=4970;	MA[19][28]=6061;	MA[20][28]=7124;	MA[21][28]=8445;	MA[22][28]=9905;	MA[23][28]=11429;   MA[24][28]=13102;MA[25][28]=17829;MA[26][28]=23762;MA[27][28]=30563;	MA[28][28]=37468;	MA[29][28]=58129;MA[30][28]=79178;
+        MA[16][29]=2982;	MA[17][29]=3745;	MA[18][29]=4513;	MA[19][29]=5497;	MA[20][29]=6478;	MA[21][29]=7610;	MA[22][29]=8896;	MA[23][29]=10382;   MA[24][29]=11884;MA[25][29]=16066;MA[26][29]=21444;MA[27][29]=27549;	MA[28][29]=34318;	MA[29][29]=52724;MA[30][29]=72520;
+        MA[16][30]=2653;	MA[17][30]=3309;	MA[18][30]=4002;	MA[19][30]=4842;	MA[20][30]=5734;	MA[21][30]=6757;	MA[22][30]=7913;	MA[23][30]=9206;	MA[24][30]=10570;MA[25][30]=14233;MA[26][30]=18984;MA[27][30]=24627;	MA[28][30]=30274;	MA[29][30]=46897;MA[30][30]=64506;
+        MA[16][31]=2477;	MA[17][31]=3061;	MA[18][31]=3702;	MA[19][31]=4522;	MA[20][31]=5346;	MA[21][31]=6302;	MA[22][31]=7391;	MA[23][31]=8575;	MA[24][31]=9777;	MA[25][31]=13274;MA[26][31]=17731;MA[27][31]=22738;	MA[28][31]=28092;	MA[29][31]=43375;MA[30][31]=60246;
+        MA[16][32]=2269;	MA[17][32]=2831;	MA[18][32]=3424;	MA[19][32]=4183;	MA[20][32]=4905;	MA[21][32]=5781;	MA[22][32]=6769;	MA[23][32]=7846;	MA[24][32]=9042;	MA[25][32]=12197;MA[26][32]=16240;MA[27][32]=21030;	MA[28][32]=25982;	MA[29][32]=40117;MA[30][32]=55722;
+        MA[16][33]=2058;	MA[17][33]=2551;	MA[18][33]=3081;	MA[19][33]=3794;	MA[20][33]=4456;	MA[21][33]=5243;	MA[22][33]=6140;	MA[23][33]=7143;	MA[24][33]=8202;	MA[25][33]=11080;MA[26][33]=14730;MA[27][33]=18951;	MA[28][33]=23489;	MA[29][33]=36387;MA[30][33]=50541;
+        MA[16][34]=1831;	MA[17][34]=2280;	MA[18][34]=2744;	MA[19][34]=3342;	MA[20][34]=3945;	MA[21][34]=4633;	MA[22][34]=5461;	MA[23][34]=6333;	MA[24][34]=7224;	MA[25][34]=9808;	MA[26][34]=13102;MA[27][34]=16912;	MA[28][34]=20758;	MA[29][34]=32052;MA[30][34]=44955;
+        MA[16][35]=1566;	MA[17][35]=1938;	MA[18][35]=2340;	MA[19][35]=2859;	MA[20][35]=3375;	MA[21][35]=3964;	MA[22][35]=4672;	MA[23][35]=5417;	MA[24][35]=6180;	MA[25][35]=8349;	MA[26][35]=11208;MA[27][35]=14420;	MA[28][35]=17788;	MA[29][35]=27418;MA[30][35]=38456;
+        MA[16][36]=1263;	MA[17][36]=1569;	MA[18][36]=1885;	MA[19][36]=2306;	MA[20][36]=2722;	MA[21][36]=3211;	MA[22][36]=3769;	MA[23][36]=4373;	MA[24][36]=4986;	MA[25][36]=6747;	MA[26][36]=8955;	MA[27][36]=11579;	MA[28][36]=14305;	MA[29][36]=22121;MA[30][36]=31330;
+
+
+
+
+
 
 
 
@@ -1235,117 +1243,117 @@ public class DimDucto extends AppCompatActivity {
 
     public void valores_2() { //Valores de la matriz, [velocidad][filas][perdida(0),flujo(1)]
 
-        VEL[0][0][0]=0;	VEL[1][0][0]=0;	VEL[2][0][0]=0;	VEL[3][0][0]=0;	VEL[4][0][0]=0;	VEL[5][0][0]=0;	VEL[6][0][0]=0;	VEL[7][0][0]=0;	VEL[8][0][0]=0;	VEL[9][0][0]=0;
-        VEL[0][1][0]=0;	VEL[1][1][0]=0;	VEL[2][1][0]=0;	VEL[3][1][0]=0;	VEL[4][1][0]=0;	VEL[5][1][0]=0;	VEL[6][1][0]=0;	VEL[7][1][0]=0;	VEL[8][1][0]=0;	VEL[9][1][0]=0;
-        VEL[0][2][0]=0;	VEL[1][2][0]=0;	VEL[2][2][0]=0;	VEL[3][2][0]=0;	VEL[4][2][0]=0;	VEL[5][2][0]=0;	VEL[6][2][0]=0;	VEL[7][2][0]=0;	VEL[8][2][0]=0;	VEL[9][2][0]=0;
-        VEL[0][3][0]=0;	VEL[1][3][0]=0;	VEL[2][3][0]=0;	VEL[3][3][0]=0;	VEL[4][3][0]=0;	VEL[5][3][0]=0;	VEL[6][3][0]=0;	VEL[7][3][0]=0;	VEL[8][3][0]=0;	VEL[9][3][0]=0;
-        VEL[0][4][0]=0;	VEL[1][4][0]=0;	VEL[2][4][0]=0;	VEL[3][4][0]=0;	VEL[4][4][0]=0;	VEL[5][4][0]=0;	VEL[6][4][0]=0;	VEL[7][4][0]=0;	VEL[8][4][0]=0;	VEL[9][4][0]=0;
-        VEL[0][5][0]=0;	VEL[1][5][0]=0;	VEL[2][5][0]=0;	VEL[3][5][0]=0;	VEL[4][5][0]=0;	VEL[5][5][0]=0;	VEL[6][5][0]=0;	VEL[7][5][0]=0;	VEL[8][5][0]=0;	VEL[9][5][0]=0;
-        VEL[0][6][0]=0;	VEL[1][6][0]=0;	VEL[2][6][0]=0;	VEL[3][6][0]=0;	VEL[4][6][0]=0;	VEL[5][6][0]=0;	VEL[6][6][0]=0;	VEL[7][6][0]=0;	VEL[8][6][0]=0;	VEL[9][6][0]=0;
-        VEL[0][7][0]=0;	VEL[1][7][0]=0;	VEL[2][7][0]=0;	VEL[3][7][0]=0;	VEL[4][7][0]=0;	VEL[5][7][0]=0;	VEL[6][7][0]=0;	VEL[7][7][0]=0;	VEL[8][7][0]=0;	VEL[9][7][0]=0;
-        VEL[0][8][0]=0;	VEL[1][8][0]=0;	VEL[2][8][0]=0;	VEL[3][8][0]=0;	VEL[4][8][0]=0;	VEL[5][8][0]=0;	VEL[6][8][0]=0;	VEL[7][8][0]=0;	VEL[8][8][0]=0;	VEL[9][8][0]=11;
-        VEL[0][9][0]=0;	VEL[1][9][0]=0;	VEL[2][9][0]=0;	VEL[3][9][0]=0;	VEL[4][9][0]=0;	VEL[5][9][0]=0;	VEL[6][9][0]=0;	VEL[7][9][0]=0;	VEL[8][9][0]=0;	VEL[9][9][0]=14;
-        VEL[0][10][0]=0;	VEL[1][10][0]=0;	VEL[2][10][0]=0;	VEL[3][10][0]=0;	VEL[4][10][0]=0;	VEL[5][10][0]=0;	VEL[6][10][0]=0;	VEL[7][10][0]=0;	VEL[8][10][0]=10;	VEL[9][10][0]=20;
-        VEL[0][11][0]=0;	VEL[1][11][0]=0;	VEL[2][11][0]=0;	VEL[3][11][0]=0;	VEL[4][11][0]=0;	VEL[5][11][0]=0;	VEL[6][11][0]=0;	VEL[7][11][0]=10;	VEL[8][11][0]=15;	VEL[9][11][0]=31;
-        VEL[0][12][0]=0;	VEL[1][12][0]=0;	VEL[2][12][0]=0;	VEL[3][12][0]=0;	VEL[4][12][0]=0;	VEL[5][12][0]=0;	VEL[6][12][0]=12;	VEL[7][12][0]=19;	VEL[8][12][0]=29;	VEL[9][12][0]=59;
-        VEL[0][13][0]=0;	VEL[1][13][0]=0;	VEL[2][13][0]=0;	VEL[3][13][0]=0;	VEL[4][13][0]=0;	VEL[5][13][0]=0;	VEL[6][13][0]=14;	VEL[7][13][0]=23;	VEL[8][13][0]=34;	VEL[9][13][0]=69;
-        VEL[0][14][0]=0;	VEL[1][14][0]=0;	VEL[2][14][0]=0;	VEL[3][14][0]=0;	VEL[4][14][0]=0;	VEL[5][14][0]=11;	VEL[6][14][0]=17;	VEL[7][14][0]=27;	VEL[8][14][0]=41;	VEL[9][14][0]=83;
-        VEL[0][15][0]=0;	VEL[1][15][0]=0;	VEL[2][15][0]=0;	VEL[3][15][0]=0;	VEL[4][15][0]=0;	VEL[5][15][0]=13;	VEL[6][15][0]=21;	VEL[7][15][0]=33;	VEL[8][15][0]=50;	VEL[9][15][0]=103;
-        VEL[0][16][0]=0;	VEL[1][16][0]=0;	VEL[2][16][0]=0;	VEL[3][16][0]=0;	VEL[4][16][0]=0;	VEL[5][16][0]=17;	VEL[6][16][0]=27;	VEL[7][16][0]=42;	VEL[8][16][0]=64;	VEL[9][16][0]=132;
-        VEL[0][17][0]=0;	VEL[1][17][0]=0;	VEL[2][17][0]=0;	VEL[3][17][0]=0;	VEL[4][17][0]=11;	VEL[5][17][0]=22;	VEL[6][17][0]=35;	VEL[7][17][0]=56;	VEL[8][17][0]=86;	VEL[9][17][0]=177;
-        VEL[0][18][0]=0;	VEL[1][18][0]=0;	VEL[2][18][0]=0;	VEL[3][18][0]=0;	VEL[4][18][0]=16;	VEL[5][18][0]=30;	VEL[6][18][0]=50;	VEL[7][18][0]=80;	VEL[8][18][0]=121;	VEL[9][18][0]=252;
-        VEL[0][19][0]=11;	VEL[1][19][0]=0;	VEL[2][19][0]=0;	VEL[3][19][0]=0;	VEL[4][19][0]=20;	VEL[5][19][0]=37;	VEL[6][19][0]=62;	VEL[7][19][0]=99;	VEL[8][19][0]=151;	VEL[9][19][0]=310;
-        VEL[0][20][0]=14;	VEL[1][20][0]=0;	VEL[2][20][0]=0;	VEL[3][20][0]=13;	VEL[4][20][0]=26;	VEL[5][20][0]=47;	VEL[6][20][0]=79;	VEL[7][20][0]=126;	VEL[8][20][0]=192;	VEL[9][20][0]=396;
-        VEL[0][21][0]=19;	VEL[1][21][0]=0;	VEL[2][21][0]=0;	VEL[3][21][0]=17;	VEL[4][21][0]=34;	VEL[5][21][0]=61;	VEL[6][21][0]=105;	VEL[7][21][0]=168;	VEL[8][21][0]=257;	VEL[9][21][0]=533;
-        VEL[0][22][0]=27;	VEL[1][22][0]=0;	VEL[2][22][0]=10;	VEL[3][22][0]=23;	VEL[4][22][0]=48;	VEL[5][22][0]=88;	VEL[6][22][0]=151;	VEL[7][22][0]=240;	VEL[8][22][0]=368;	VEL[9][22][0]=769;
-        VEL[0][23][0]=42;	VEL[1][23][0]=0;	VEL[2][23][0]=16;	VEL[3][23][0]=37;	VEL[4][23][0]=76;	VEL[5][23][0]=139;	VEL[6][23][0]=242;	VEL[7][23][0]=382;	VEL[8][23][0]=588;	VEL[9][23][0]=1230;
-        VEL[0][24][0]=77;	VEL[1][24][0]=10;	VEL[2][24][0]=31;	VEL[3][24][0]=69;	VEL[4][24][0]=146;	VEL[5][24][0]=264;	VEL[6][24][0]=458;	VEL[7][24][0]=745;	VEL[8][24][0]=1126;	VEL[9][24][0]=2340;
-        VEL[1][25][0]=12;	VEL[2][25][0]=36;	VEL[3][25][0]=82;	VEL[4][25][0]=173;	VEL[5][25][0]=315;	VEL[6][25][0]=466;	VEL[7][25][0]=879;	VEL[8][25][0]=1345;	VEL[9][25][0]=2804;
-        VEL[1][26][0]=14;	VEL[2][26][0]=43;	VEL[3][26][0]=100;	VEL[4][26][0]=209;	VEL[5][26][0]=380;	VEL[6][26][0]=666;	VEL[7][26][0]=1058;	VEL[8][26][0]=1646;	VEL[9][26][0]=3393;
-        VEL[1][27][0]=18;	VEL[2][27][0]=52;	VEL[3][27][0]=124;	VEL[4][27][0]=258;	VEL[5][27][0]=474;	VEL[6][27][0]=829;	VEL[7][27][0]=1325;	VEL[8][27][0]=2045;	VEL[9][27][0]=4233;
-        VEL[1][28][0]=23;	VEL[2][28][0]=68;	VEL[3][28][0]=159;	VEL[4][28][0]=332;	VEL[5][28][0]=605;	VEL[6][28][0]=1066;	VEL[7][28][0]=1700;	VEL[8][28][0]=2629;	VEL[9][28][0]=5489;
-        VEL[1][29][0]=30;	VEL[2][29][0]=89;	VEL[3][29][0]=212;	VEL[4][29][0]=445;	VEL[5][29][0]=816;	VEL[6][29][0]=1434;	VEL[7][29][0]=2279;	VEL[8][29][0]=3526;	VEL[9][29][0]=7497;
-        VEL[1][30][0]=43;	VEL[2][30][0]=127;	VEL[3][30][0]=303;	VEL[4][30][0]=642;	VEL[5][30][0]=1187;	VEL[6][30][0]=2067;	VEL[7][30][0]=3281;	VEL[8][30][0]=5106;	VEL[9][30][0]=10862;
-        VEL[1][31][0]=53;	VEL[2][31][0]=157;	VEL[3][31][0]=373;	VEL[4][31][0]=798;	VEL[5][31][0]=1470;	VEL[6][31][0]=2568;	VEL[7][31][0]=4092;	VEL[8][31][0]=6287;	VEL[9][31][0]=13507;
-        VEL[1][32][0]=67;	VEL[2][32][0]=200;	VEL[3][32][0]=479;	VEL[4][32][0]=1018;	VEL[5][32][0]=1892;	VEL[6][32][0]=3294;	VEL[7][32][0]=5258;	VEL[8][32][0]=8118;	VEL[9][32][0]=17478;
-        VEL[1][33][0]=90;	VEL[2][33][0]=265;	VEL[3][33][0]=644;	VEL[4][33][0]=1381;	VEL[5][33][0]=2562;	VEL[6][33][0]=4457;	VEL[7][33][0]=7135;	VEL[8][33][0]=10966;	VEL[9][33][0]=23733;
-        VEL[1][34][0]=128;	VEL[2][34][0]=384;	VEL[3][34][0]=926;	VEL[4][34][0]=1975;	VEL[5][34][0]=3681;	VEL[6][34][0]=6476;	VEL[7][34][0]=10219;	VEL[8][34][0]=15799;	VEL[9][34][0]=35076;
-        VEL[1][35][0]=200;	VEL[2][35][0]=613;	VEL[3][35][0]=1493;	VEL[4][35][0]=3193;	VEL[5][35][0]=5919;	VEL[6][35][0]=10265;	VEL[7][35][0]=16336;	VEL[8][35][0]=25650;	VEL[9][35][0]=55224;
-        VEL[1][36][0]=375;	VEL[2][36][0]=1172;	VEL[3][36][0]=2927;	VEL[4][36][0]=6108;	VEL[5][36][0]=11576;	VEL[6][36][0]=19916;	VEL[7][36][0]=31486;	VEL[8][36][0]=49335;	VEL[9][36][0]=99145;
+        VEL[0][0]=0;	VEL[1][0]=0;	VEL[2][0]=0;	VEL[3][0]=0;	VEL[4][0]=0;	VEL[5][0]=0;	VEL[6][0]=0;	VEL[7][0]=0;	VEL[8][0]=0;	VEL[9][0]=0;
+        VEL[0][1]=0;	VEL[1][1]=0;	VEL[2][1]=0;	VEL[3][1]=0;	VEL[4][1]=0;	VEL[5][1]=0;	VEL[6][1]=0;	VEL[7][1]=0;	VEL[8][1]=0;	VEL[9][1]=0;
+        VEL[0][2]=0;	VEL[1][2]=0;	VEL[2][2]=0;	VEL[3][2]=0;	VEL[4][2]=0;	VEL[5][2]=0;	VEL[6][2]=0;	VEL[7][2]=0;	VEL[8][2]=0;	VEL[9][2]=0;
+        VEL[0][3]=0;	VEL[1][3]=0;	VEL[2][3]=0;	VEL[3][3]=0;	VEL[4][3]=0;	VEL[5][3]=0;	VEL[6][3]=0;	VEL[7][3]=0;	VEL[8][3]=0;	VEL[9][3]=0;
+        VEL[0][4]=0;	VEL[1][4]=0;	VEL[2][4]=0;	VEL[3][4]=0;	VEL[4][4]=0;	VEL[5][4]=0;	VEL[6][4]=0;	VEL[7][4]=0;	VEL[8][4]=0;	VEL[9][4]=0;
+        VEL[0][5]=0;	VEL[1][5]=0;	VEL[2][5]=0;	VEL[3][5]=0;	VEL[4][5]=0;	VEL[5][5]=0;	VEL[6][5]=0;	VEL[7][5]=0;	VEL[8][5]=0;	VEL[9][5]=0;
+        VEL[0][6]=0;	VEL[1][6]=0;	VEL[2][6]=0;	VEL[3][6]=0;	VEL[4][6]=0;	VEL[5][6]=0;	VEL[6][6]=0;	VEL[7][6]=0;	VEL[8][6]=0;	VEL[9][6]=0;
+        VEL[0][7]=0;	VEL[1][7]=0;	VEL[2][7]=0;	VEL[3][7]=0;	VEL[4][7]=0;	VEL[5][7]=0;	VEL[6][7]=0;	VEL[7][7]=0;	VEL[8][7]=0;	VEL[9][7]=0;
+        VEL[0][8]=0;	VEL[1][8]=0;	VEL[2][8]=0;	VEL[3][8]=0;	VEL[4][8]=0;	VEL[5][8]=0;	VEL[6][8]=0;	VEL[7][8]=0;	VEL[8][8]=0;	VEL[9][8]=11;
+        VEL[0][9]=0;	VEL[1][9]=0;	VEL[2][9]=0;	VEL[3][9]=0;	VEL[4][9]=0;	VEL[5][9]=0;	VEL[6][9]=0;	VEL[7][9]=0;	VEL[8][9]=0;	VEL[9][9]=14;
+        VEL[0][10]=0;	VEL[1][10]=0;	VEL[2][10]=0;	VEL[3][10]=0;	VEL[4][10]=0;	VEL[5][10]=0;	VEL[6][10]=0;	VEL[7][10]=0;	VEL[8][10]=10;	VEL[9][10]=20;
+        VEL[0][11]=0;	VEL[1][11]=0;	VEL[2][11]=0;	VEL[3][11]=0;	VEL[4][11]=0;	VEL[5][11]=0;	VEL[6][11]=0;	VEL[7][11]=10;	VEL[8][11]=15;	VEL[9][11]=31;
+        VEL[0][12]=0;	VEL[1][12]=0;	VEL[2][12]=0;	VEL[3][12]=0;	VEL[4][12]=0;	VEL[5][12]=0;	VEL[6][12]=12;	VEL[7][12]=19;	VEL[8][12]=29;	VEL[9][12]=59;
+        VEL[0][13]=0;	VEL[1][13]=0;	VEL[2][13]=0;	VEL[3][13]=0;	VEL[4][13]=0;	VEL[5][13]=0;	VEL[6][13]=14;	VEL[7][13]=23;	VEL[8][13]=34;	VEL[9][13]=69;
+        VEL[0][14]=0;	VEL[1][14]=0;	VEL[2][14]=0;	VEL[3][14]=0;	VEL[4][14]=0;	VEL[5][14]=11;	VEL[6][14]=17;	VEL[7][14]=27;	VEL[8][14]=41;	VEL[9][14]=83;
+        VEL[0][15]=0;	VEL[1][15]=0;	VEL[2][15]=0;	VEL[3][15]=0;	VEL[4][15]=0;	VEL[5][15]=13;	VEL[6][15]=21;	VEL[7][15]=33;	VEL[8][15]=50;	VEL[9][15]=103;
+        VEL[0][16]=0;	VEL[1][16]=0;	VEL[2][16]=0;	VEL[3][16]=0;	VEL[4][16]=0;	VEL[5][16]=17;	VEL[6][16]=27;	VEL[7][16]=42;	VEL[8][16]=64;	VEL[9][16]=132;
+        VEL[0][17]=0;	VEL[1][17]=0;	VEL[2][17]=0;	VEL[3][17]=0;	VEL[4][17]=11;	VEL[5][17]=22;	VEL[6][17]=35;	VEL[7][17]=56;	VEL[8][17]=86;	VEL[9][17]=177;
+        VEL[0][18]=0;	VEL[1][18]=0;	VEL[2][18]=0;	VEL[3][18]=0;	VEL[4][18]=16;	VEL[5][18]=30;	VEL[6][18]=50;	VEL[7][18]=80;	VEL[8][18]=121;	VEL[9][18]=252;
+        VEL[0][19]=0;	VEL[1][19]=0;	VEL[2][19]=0;	VEL[3][19]=0;	VEL[4][19]=20;	VEL[5][19]=37;	VEL[6][19]=62;	VEL[7][19]=99;	VEL[8][19]=151;	VEL[9][19]=310;
+        VEL[0][20]=0;	VEL[1][20]=0;	VEL[2][20]=0;	VEL[3][20]=13;	VEL[4][20]=26;	VEL[5][20]=47;	VEL[6][20]=79;	VEL[7][20]=126;	VEL[8][20]=192;	VEL[9][20]=396;
+        VEL[0][21]=0;	VEL[1][21]=0;	VEL[2][21]=0;	VEL[3][21]=17;	VEL[4][21]=34;	VEL[5][21]=61;	VEL[6][21]=105;	VEL[7][21]=168;	VEL[8][21]=257;	VEL[9][21]=533;
+        VEL[0][22]=0;	VEL[1][22]=0;	VEL[2][22]=10;	VEL[3][22]=23;	VEL[4][22]=48;	VEL[5][22]=88;	VEL[6][22]=151;	VEL[7][22]=240;	VEL[8][22]=368;	VEL[9][22]=769;
+        VEL[0][23]=0;	VEL[1][23]=0;	VEL[2][23]=16;	VEL[3][23]=37;	VEL[4][23]=76;	VEL[5][23]=139;	VEL[6][23]=242;	VEL[7][23]=382;	VEL[8][23]=588;	VEL[9][23]=1230;
+        VEL[0][24]=0;	VEL[1][24]=10;	VEL[2][24]=31;	VEL[3][24]=69;	VEL[4][24]=146;	VEL[5][24]=264;	VEL[6][24]=458;	VEL[7][24]=745;	VEL[8][24]=1126;	VEL[9][24]=2340;
+        VEL[0][25]=0;   VEL[1][25]=12;	VEL[2][25]=36;	VEL[3][25]=82;	VEL[4][25]=173;	VEL[5][25]=315;	VEL[6][25]=466;	VEL[7][25]=879;	VEL[8][25]=1345;	VEL[9][25]=2804;
+        VEL[0][26]=0;   VEL[1][26]=14;	VEL[2][26]=43;	VEL[3][26]=100;	VEL[4][26]=209;	VEL[5][26]=380;	VEL[6][26]=666;	VEL[7][26]=1058;	VEL[8][26]=1646;	VEL[9][26]=3393;
+        VEL[0][27]=0;   VEL[1][27]=18;	VEL[2][27]=52;	VEL[3][27]=124;	VEL[4][27]=258;	VEL[5][27]=474;	VEL[6][27]=829;	VEL[7][27]=1325;	VEL[8][27]=2045;	VEL[9][27]=4233;
+        VEL[0][28]=0;   VEL[1][28]=23;	VEL[2][28]=68;	VEL[3][28]=159;	VEL[4][28]=332;	VEL[5][28]=605;	VEL[6][28]=1066;	VEL[7][28]=1700;	VEL[8][28]=2629;	VEL[9][28]=5489;
+        VEL[0][29]=0;   VEL[1][29]=30;	VEL[2][29]=89;	VEL[3][29]=212;	VEL[4][29]=445;	VEL[5][29]=816;	VEL[6][29]=1434;	VEL[7][29]=2279;	VEL[8][29]=3526;	VEL[9][29]=7497;
+        VEL[0][30]=10;  VEL[1][30]=43;	VEL[2][30]=127;	VEL[3][30]=303;	VEL[4][30]=642;	VEL[5][30]=1187;	VEL[6][30]=2067;	VEL[7][30]=3281;	VEL[8][30]=5106;	VEL[9][30]=10862;
+        VEL[0][31]=11;  VEL[1][31]=53;	VEL[2][31]=157;	VEL[3][31]=373;	VEL[4][31]=798;	VEL[5][31]=1470;	VEL[6][31]=2568;	VEL[7][31]=4092;	VEL[8][31]=6287;	VEL[9][31]=13507;
+        VEL[0][32]=14;  VEL[1][32]=67;	VEL[2][32]=200;	VEL[3][32]=479;	VEL[4][32]=1018;	VEL[5][32]=1892;	VEL[6][32]=3294;	VEL[7][32]=5258;	VEL[8][32]=8118;	VEL[9][32]=17478;
+        VEL[0][33]=19;  VEL[1][33]=90;	VEL[2][33]=265;	VEL[3][33]=644;	VEL[4][33]=1381;	VEL[5][33]=2562;	VEL[6][33]=4457;	VEL[7][33]=7135;	VEL[8][33]=10966;	VEL[9][33]=23733;
+        VEL[0][34]=27;  VEL[1][34]=128;	VEL[2][34]=384;	VEL[3][34]=926;	VEL[4][34]=1975;	VEL[5][34]=3681;	VEL[6][34]=6476;	VEL[7][34]=10219;	VEL[8][34]=15799;	VEL[9][34]=35076;
+        VEL[0][35]=42;  VEL[1][35]=200;	VEL[2][35]=613;	VEL[3][35]=1493;	VEL[4][35]=3193;	VEL[5][35]=5919;	VEL[6][35]=10265;	VEL[7][35]=16336;	VEL[8][35]=25650;	VEL[9][35]=55224;
+        VEL[0][36]=77;  VEL[1][36]=375;	VEL[2][36]=1172;	VEL[3][36]=2927;	VEL[4][36]=6108;	VEL[5][36]=11576;	VEL[6][36]=19916;	VEL[7][36]=31486;	VEL[8][36]=49335;	VEL[9][36]=99145;
 
-        VEL[10][0][0]=0;	VEL[11][0][0]=0;	VEL[12][0][0]=0;	VEL[13][0][0]=0;	VEL[14][0][0]=19;	VEL[15][0][0]=26;	VEL[16][0][0]=35;	VEL[17][0][0]=49;	VEL[18][0][0]=61;	VEL[19][0][0]=81;
-        VEL[10][1][0]=0;	VEL[11][1][0]=0;	VEL[12][1][0]=10;	VEL[13][1][0]=15;	VEL[14][1][0]=21;	VEL[15][1][0]=30;	VEL[16][1][0]=40;	VEL[17][1][0]=55;	VEL[18][1][0]=70;	VEL[19][1][0]=93;
-        VEL[10][2][0]=0;	VEL[11][2][0]=0;	VEL[12][2][0]=12;	VEL[13][2][0]=18;	VEL[14][2][0]=25;	VEL[15][2][0]=35;	VEL[16][2][0]=48;	VEL[17][2][0]=66;	VEL[18][2][0]=85;	VEL[19][2][0]=113;
-        VEL[10][3][0]=0;	VEL[11][3][0]=0;	VEL[12][3][0]=15;	VEL[13][3][0]=22;	VEL[14][3][0]=31;	VEL[15][3][0]=43;	VEL[16][3][0]=59;	VEL[17][3][0]=82;	VEL[18][3][0]=104;	VEL[19][3][0]=140;
-        VEL[10][4][0]=0;	VEL[11][4][0]=11;	VEL[12][4][0]=18;	VEL[13][4][0]=27;	VEL[14][4][0]=39;	VEL[15][4][0]=55;	VEL[16][4][0]=75;	VEL[17][4][0]=103;	VEL[18][4][0]=133;	VEL[19][4][0]=175;
-        VEL[10][5][0]=0;	VEL[11][5][0]=15;	VEL[12][5][0]=24;	VEL[13][5][0]=36;	VEL[14][5][0]=51;	VEL[15][5][0]=72;	VEL[16][5][0]=100;	VEL[17][5][0]=138;	VEL[18][5][0]=180;	VEL[19][5][0]=238;
-        VEL[10][6][0]=13;	VEL[11][6][0]=21;	VEL[12][6][0]=34;	VEL[13][6][0]=50;	VEL[14][6][0]=72;	VEL[15][6][0]=101;	VEL[16][6][0]=142;	VEL[17][6][0]=195;	VEL[18][6][0]=256;	VEL[19][6][0]=339;
-        VEL[10][7][0]=16;	VEL[11][7][0]=26;	VEL[12][7][0]=41;	VEL[13][7][0]=61;	VEL[14][7][0]=88;	VEL[15][7][0]=123;	VEL[16][7][0]=175;	VEL[17][7][0]=239;	VEL[18][7][0]=318;	VEL[19][7][0]=417;
-        VEL[10][8][0]=20;	VEL[11][8][0]=33;	VEL[12][8][0]=52;	VEL[13][8][0]=78;	VEL[14][8][0]=112;	VEL[15][8][0]=159;	VEL[16][8][0]=222;	VEL[17][8][0]=308;	VEL[18][8][0]=407;	VEL[19][8][0]=533;
-        VEL[10][9][0]=26;	VEL[11][9][0]=44;	VEL[12][9][0]=68;	VEL[13][9][0]=103;	VEL[14][9][0]=149;	VEL[15][9][0]=212;	VEL[16][9][0]=299;	VEL[17][9][0]=410;	VEL[18][9][0]=546;	VEL[19][9][0]=715;
-        VEL[10][10][0]=37;	VEL[11][10][0]=61;	VEL[12][10][0]=96;	VEL[13][10][0]=145;	VEL[14][10][0]=213;	VEL[15][10][0]=303;	VEL[16][10][0]=432;	VEL[17][10][0]=587;	VEL[18][10][0]=782;	VEL[19][10][0]=1025;
-        VEL[10][11][0]=58;	VEL[11][11][0]=96;	VEL[12][11][0]=154;	VEL[13][11][0]=230;	VEL[14][11][0]=339;	VEL[15][11][0]=481;	VEL[16][11][0]=689;	VEL[17][11][0]=930;	VEL[18][11][0]=1249;	VEL[19][11][0]=1657;
-        VEL[10][12][0]=109;	VEL[11][12][0]=183;	VEL[12][12][0]=295;	VEL[13][12][0]=441;	VEL[14][12][0]=657;	VEL[15][12][0]=934;	VEL[16][12][0]=1333;	VEL[17][12][0]=1813;	VEL[18][12][0]=2470;	VEL[19][12][0]=3246;
-        VEL[10][13][0]=129;	VEL[11][13][0]=218;	VEL[12][13][0]=351;	VEL[13][13][0]=530;	VEL[14][13][0]=779;	VEL[15][13][0]=1113;	VEL[16][13][0]=1578;	VEL[17][13][0]=2174;	VEL[18][13][0]=2941;	VEL[19][13][0]=3810;
-        VEL[10][14][0]=156;	VEL[11][14][0]=262;	VEL[12][14][0]=427;	VEL[13][14][0]=643;	VEL[14][14][0]=943;	VEL[15][14][0]=1360;	VEL[16][14][0]=1931;	VEL[17][14][0]=2634;	VEL[18][14][0]=3580;	VEL[19][14][0]=4647;
-        VEL[10][15][0]=191;	VEL[11][15][0]=325;	VEL[12][15][0]=524;	VEL[13][15][0]=797;	VEL[14][15][0]=1185;	VEL[15][15][0]=1704;	VEL[16][15][0]=2414;	VEL[17][15][0]=3306;	VEL[18][15][0]=4482;	VEL[19][15][0]=5780;
-        VEL[10][16][0]=245;	VEL[11][16][0]=415;	VEL[12][16][0]=672;	VEL[13][16][0]=1037;	VEL[14][16][0]=1523;	VEL[15][16][0]=2199;	VEL[16][16][0]=3131;	VEL[17][16][0]=4247;	VEL[18][16][0]=5837;	VEL[19][16][0]=7528;
-        VEL[10][17][0]=330;	VEL[11][17][0]=558;	VEL[12][17][0]=902;	VEL[13][17][0]=1403;	VEL[14][17][0]=2064;	VEL[15][17][0]=2947;	VEL[16][17][0]=4214;	VEL[17][17][0]=5747;	VEL[18][17][0]=7808;	VEL[19][17][0]=10154;
-        VEL[10][18][0]=471;	VEL[11][18][0]=801;	VEL[12][18][0]=1294;	VEL[13][18][0]=2039;	VEL[14][18][0]=3001;	VEL[15][18][0]=4315;	VEL[16][18][0]=6124;	VEL[17][18][0]=8330;	VEL[18][18][0]=11280;	VEL[19][18][0]=14794;
-        VEL[10][19][0]=578;	VEL[11][19][0]=998;	VEL[12][19][0]=1615;	VEL[13][19][0]=2550;	VEL[14][19][0]=3734;	VEL[15][19][0]=5336;	VEL[16][19][0]=7664;	VEL[17][19][0]=10447;	VEL[18][19][0]=13890;	VEL[19][19][0]=18319;
-        VEL[10][20][0]=739;	VEL[11][20][0]=1291;	VEL[12][20][0]=2086;	VEL[13][20][0]=3296;	VEL[14][20][0]=4828;	VEL[15][20][0]=6893;	VEL[16][20][0]=9939;	VEL[17][20][0]=13392;	VEL[18][20][0]=17962;	VEL[19][20][0]=23652;
-        VEL[10][21][0]=993;	VEL[11][21][0]=1729;	VEL[12][21][0]=2831;	VEL[13][21][0]=4444;	VEL[14][21][0]=6599;	VEL[15][21][0]=9331;	VEL[16][21][0]=13349;	VEL[17][21][0]=18181;	VEL[18][21][0]=24329;	VEL[19][21][0]=31902;
-        VEL[10][22][0]=1422;	VEL[11][22][0]=2507;	VEL[12][22][0]=4123;	VEL[13][22][0]=6485;	VEL[14][22][0]=9557;	VEL[15][22][0]=13415;	VEL[16][22][0]=19459;	VEL[17][22][0]=26120;	VEL[18][22][0]=35793;	VEL[19][22][0]=46070;
-        VEL[10][23][0]=2269;	VEL[11][23][0]=4018;	VEL[12][23][0]=6613;	VEL[13][23][0]=10337;	VEL[14][23][0]=15260;	VEL[15][23][0]=21822;	VEL[16][23][0]=30989;	VEL[17][23][0]=41730;	VEL[18][23][0]=56489;	VEL[19][23][0]=74242;
-        VEL[10][24][0]=4354;	VEL[11][24][0]=7783;	VEL[12][24][0]=12889;	VEL[13][24][0]=19998;	VEL[14][24][0]=30025;	VEL[15][24][0]=43229;	VEL[16][24][0]=60798;	VEL[17][24][0]=82633;
-        VEL[10][25][0]=5193;	VEL[11][25][0]=9247;	VEL[12][25][0]=15353;	VEL[13][25][0]=23915;	VEL[14][25][0]=35510;	VEL[15][25][0]=51712;	VEL[16][25][0]=72134;	VEL[17][25][0]=98728;
-        VEL[10][26][0]=6337;	VEL[11][26][0]=11167;	VEL[12][26][0]=18680;	VEL[13][26][0]=29000;	VEL[14][26][0]=43425;	VEL[15][26][0]=62651;	VEL[16][26][0]=87881;
-        VEL[10][27][0]=7929;	VEL[11][27][0]=13963;	VEL[12][27][0]=23110;	VEL[13][27][0]=36057;	VEL[14][27][0]=54052;	VEL[15][27][0]=78672;
-        VEL[10][28][0]=10226;	VEL[11][28][0]=17955;	VEL[12][28][0]=29838;	VEL[13][28][0]=47014;	VEL[14][28][0]=70563;	VEL[15][28][0]=99807;
-        VEL[10][29][0]=13984;	VEL[11][29][0]=24238;	VEL[12][29][0]=40507;	VEL[13][29][0]=63136;	VEL[14][29][0]=95913;
-        VEL[10][30][0]=20225;	VEL[11][30][0]=35085;	VEL[12][30][0]=58429;	VEL[13][30][0]=92961;
-        VEL[10][31][0]=25077;	VEL[11][31][0]=43728;	VEL[12][31][0]=73256;
-        VEL[10][32][0]=32326;	VEL[11][32][0]=56594;	VEL[12][32][0]=94419;
-        VEL[10][33][0]=44450;	VEL[11][33][0]=76648;
-        VEL[10][34][0]=64069;
+        VEL[10][0]=0;	VEL[11][0]=0;	VEL[12][0]=0;	VEL[13][0]=0;	VEL[14][0]=19;	VEL[15][0]=26;	VEL[16][0]=35;	VEL[17][0]=49;	VEL[18][0]=61;	VEL[19][0]=81;
+        VEL[10][1]=0;	VEL[11][1]=0;	VEL[12][1]=10;	VEL[13][1]=15;	VEL[14][1]=21;	VEL[15][1]=30;	VEL[16][1]=40;	VEL[17][1]=55;	VEL[18][1]=70;	VEL[19][1]=93;
+        VEL[10][2]=0;	VEL[11][2]=0;	VEL[12][2]=12;	VEL[13][2]=18;	VEL[14][2]=25;	VEL[15][2]=35;	VEL[16][2]=48;	VEL[17][2]=66;	VEL[18][2]=85;	VEL[19][2]=113;
+        VEL[10][3]=0;	VEL[11][3]=0;	VEL[12][3]=15;	VEL[13][3]=22;	VEL[14][3]=31;	VEL[15][3]=43;	VEL[16][3]=59;	VEL[17][3]=82;	VEL[18][3]=104;	VEL[19][3]=140;
+        VEL[10][4]=0;	VEL[11][4]=11;	VEL[12][4]=18;	VEL[13][4]=27;	VEL[14][4]=39;	VEL[15][4]=55;	VEL[16][4]=75;	VEL[17][4]=103;	VEL[18][4]=133;	VEL[19][4]=175;
+        VEL[10][5]=0;	VEL[11][5]=15;	VEL[12][5]=24;	VEL[13][5]=36;	VEL[14][5]=51;	VEL[15][5]=72;	VEL[16][5]=100;	VEL[17][5]=138;	VEL[18][5]=180;	VEL[19][5]=238;
+        VEL[10][6]=13;	VEL[11][6]=21;	VEL[12][6]=34;	VEL[13][6]=50;	VEL[14][6]=72;	VEL[15][6]=101;	VEL[16][6]=142;	VEL[17][6]=195;	VEL[18][6]=256;	VEL[19][6]=339;
+        VEL[10][7]=16;	VEL[11][7]=26;	VEL[12][7]=41;	VEL[13][7]=61;	VEL[14][7]=88;	VEL[15][7]=123;	VEL[16][7]=175;	VEL[17][7]=239;	VEL[18][7]=318;	VEL[19][7]=417;
+        VEL[10][8]=20;	VEL[11][8]=33;	VEL[12][8]=52;	VEL[13][8]=78;	VEL[14][8]=112;	VEL[15][8]=159;	VEL[16][8]=222;	VEL[17][8]=308;	VEL[18][8]=407;	VEL[19][8]=533;
+        VEL[10][9]=26;	VEL[11][9]=44;	VEL[12][9]=68;	VEL[13][9]=103;	VEL[14][9]=149;	VEL[15][9]=212;	VEL[16][9]=299;	VEL[17][9]=410;	VEL[18][9]=546;	VEL[19][9]=715;
+        VEL[10][10]=37;	VEL[11][10]=61;	VEL[12][10]=96;	VEL[13][10]=145;	VEL[14][10]=213;	VEL[15][10]=303;	VEL[16][10]=432;	VEL[17][10]=587;	VEL[18][10]=782;	VEL[19][10]=1025;
+        VEL[10][11]=58;	VEL[11][11]=96;	VEL[12][11]=154;	VEL[13][11]=230;	VEL[14][11]=339;	VEL[15][11]=481;	VEL[16][11]=689;	VEL[17][11]=930;	VEL[18][11]=1249;	VEL[19][11]=1657;
+        VEL[10][12]=109;	VEL[11][12]=183;	VEL[12][12]=295;	VEL[13][12]=441;	VEL[14][12]=657;	VEL[15][12]=934;	VEL[16][12]=1333;	VEL[17][12]=1813;	VEL[18][12]=2470;	VEL[19][12]=3246;
+        VEL[10][13]=129;	VEL[11][13]=218;	VEL[12][13]=351;	VEL[13][13]=530;	VEL[14][13]=779;	VEL[15][13]=1113;	VEL[16][13]=1578;	VEL[17][13]=2174;	VEL[18][13]=2941;	VEL[19][13]=3810;
+        VEL[10][14]=156;	VEL[11][14]=262;	VEL[12][14]=427;	VEL[13][14]=643;	VEL[14][14]=943;	VEL[15][14]=1360;	VEL[16][14]=1931;	VEL[17][14]=2634;	VEL[18][14]=3580;	VEL[19][14]=4647;
+        VEL[10][15]=191;	VEL[11][15]=325;	VEL[12][15]=524;	VEL[13][15]=797;	VEL[14][15]=1185;	VEL[15][15]=1704;	VEL[16][15]=2414;	VEL[17][15]=3306;	VEL[18][15]=4482;	VEL[19][15]=5780;
+        VEL[10][16]=245;	VEL[11][16]=415;	VEL[12][16]=672;	VEL[13][16]=1037;	VEL[14][16]=1523;	VEL[15][16]=2199;	VEL[16][16]=3131;	VEL[17][16]=4247;	VEL[18][16]=5837;	VEL[19][16]=7528;
+        VEL[10][17]=330;	VEL[11][17]=558;	VEL[12][17]=902;	VEL[13][17]=1403;	VEL[14][17]=2064;	VEL[15][17]=2947;	VEL[16][17]=4214;	VEL[17][17]=5747;	VEL[18][17]=7808;	VEL[19][17]=10154;
+        VEL[10][18]=471;	VEL[11][18]=801;	VEL[12][18]=1294;	VEL[13][18]=2039;	VEL[14][18]=3001;	VEL[15][18]=4315;	VEL[16][18]=6124;	VEL[17][18]=8330;	VEL[18][18]=11280;	VEL[19][18]=14794;
+        VEL[10][19]=578;	VEL[11][19]=998;	VEL[12][19]=1615;	VEL[13][19]=2550;	VEL[14][19]=3734;	VEL[15][19]=5336;	VEL[16][19]=7664;	VEL[17][19]=10447;	VEL[18][19]=13890;	VEL[19][19]=18319;
+        VEL[10][20]=739;	VEL[11][20]=1291;	VEL[12][20]=2086;	VEL[13][20]=3296;	VEL[14][20]=4828;	VEL[15][20]=6893;	VEL[16][20]=9939;	VEL[17][20]=13392;	VEL[18][20]=17962;	VEL[19][20]=23652;
+        VEL[10][21]=993;	VEL[11][21]=1729;	VEL[12][21]=2831;	VEL[13][21]=4444;	VEL[14][21]=6599;	VEL[15][21]=9331;	VEL[16][21]=13349;	VEL[17][21]=18181;	VEL[18][21]=24329;	VEL[19][21]=31902;
+        VEL[10][22]=1422;	VEL[11][22]=2507;	VEL[12][22]=4123;	VEL[13][22]=6485;	VEL[14][22]=9557;	VEL[15][22]=13415;	VEL[16][22]=19459;	VEL[17][22]=26120;	VEL[18][22]=35793;	VEL[19][22]=46070;
+        VEL[10][23]=2269;	VEL[11][23]=4018;	VEL[12][23]=6613;	VEL[13][23]=10337;	VEL[14][23]=15260;	VEL[15][23]=21822;	VEL[16][23]=30989;	VEL[17][23]=41730;	VEL[18][23]=56489;	VEL[19][23]=74242;
+        VEL[10][24]=4354;	VEL[11][24]=7783;	VEL[12][24]=12889;	VEL[13][24]=19998;	VEL[14][24]=30025;	VEL[15][24]=43229;	VEL[16][24]=60798;	VEL[17][24]=82633;
+        VEL[10][25]=5193;	VEL[11][25]=9247;	VEL[12][25]=15353;	VEL[13][25]=23915;	VEL[14][25]=35510;	VEL[15][25]=51712;	VEL[16][25]=72134;	VEL[17][25]=98728;
+        VEL[10][26]=6337;	VEL[11][26]=11167;	VEL[12][26]=18680;	VEL[13][26]=29000;	VEL[14][26]=43425;	VEL[15][26]=62651;	VEL[16][26]=87881;
+        VEL[10][27]=7929;	VEL[11][27]=13963;	VEL[12][27]=23110;	VEL[13][27]=36057;	VEL[14][27]=54052;	VEL[15][27]=78672;
+        VEL[10][28]=10226;	VEL[11][28]=17955;	VEL[12][28]=29838;	VEL[13][28]=47014;	VEL[14][28]=70563;	VEL[15][28]=99807;
+        VEL[10][29]=13984;	VEL[11][29]=24238;	VEL[12][29]=40507;	VEL[13][29]=63136;	VEL[14][29]=95913;
+        VEL[10][30]=20225;	VEL[11][30]=35085;	VEL[12][30]=58429;	VEL[13][30]=92961;
+        VEL[10][31]=25077;	VEL[11][31]=43728;	VEL[12][31]=73256;
+        VEL[10][32]=32326;	VEL[11][32]=56594;	VEL[12][32]=94419;
+        VEL[10][33]=44450;	VEL[11][33]=76648;
+        VEL[10][34]=64069;
 
-        VEL[20][0][0]=104;	VEL[21][0][0]=125;	VEL[22][0][0]=151;	VEL[23][0][0]=190;	VEL[24][0][0]=306;	VEL[25][0][0]=487;	VEL[26][0][0]=716;	VEL[27][0][0]=1014;	VEL[28][0][0]=1444;	VEL[29][0][0]=2006;
-        VEL[20][1][0]=120;	VEL[21][1][0]=144;	VEL[22][1][0]=174;	VEL[23][1][0]=218;	VEL[24][1][0]=354;	VEL[25][1][0]=565;	VEL[26][1][0]=836;	VEL[27][1][0]=1195;	VEL[28][1][0]=1699;	VEL[29][1][0]=2373;
-        VEL[20][2][0]=144;	VEL[21][2][0]=173;	VEL[22][2][0]=210;	VEL[23][2][0]=264;	VEL[24][2][0]=430;	VEL[25][2][0]=687;	VEL[26][2][0]=1017;	VEL[27][2][0]=1456;	VEL[28][2][0]=2069;	VEL[29][2][0]=2865;
-        VEL[20][3][0]=178;	VEL[21][3][0]=215;	VEL[22][3][0]=262;	VEL[23][3][0]=331;	VEL[24][3][0]=533;	VEL[25][3][0]=858;	VEL[26][3][0]=1259;	VEL[27][3][0]=1822;	VEL[28][3][0]=2590;	VEL[29][3][0]=3577;
-        VEL[20][4][0]=227;	VEL[21][4][0]=275;	VEL[22][4][0]=340;	VEL[23][4][0]=422;	VEL[24][4][0]=693;	VEL[25][4][0]=1110;	VEL[26][4][0]=1617;	VEL[27][4][0]=2349;	VEL[28][4][0]=3327;	VEL[29][4][0]=4592;
-        VEL[20][5][0]=302;	VEL[21][5][0]=371;	VEL[22][5][0]=455;	VEL[23][5][0]=571;	VEL[24][5][0]=936;	VEL[25][5][0]=1499;	VEL[26][5][0]=2181;	VEL[27][5][0]=3188;	VEL[28][5][0]=4536;	VEL[29][5][0]=6153;
-        VEL[20][6][0]=433;	VEL[21][6][0]=532;	VEL[22][6][0]=656;	VEL[23][6][0]=822;	VEL[24][6][0]=1338;	VEL[25][6][0]=2164;	VEL[26][6][0]=3167;	VEL[27][6][0]=4628;	VEL[28][6][0]=6630;	VEL[29][6][0]=8886;
-        VEL[20][7][0]=533;	VEL[21][7][0]=657;	VEL[22][7][0]=818;	VEL[23][7][0]=1022;	VEL[24][7][0]=1691;	VEL[25][7][0]=2679;	VEL[26][7][0]=3972;	VEL[27][7][0]=5774;	VEL[28][7][0]=8252;	VEL[29][7][0]=11085;
-        VEL[20][8][0]=686;	VEL[21][8][0]=851;	VEL[22][8][0]=1055;	VEL[23][8][0]=1318;	VEL[24][8][0]=2179;	VEL[25][8][0]=3472;	VEL[26][8][0]=5131;	VEL[27][8][0]=7483;	VEL[28][8][0]=10738;	VEL[29][8][0]=14431;
-        VEL[20][9][0]=922;	VEL[21][9][0]=1139;	VEL[22][9][0]=1418;	VEL[23][9][0]=1793;	VEL[24][9][0]=2927;	VEL[25][9][0]=4683;	VEL[26][9][0]=6926;	VEL[27][9][0]=9986;	VEL[28][9][0]=14438;	VEL[29][9][0]=19331;
-        VEL[20][10][0]=1319;	VEL[21][10][0]=1646;	VEL[22][10][0]=2049;	VEL[23][10][0]=2568;	VEL[24][10][0]=4248;	VEL[25][10][0]=6783;	VEL[26][10][0]=10059;	VEL[27][10][0]=14421;	VEL[28][10][0]=20965;	VEL[29][10][0]=27934;
-        VEL[20][11][0]=2137;	VEL[21][11][0]=2636;	VEL[22][11][0]=3315;	VEL[23][11][0]=4137;	VEL[24][11][0]=6797;	VEL[25][11][0]=10963;	VEL[26][11][0]=16115;	VEL[27][11][0]=23116;	VEL[28][11][0]=33813;	VEL[29][11][0]=44764;
-        VEL[20][12][0]=4174;	VEL[21][12][0]=5111;	VEL[22][12][0]=6585;	VEL[23][12][0]=8101;	VEL[24][12][0]=13243;	VEL[25][12][0]=21266;	VEL[26][12][0]=31459;	VEL[27][12][0]=45254;	VEL[28][12][0]=65997;	VEL[29][12][0]=89661;
-        VEL[20][13][0]=5004;	VEL[21][13][0]=6112;	VEL[22][13][0]=7805;	VEL[23][13][0]=9624;	VEL[24][13][0]=15712;	VEL[25][13][0]=25264;	VEL[26][13][0]=37415;	VEL[27][13][0]=53593;	VEL[28][13][0]=78770;
-        VEL[20][14][0]=6059;	VEL[21][14][0]=7413;	VEL[22][14][0]=9470;	VEL[23][14][0]=11732;	VEL[24][14][0]=19019;	VEL[25][14][0]=30633;	VEL[26][14][0]=44997;	VEL[27][14][0]=65623;	VEL[28][14][0]=95492;
-        VEL[20][15][0]=7605;	VEL[21][15][0]=9215;	VEL[22][15][0]=11615;	VEL[23][15][0]=14567;	VEL[24][15][0]=23959;	VEL[25][15][0]=38408;	VEL[26][15][0]=56317;	VEL[27][15][0]=81345;
-        VEL[20][16][0]=9741;	VEL[21][16][0]=11803;	VEL[22][16][0]=15040;	VEL[23][16][0]=18858;	VEL[24][16][0]=30786;	VEL[25][16][0]=49304;	VEL[26][16][0]=72343;	VEL[27][16][0]=99301;
-        VEL[20][17][0]=13182;	VEL[21][17][0]=15971;	VEL[22][17][0]=20326;	VEL[23][17][0]=25260;	VEL[24][17][0]=41611;	VEL[25][17][0]=66815;	VEL[26][17][0]=97591;
-        VEL[20][18][0]=18986;	VEL[21][18][0]=23001;	VEL[22][18][0]=29747;	VEL[23][18][0]=36717;	VEL[24][18][0]=60839;	VEL[25][18][0]=96714;
-        VEL[20][19][0]=23642;	VEL[21][19][0]=29289;	VEL[22][19][0]=37087;	VEL[23][19][0]=45871;	VEL[24][19][0]=76233;
-        VEL[20][20][0]=30370;	VEL[21][20][0]=37501;	VEL[22][20][0]=47826;	VEL[23][20][0]=59723;	VEL[24][20][0]=99075;
-        VEL[20][21][0]=40656;	VEL[21][21][0]=50683;	VEL[22][21][0]=65150;	VEL[23][21][0]=80915;
-        VEL[20][22][0]=58559;	VEL[21][22][0]=73221;	VEL[22][22][0]=94792;
-        VEL[20][23][0]=95293;
+        VEL[20][0]=104;	VEL[21][0]=125;	VEL[22][0]=151;	VEL[23][0]=190;	VEL[24][0]=306;	VEL[25][0]=487;	VEL[26][0]=716;	VEL[27][0]=1014;	VEL[28][0]=1444;	VEL[29][0]=2006;
+        VEL[20][1]=120;	VEL[21][1]=144;	VEL[22][1]=174;	VEL[23][1]=218;	VEL[24][1]=354;	VEL[25][1]=565;	VEL[26][1]=836;	VEL[27][1]=1195;	VEL[28][1]=1699;	VEL[29][1]=2373;
+        VEL[20][2]=144;	VEL[21][2]=173;	VEL[22][2]=210;	VEL[23][2]=264;	VEL[24][2]=430;	VEL[25][2]=687;	VEL[26][2]=1017;	VEL[27][2]=1456;	VEL[28][2]=2069;	VEL[29][2]=2865;
+        VEL[20][3]=178;	VEL[21][3]=215;	VEL[22][3]=262;	VEL[23][3]=331;	VEL[24][3]=533;	VEL[25][3]=858;	VEL[26][3]=1259;	VEL[27][3]=1822;	VEL[28][3]=2590;	VEL[29][3]=3577;
+        VEL[20][4]=227;	VEL[21][4]=275;	VEL[22][4]=340;	VEL[23][4]=422;	VEL[24][4]=693;	VEL[25][4]=1110;	VEL[26][4]=1617;	VEL[27][4]=2349;	VEL[28][4]=3327;	VEL[29][4]=4592;
+        VEL[20][5]=302;	VEL[21][5]=371;	VEL[22][5]=455;	VEL[23][5]=571;	VEL[24][5]=936;	VEL[25][5]=1499;	VEL[26][5]=2181;	VEL[27][5]=3188;	VEL[28][5]=4536;	VEL[29][5]=6153;
+        VEL[20][6]=433;	VEL[21][6]=532;	VEL[22][6]=656;	VEL[23][6]=822;	VEL[24][6]=1338;	VEL[25][6]=2164;	VEL[26][6]=3167;	VEL[27][6]=4628;	VEL[28][6]=6630;	VEL[29][6]=8886;
+        VEL[20][7]=533;	VEL[21][7]=657;	VEL[22][7]=818;	VEL[23][7]=1022;	VEL[24][7]=1691;	VEL[25][7]=2679;	VEL[26][7]=3972;	VEL[27][7]=5774;	VEL[28][7]=8252;	VEL[29][7]=11085;
+        VEL[20][8]=686;	VEL[21][8]=851;	VEL[22][8]=1055;	VEL[23][8]=1318;	VEL[24][8]=2179;	VEL[25][8]=3472;	VEL[26][8]=5131;	VEL[27][8]=7483;	VEL[28][8]=10738;	VEL[29][8]=14431;
+        VEL[20][9]=922;	VEL[21][9]=1139;	VEL[22][9]=1418;	VEL[23][9]=1793;	VEL[24][9]=2927;	VEL[25][9]=4683;	VEL[26][9]=6926;	VEL[27][9]=9986;	VEL[28][9]=14438;	VEL[29][9]=19331;
+        VEL[20][10]=1319;	VEL[21][10]=1646;	VEL[22][10]=2049;	VEL[23][10]=2568;	VEL[24][10]=4248;	VEL[25][10]=6783;	VEL[26][10]=10059;	VEL[27][10]=14421;	VEL[28][10]=20965;	VEL[29][10]=27934;
+        VEL[20][11]=2137;	VEL[21][11]=2636;	VEL[22][11]=3315;	VEL[23][11]=4137;	VEL[24][11]=6797;	VEL[25][11]=10963;	VEL[26][11]=16115;	VEL[27][11]=23116;	VEL[28][11]=33813;	VEL[29][11]=44764;
+        VEL[20][12]=4174;	VEL[21][12]=5111;	VEL[22][12]=6585;	VEL[23][12]=8101;	VEL[24][12]=13243;	VEL[25][12]=21266;	VEL[26][12]=31459;	VEL[27][12]=45254;	VEL[28][12]=65997;	VEL[29][12]=89661;
+        VEL[20][13]=5004;	VEL[21][13]=6112;	VEL[22][13]=7805;	VEL[23][13]=9624;	VEL[24][13]=15712;	VEL[25][13]=25264;	VEL[26][13]=37415;	VEL[27][13]=53593;	VEL[28][13]=78770;
+        VEL[20][14]=6059;	VEL[21][14]=7413;	VEL[22][14]=9470;	VEL[23][14]=11732;	VEL[24][14]=19019;	VEL[25][14]=30633;	VEL[26][14]=44997;	VEL[27][14]=65623;	VEL[28][14]=95492;
+        VEL[20][15]=7605;	VEL[21][15]=9215;	VEL[22][15]=11615;	VEL[23][15]=14567;	VEL[24][15]=23959;	VEL[25][15]=38408;	VEL[26][15]=56317;	VEL[27][15]=81345;
+        VEL[20][16]=9741;	VEL[21][16]=11803;	VEL[22][16]=15040;	VEL[23][16]=18858;	VEL[24][16]=30786;	VEL[25][16]=49304;	VEL[26][16]=72343;	VEL[27][16]=99301;
+        VEL[20][17]=13182;	VEL[21][17]=15971;	VEL[22][17]=20326;	VEL[23][17]=25260;	VEL[24][17]=41611;	VEL[25][17]=66815;	VEL[26][17]=97591;
+        VEL[20][18]=18986;	VEL[21][18]=23001;	VEL[22][18]=29747;	VEL[23][18]=36717;	VEL[24][18]=60839;	VEL[25][18]=96714;
+        VEL[20][19]=23642;	VEL[21][19]=29289;	VEL[22][19]=37087;	VEL[23][19]=45871;	VEL[24][19]=76233;
+        VEL[20][20]=30370;	VEL[21][20]=37501;	VEL[22][20]=47826;	VEL[23][20]=59723;	VEL[24][20]=99075;
+        VEL[20][21]=40656;	VEL[21][21]=50683;	VEL[22][21]=65150;	VEL[23][21]=80915;
+        VEL[20][22]=58559;	VEL[21][22]=73221;	VEL[22][22]=94792;
+        VEL[20][23]=95293;
 
-        VEL[30][0][0]=2612;	VEL[31][0][0]=3428;	VEL[32][0][0]=5574;	VEL[33][0][0]=8626;	VEL[34][0][0]=19309;
-        VEL[30][1][0]=3078;	VEL[31][1][0]=4064;	VEL[32][1][0]=6604;	VEL[33][1][0]=10292;	VEL[34][1][0]=22993;
-        VEL[30][2][0]=3745;	VEL[31][2][0]=4935;	VEL[32][2][0]=8079;	VEL[33][2][0]=12590;	VEL[34][2][0]=28244;
-        VEL[30][3][0]=4665;	VEL[31][3][0]=6153;	VEL[32][3][0]=10060;	VEL[33][3][0]=15762;	VEL[34][3][0]=35570;
-        VEL[30][4][0]=6019;	VEL[31][4][0]=7956;	VEL[32][4][0]=12977;	VEL[33][4][0]=20380;	VEL[34][4][0]=45674;
-        VEL[30][5][0]=8165;	VEL[31][5][0]=10768;	VEL[32][5][0]=17613;	VEL[33][5][0]=27919;	VEL[34][5][0]=62478;
-        VEL[30][6][0]=11825;	VEL[31][6][0]=15667;	VEL[32][6][0]=25594;	VEL[33][6][0]=40654;	VEL[34][6][0]=90520;
-        VEL[30][7][0]=14662;	VEL[31][7][0]=19626;	VEL[32][7][0]=32311;	VEL[33][7][0]=50387;
-        VEL[30][8][0]=19027;	VEL[31][8][0]=25106;	VEL[32][8][0]=41577;	VEL[33][8][0]=64822;
-        VEL[30][9][0]=25848;	VEL[31][9][0]=33753;	VEL[32][9][0]=56716;	VEL[33][9][0]=89279;
-        VEL[30][10][0]=37073;	VEL[31][10][0]=49016;	VEL[32][10][0]=81757;
-        VEL[30][11][0]=59949;	VEL[31][11][0]=79263;
+        VEL[30][0]=2612;	VEL[31][0]=3428;	VEL[32][0]=5574;	VEL[33][0]=8626;	VEL[34][0]=19309;
+        VEL[30][1]=3078;	VEL[31][1]=4064;	VEL[32][1]=6604;	VEL[33][1]=10292;	VEL[34][1]=22993;
+        VEL[30][2]=3745;	VEL[31][2]=4935;	VEL[32][2]=8079;	VEL[33][2]=12590;	VEL[34][2]=28244;
+        VEL[30][3]=4665;	VEL[31][3]=6153;	VEL[32][3]=10060;	VEL[33][3]=15762;	VEL[34][3]=35570;
+        VEL[30][4]=6019;	VEL[31][4]=7956;	VEL[32][4]=12977;	VEL[33][4]=20380;	VEL[34][4]=45674;
+        VEL[30][5]=8165;	VEL[31][5]=10768;	VEL[32][5]=17613;	VEL[33][5]=27919;	VEL[34][5]=62478;
+        VEL[30][6]=11825;	VEL[31][6]=15667;	VEL[32][6]=25594;	VEL[33][6]=40654;	VEL[34][6]=90520;
+        VEL[30][7]=14662;	VEL[31][7]=19626;	VEL[32][7]=32311;	VEL[33][7]=50387;
+        VEL[30][8]=19027;	VEL[31][8]=25106;	VEL[32][8]=41577;	VEL[33][8]=64822;
+        VEL[30][9]=25848;	VEL[31][9]=33753;	VEL[32][9]=56716;	VEL[33][9]=89279;
+        VEL[30][10]=37073;	VEL[31][10]=49016;	VEL[32][10]=81757;
+        VEL[30][11]=59949;	VEL[31][11]=79263;
 
 
     }

@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Android/Proy_Android_Studio/HVACTOOLS_v2/app/src/main/res/layout/activity_calculo_refrigerante.xml" value="0.33" />
+        <entry key="..\:/Android/Proy_Android_Studio/HVACTOOLS_v2/app/src/main/res/layout/activity_carga_termica.xml" value="0.25" />
+        <entry key="..\:/Android/Proy_Android_Studio/HVACTOOLS_v2/app/src/main/res/layout/activity_dim_ducto.xml" value="0.33" />
+        <entry key="..\:/Android/Proy_Android_Studio/HVACTOOLS_v2/app/src/main/res/layout/activity_extraccion_campana.xml" value="0.25" />
+        <entry key="..\:/Android/Proy_Android_Studio/HVACTOOLS_v2/app/src/main/res/layout/activity_extraccion_campana_unidades.xml" value="0.134375" />
+        <entry key="..\:/Android/Proy_Android_Studio/HVACTOOLS_v2/app/src/main/res/layout/activity_main_ppa.xml" value="0.23958333333333334" />
+        <entry key="..\:/Android/Proy_Android_Studio/HVACTOOLS_v2/app/src/main/res/layout/activity_prueba.xml" value="0.18333333333333332" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
