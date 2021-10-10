@@ -7,18 +7,64 @@ import java.util.List;
 public class Listas
 {
     public static List<ClasificasionListaPerdida> listaPerdida;
-    public static List<List<ClasificacionListaPPA>> listaPPA ;
+
+    public static List<List<ClasificacionListaPPA>> listaPPA;
     public static List<ClasificacionListaPPA> listaDiametros;
+
+    public static List<List<ClasificacionListaVelocidad>> listaVelocidadPPA;
+    public static List<ClasificacionListaVelocidad> listasVelocidad;
+
+    public void ListaPerdida()
+    {
+        listaPerdida = new ArrayList<ClasificasionListaPerdida>();
+        listaPerdida.add(new ClasificasionListaPerdida(10.0));
+        listaPerdida.add(new ClasificasionListaPerdida(9.0));
+        listaPerdida.add(new ClasificasionListaPerdida(8.0));
+        listaPerdida.add(new ClasificasionListaPerdida(7.0));
+        listaPerdida.add(new ClasificasionListaPerdida(6.0));
+        listaPerdida.add(new ClasificasionListaPerdida(5.0));
+        listaPerdida.add(new ClasificasionListaPerdida(4.0));
+        listaPerdida.add(new ClasificasionListaPerdida(3.5));
+        listaPerdida.add(new ClasificasionListaPerdida(3.0));
+        listaPerdida.add(new ClasificasionListaPerdida(2.5));
+        listaPerdida.add(new ClasificasionListaPerdida(2.0));
+        listaPerdida.add(new ClasificasionListaPerdida(1.5));
+        listaPerdida.add(new ClasificasionListaPerdida(1.0));
+        listaPerdida.add(new ClasificasionListaPerdida(0.9));
+        listaPerdida.add(new ClasificasionListaPerdida(0.8));
+        listaPerdida.add(new ClasificasionListaPerdida(0.7));
+        listaPerdida.add(new ClasificasionListaPerdida(0.6));
+        listaPerdida.add(new ClasificasionListaPerdida(0.5));
+        listaPerdida.add(new ClasificasionListaPerdida(0.4));
+        listaPerdida.add(new ClasificasionListaPerdida(0.35));
+        listaPerdida.add(new ClasificasionListaPerdida(0.30));
+        listaPerdida.add(new ClasificasionListaPerdida(0.25));
+        listaPerdida.add(new ClasificasionListaPerdida(0.20));
+        listaPerdida.add(new ClasificasionListaPerdida(0.15));
+        listaPerdida.add(new ClasificasionListaPerdida(0.10));
+        listaPerdida.add(new ClasificasionListaPerdida(0.09));
+        listaPerdida.add(new ClasificasionListaPerdida(0.08));
+        listaPerdida.add(new ClasificasionListaPerdida(0.07));
+        listaPerdida.add(new ClasificasionListaPerdida(0.06));
+        listaPerdida.add(new ClasificasionListaPerdida(0.05));
+        listaPerdida.add(new ClasificasionListaPerdida(0.04));
+        listaPerdida.add(new ClasificasionListaPerdida(0.035));
+        listaPerdida.add(new ClasificasionListaPerdida(0.030));
+        listaPerdida.add(new ClasificasionListaPerdida(0.025));
+        listaPerdida.add(new ClasificasionListaPerdida(0.020));
+        listaPerdida.add(new ClasificasionListaPerdida(0.015));
+        listaPerdida.add(new ClasificasionListaPerdida(0.010));
+    }
 
     public void ListaPPA()
     {
         listaPPA = new ArrayList<>();
         listaDiametros = new ArrayList<ClasificacionListaPPA>();
-        listaDiametros.add(new ClasificacionListaPPA(1.5,30,10.00));
-        listaDiametros.add(new ClasificacionListaPPA(1.5,29,9.00));
-        listaDiametros.add(new ClasificacionListaPPA(1.5,27,8.00));
-        listaDiametros.add(new ClasificacionListaPPA(1.5,26,7.00));
-        listaDiametros.add(new ClasificacionListaPPA(1.5,24,6.00));
+        listaDiametros.add(new ClasificacionListaPPA(1.5,30,10.00)); //Perdida: 10
+        listaDiametros.add(new ClasificacionListaPPA(1.5,29,9.00));  //Perdida: 9
+        listaDiametros.add(new ClasificacionListaPPA(1.5,27,8.00));  //Perdida: 8
+        listaDiametros.add(new ClasificacionListaPPA(1.5,26,7.00));  //Perdida: 7
+        listaDiametros.add(new ClasificacionListaPPA(1.5,24,6.00));  //Perdida: 6
         listaDiametros.add(new ClasificacionListaPPA(1.5,21,5.00));
         listaDiametros.add(new ClasificacionListaPPA(1.5,19,4.00));
         listaDiametros.add(new ClasificacionListaPPA(1.5,18,3.50));
@@ -1214,45 +1260,98 @@ public class Listas
 
     }
 
-    public void ListaPerdida()
+    public void ListaVelocidadPPA()
     {
-        listaPerdida = new ArrayList<ClasificasionListaPerdida>();
-        listaPerdida.add(new ClasificasionListaPerdida(10.0));
-        listaPerdida.add(new ClasificasionListaPerdida(9.0));
-        listaPerdida.add(new ClasificasionListaPerdida(8.0));
-        listaPerdida.add(new ClasificasionListaPerdida(7.0));
-        listaPerdida.add(new ClasificasionListaPerdida(6.0));
-        listaPerdida.add(new ClasificasionListaPerdida(5.0));
-        listaPerdida.add(new ClasificasionListaPerdida(4.0));
-        listaPerdida.add(new ClasificasionListaPerdida(3.5));
-        listaPerdida.add(new ClasificasionListaPerdida(3.0));
-        listaPerdida.add(new ClasificasionListaPerdida(2.5));
-        listaPerdida.add(new ClasificasionListaPerdida(2.0));
-        listaPerdida.add(new ClasificasionListaPerdida(1.5));
-        listaPerdida.add(new ClasificasionListaPerdida(1.0));
-        listaPerdida.add(new ClasificasionListaPerdida(0.9));
-        listaPerdida.add(new ClasificasionListaPerdida(0.8));
-        listaPerdida.add(new ClasificasionListaPerdida(0.7));
-        listaPerdida.add(new ClasificasionListaPerdida(0.6));
-        listaPerdida.add(new ClasificasionListaPerdida(0.5));
-        listaPerdida.add(new ClasificasionListaPerdida(0.4));
-        listaPerdida.add(new ClasificasionListaPerdida(0.35));
-        listaPerdida.add(new ClasificasionListaPerdida(0.30));
-        listaPerdida.add(new ClasificasionListaPerdida(0.25));
-        listaPerdida.add(new ClasificasionListaPerdida(0.20));
-        listaPerdida.add(new ClasificasionListaPerdida(0.15));
-        listaPerdida.add(new ClasificasionListaPerdida(0.10));
-        listaPerdida.add(new ClasificasionListaPerdida(0.09));
-        listaPerdida.add(new ClasificasionListaPerdida(0.08));
-        listaPerdida.add(new ClasificasionListaPerdida(0.07));
-        listaPerdida.add(new ClasificasionListaPerdida(0.06));
-        listaPerdida.add(new ClasificasionListaPerdida(0.05));
-        listaPerdida.add(new ClasificasionListaPerdida(0.04));
-        listaPerdida.add(new ClasificasionListaPerdida(0.035));
-        listaPerdida.add(new ClasificasionListaPerdida(0.030));
-        listaPerdida.add(new ClasificasionListaPerdida(0.025));
-        listaPerdida.add(new ClasificasionListaPerdida(0.020));
-        listaPerdida.add(new ClasificasionListaPerdida(0.015));
-        listaPerdida.add(new ClasificasionListaPerdida(0.010));
+        listaVelocidadPPA = new ArrayList<>();
+        listasVelocidad = new ArrayList<ClasificacionListaVelocidad>();
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,10.00,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,9.00,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,8.00,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,7.00,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,6.00,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,5.00,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,4.00,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,3.50,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,3.00,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,2.50,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,2.00,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,1.50,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,1.00,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,0.90,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,0.80,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,0.70,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,0.60,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,0.50,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,0.40,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,0.35,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,0.30,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,0.25,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,0.20,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,0.15,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,0.10,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,0.090,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,0.080,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,0.070,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,0.060,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,0.050,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,0.040,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,0.035,11));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,0.030,14));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,0.025,19));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,0.020,27));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,0.015,42));
+        listasVelocidad.add(new ClasificacionListaVelocidad(200,0.010,77));
+        listaVelocidadPPA.add(listasVelocidad);
+
+        listasVelocidad = new ArrayList<ClasificacionListaVelocidad>();
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,10.00,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,9.00,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,8.00,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,7.00,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,6.00,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,5.00,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,4.00,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,3.50,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,3.00,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,2.50,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,2.00,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,1.50,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,1.00,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,0.90,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,0.80,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,0.70,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,0.60,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,0.50,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,0.40,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,0.35,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,0.30,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,0.25,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,0.20,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,0.15,0));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,0.10,10));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,0.090,12));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,0.080,14));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,0.070,18));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,0.060,23));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,0.050,30));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,0.040,43));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,0.035,53));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,0.030,67));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,0.025,90));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,0.020,128));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,0.015,200));
+        listasVelocidad.add(new ClasificacionListaVelocidad(300,0.010,375));
+        listaVelocidadPPA.add(listasVelocidad);
+
+        listasVelocidad = new ArrayList<ClasificacionListaVelocidad>();
+
+        listaVelocidadPPA.add(listasVelocidad);
+
+        listasVelocidad = new ArrayList<ClasificacionListaVelocidad>();
+
+        listaVelocidadPPA.add(listasVelocidad);
+
+
+
     }
 }

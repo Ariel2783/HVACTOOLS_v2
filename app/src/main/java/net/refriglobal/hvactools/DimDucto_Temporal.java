@@ -122,9 +122,9 @@ public class DimDucto_Temporal extends AppCompatActivity
 
         /*Obtener en este punto la posicion del arreglo de perdida, de la perdida introducida por el usario*/
        int i = 0;
-        while (i < objListas.listaPerdida.size())
+        while (i < Listas.listaPerdida.size())
         {
-            if (perdidaEstatica == objListas.listaPerdida.get(i).perdidaTabla)
+            if (perdidaEstatica == Listas.listaPerdida.get(i).perdidaTabla)
             {
                 indexListaPerdida = i;
                 break;
@@ -133,10 +133,11 @@ public class DimDucto_Temporal extends AppCompatActivity
         }
         //////------
 
-        double diaEqvPrueba = 0;
 
-        for (List<ClasificacionListaPPA> listaDia: objListas.listaPPA)
+
+        for (List<ClasificacionListaPPA> listaDia: Listas.listaPPA)
         {
+            double diaEqvPrueba;
             if (listaDia.size() > indexListaPerdida)
             {
                 if (flujoArie == listaDia.get(indexListaPerdida).cfm)
@@ -144,6 +145,7 @@ public class DimDucto_Temporal extends AppCompatActivity
                     /*Caso1: la perdida y flujo introducido por el usuario coincide con los valores obtenidos la grafica.*/
                     diaEqvPrueba = listaDia.get(indexListaPerdida).diametro;
                     edTextDiaEqv.setText(String.format("%.2f", diaEqvPrueba));
+                    //TODO: 20211010; Continuar con la obtencion del valor de velocida con la clase Velocidad Tabla.
                     break;
                 }
 
@@ -159,39 +161,5 @@ public class DimDucto_Temporal extends AppCompatActivity
         }
     }
 
-    public void dim1(View view)
-    {
-
-    }
-
-    public void dim2(View view)
-    {
-
-    }
-
-    public void check1(View view)
-    {
-
-    }
-
-    public void check2(View view)
-    {
-
-    }
-
-    public void check3(View view)
-    {
-
-    }
-
-    public void check4(View view)
-    {
-
-    }
-
-    public void borrar(View view)
-    {
-
-    }
 
 }
