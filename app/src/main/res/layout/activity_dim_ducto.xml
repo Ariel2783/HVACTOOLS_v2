@@ -36,7 +36,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="0.8"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:baselineAligned="false">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -156,7 +157,7 @@
 
                 <Spinner
                     android:id="@+id/spinner1"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@android:drawable/btn_dropdown"
@@ -186,7 +187,7 @@
                     android:onClick="check1"
                     android:text="@string/Flow_rate"
                     android:textStyle="bold"
-                    tools:ignore="NestedWeights" />
+                    tools:ignore="NestedWeights,TouchTargetSizeCheck" />
 
                 <EditText
                     android:id="@+id/editTextCFM"
@@ -195,9 +196,11 @@
                     android:layout_weight="1"
                     android:background="@android:drawable/editbox_dropdown_light_frame"
                     android:ems="10"
+                    android:hint="CFM"
+                    android:importantForAutofill="no"
                     android:inputType="number"
                     android:minHeight="177dp"
-                    tools:ignore="HardcodedText,TouchTargetSizeCheck" />
+                    tools:ignore="HardcodedText,TouchTargetSizeCheck,SpeakableTextPresentCheck,TextContrastCheck" />
 
                 <TextView
                     android:id="@+id/textView"
@@ -225,7 +228,8 @@
                     android:checked="true"
                     android:gravity="center_vertical"
                     android:onClick="check2"
-                    android:text="@string/Head_loss" />
+                    android:text="@string/Head_loss"
+                    tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
 
                 <EditText
                     android:id="@+id/editTextPerdEstatica"
@@ -234,8 +238,10 @@
                     android:layout_weight="1"
                     android:background="@android:drawable/editbox_dropdown_light_frame"
                     android:ems="10"
+                    android:hint="Ingresar valor"
                     android:inputType="numberDecimal"
-                    tools:ignore="HardcodedText" />
+                    tools:ignore="HardcodedText,TouchTargetSizeCheck,TextContrastCheck"
+                    android:importantForAutofill="no" />
 
                 <TextView
                     android:id="@+id/textView15"
@@ -262,7 +268,8 @@
                     android:checked="false"
                     android:gravity="center_vertical"
                     android:onClick="check3"
-                    android:text="@string/Velocity" />
+                    android:text="@string/Velocity"
+                    tools:ignore="TouchTargetSizeCheck" />
 
                 <EditText
                     android:id="@+id/editTextVelocidad"
@@ -271,8 +278,10 @@
                     android:layout_weight="1"
                     android:background="@android:drawable/editbox_dropdown_light_frame"
                     android:ems="10"
+                    android:hint="Vel."
+                    android:importantForAutofill="no"
                     android:inputType="numberDecimal"
-                    tools:ignore="HardcodedText" />
+                    tools:ignore="HardcodedText,SpeakableTextPresentCheck,TouchTargetSizeCheck,TextContrastCheck" />
 
                 <TextView
                     android:id="@+id/textView16"
@@ -298,7 +307,8 @@
                     android:layout_weight="0.85"
                     android:gravity="center_vertical"
                     android:onClick="check4"
-                    android:text="@string/Eq_dia" />
+                    android:text="@string/Eq_dia"
+                    tools:ignore="TouchTargetSizeCheck" />
 
                 <EditText
                     android:id="@+id/editTextDiaEqv"
@@ -307,8 +317,10 @@
                     android:layout_weight="1"
                     android:background="@android:drawable/editbox_dropdown_light_frame"
                     android:ems="10"
+                    android:hint="Dia. Eqv."
+                    android:importantForAutofill="no"
                     android:inputType="numberDecimal"
-                    tools:ignore="HardcodedText" />
+                    tools:ignore="HardcodedText,TouchTargetSizeCheck,SpeakableTextPresentCheck,TextContrastCheck" />
 
                 <TextView
                     android:id="@+id/textView17"
@@ -346,7 +358,9 @@
                     android:background="@android:drawable/editbox_dropdown_light_frame"
                     android:ems="10"
                     android:inputType="number"
-                    android:onClick="dim1" />
+                    android:onClick="dim1"
+                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck"
+                    android:importantForAutofill="no" />
 
                 <TextView
                     android:id="@+id/textView18"
@@ -377,7 +391,8 @@
                     android:ems="10"
                     android:inputType="number"
                     android:onClick="dim2"
-                    tools:ignore="HardcodedText" />
+                    tools:ignore="HardcodedText,SpeakableTextPresentCheck,TouchTargetSizeCheck"
+                    android:importantForAutofill="no" />
 
                 <TextView
                     android:id="@+id/textView21"

@@ -1,6 +1,5 @@
 package net.refriglobal.hvactools;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,8 +12,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import net.refriglobal.hvactools.ClasificacionListas.ClasificacionListaPPA;
+import net.refriglobal.hvactools.ClasificacionListas.ClasificacionListaVelocidad;
 import net.refriglobal.hvactools.ClasificacionListas.Listas;
 import java.util.List;
+import java.util.Locale;
 
 public class DimDucto_Temporal extends AppCompatActivity
 {
@@ -63,14 +64,14 @@ public class DimDucto_Temporal extends AppCompatActivity
                 String select1 = condicionesAmbiente.getSelectedItem().toString();
                 if (select1.equals("10°C(50°F) Aire 97% RH 1 atm"))
                 {
-                    densidadAire.setText("0.0778 ");    viscoCinematica.setText("1.5285x10ˉ⁴ ");
-                    calorEspcf.setText("0.24 ");      factorEnergia.setText("1.09 ");
+                    densidadAire.setText(String.format(Locale.getDefault(),"0.0778 "));    viscoCinematica.setText(String.format("1.5285x10ˉ⁴ "));
+                    calorEspcf.setText(String.format("0.24 "));      factorEnergia.setText(String.format("1.09 "));
                 }
 
                 if (select1.equals("20°C(68°F) Aire STP"))
                 {
-                    densidadAire.setText("0.0752 ");    viscoCinematica.setText("1.6253x10ˉ⁴ ");
-                    calorEspcf.setText("0.24 ");      factorEnergia.setText("1.08 ");
+                    densidadAire.setText(String.format("0.0752 "));    viscoCinematica.setText(String.format("1.6253x10ˉ⁴ "));
+                    calorEspcf.setText(String.format("0.24 "));      factorEnergia.setText(String.format("1.08 "));
                 }
 
                 if (select1.equals("23.9°C(75°F) Aire 50% RH 1 atm"))
@@ -101,6 +102,7 @@ public class DimDucto_Temporal extends AppCompatActivity
         Listas objListas = new Listas();
         objListas.ListaPerdida();
         objListas.ListaPPA();
+        objListas.ListaVelocidadPPA();
 
         chkCaudal.setClickable(false);
         chkPerdEstatica.setClickable(false);
@@ -110,15 +112,11 @@ public class DimDucto_Temporal extends AppCompatActivity
 
     public void calcular(View view)
     {
-        //double cfmPrueba = 101;
-        //double perdPrueba = 0.7;
-
         double flujoArie, perdidaEstatica;
         flujoArie = Double.parseDouble(edTextCFM.getText().toString()); //CFM, conversion de variable.
         perdidaEstatica = Double.parseDouble(edTextPerdEstatica.getText().toString()); //Perdida, conversion de variable.
 
         int indexListaPerdida = 0;
-        Listas objListas = new Listas();
 
         /*Obtener en este punto la posicion del arreglo de perdida, de la perdida introducida por el usario*/
        int i = 0;
@@ -131,21 +129,34 @@ public class DimDucto_Temporal extends AppCompatActivity
             }
             i++;
         }
+
+        if (indexListaPerdida == 0)
+        {
+            //TODO: interpolar valor de la perdida
+        }
         //////------
 
-
-
+        double diaEqvPrueba;
+        double velocidad;
         for (List<ClasificacionListaPPA> listaDia: Listas.listaPPA)
         {
-            double diaEqvPrueba;
             if (listaDia.size() > indexListaPerdida)
             {
                 if (flujoArie == listaDia.get(indexListaPerdida).cfm)
                 {
                     /*Caso1: la perdida y flujo introducido por el usuario coincide con los valores obtenidos la grafica.*/
                     diaEqvPrueba = listaDia.get(indexListaPerdida).diametro;
-                    edTextDiaEqv.setText(String.format("%.2f", diaEqvPrueba));
+                    edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.2f", diaEqvPrueba));
                     //TODO: 20211010; Continuar con la obtencion del valor de velocida con la clase Velocidad Tabla.
+
+                    for (List<ClasificacionListaVelocidad> listaVel:Listas.listaVelocidadPPA)
+                    {
+                        if (flujoArie == listaVel.get(indexListaPerdida).cfm)
+                        {
+                            velocidad = listaVel.get(indexListaPerdida).velocidad;
+                            edTextVelocidad.setText(String.format(Locale.getDefault(), "%.1f", velocidad));
+                        }
+                    }
                     break;
                 }
 
@@ -162,4 +173,31 @@ public class DimDucto_Temporal extends AppCompatActivity
     }
 
 
+    public void check1(View view)
+    {
+    }
+
+    public void check2(View view)
+    {
+    }
+
+    public void check3(View view)
+    {
+    }
+
+    public void check4(View view)
+    {
+    }
+
+    public void dim1(View view)
+    {
+    }
+
+    public void dim2(View view)
+    {
+    }
+
+    public void borrar(View view)
+    {
+    }
 }
