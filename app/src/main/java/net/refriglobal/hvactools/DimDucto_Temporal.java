@@ -13,7 +13,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import net.refriglobal.hvactools.ClasificacionListas.ClasificacionListaPPA;
 import net.refriglobal.hvactools.ClasificacionListas.ClasificacionListaVelocidad;
+import net.refriglobal.hvactools.ClasificacionListas.ClasificasionListaPerdida;
 import net.refriglobal.hvactools.ClasificacionListas.Listas;
+import net.refriglobal.hvactools.Operaciones.Interpolaciones;
+
 import java.util.List;
 import java.util.Locale;
 
@@ -132,7 +135,22 @@ public class DimDucto_Temporal extends AppCompatActivity
 
         if (indexListaPerdida == 0)
         {
-            //TODO: interpolar valor de la perdida
+            i = 0;
+            while (i < Listas.listaPerdida.size())
+            {
+                if (Listas.listaPerdida.get(i).perdidaTabla < perdidaEstatica)
+                {
+                    int indexPerdidaInferior = i;
+                    int indexPerdidaSuperior = i-1;
+
+                    //Interpolacion para obtener el diametro equivalente y la velocidad lineal.
+                    Interpolaciones inter = new Interpolaciones();
+                    inter.interpolacion1(edTextDiaEqv, edTextVelocidad, indexPerdidaInferior, indexPerdidaSuperior, perdidaEstatica, flujoArie);
+                    break;
+                }
+                i++;
+            }
+
         }
         //////------
 
@@ -149,6 +167,7 @@ public class DimDucto_Temporal extends AppCompatActivity
                     edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.2f", diaEqvPrueba));
                     //TODO: 20211010; Continuar con la obtencion del valor de velocida con la clase Velocidad Tabla.
 
+                    //Valor de velocidad del grafico
                     for (List<ClasificacionListaVelocidad> listaVel:Listas.listaVelocidadPPA)
                     {
                         if (flujoArie == listaVel.get(indexListaPerdida).cfm)

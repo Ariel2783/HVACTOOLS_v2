@@ -1,22 +1,17 @@
 package net.refriglobal.hvactools.ClasificacionListas;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Listas
 {
     public static List<ClasificasionListaPerdida> listaPerdida;
-
     public static List<List<ClasificacionListaPPA>> listaPPA;
-    public static List<ClasificacionListaPPA> listaDiametros;
-
     public static List<List<ClasificacionListaVelocidad>> listaVelocidadPPA;
-    public static List<ClasificacionListaVelocidad> listasVelocidad;
 
     public void ListaPerdida()
     {
-        listaPerdida = new ArrayList<ClasificasionListaPerdida>();
+        listaPerdida = new ArrayList<>();
         listaPerdida.add(new ClasificasionListaPerdida(10.0));
         listaPerdida.add(new ClasificasionListaPerdida(9.0));
         listaPerdida.add(new ClasificasionListaPerdida(8.0));
@@ -59,7 +54,7 @@ public class Listas
     public void ListaPPA()
     {
         listaPPA = new ArrayList<>();
-        listaDiametros = new ArrayList<ClasificacionListaPPA>();
+        List<ClasificacionListaPPA> listaDiametros = new ArrayList<>();
         listaDiametros.add(new ClasificacionListaPPA(1.5,30,10.00)); //Perdida: 10
         listaDiametros.add(new ClasificacionListaPPA(1.5,29,9.00));  //Perdida: 9
         listaDiametros.add(new ClasificacionListaPPA(1.5,27,8.00));  //Perdida: 8
@@ -75,7 +70,7 @@ public class Listas
         listaDiametros.add(new ClasificacionListaPPA(1.5,10,1.30));
         listaPPA.add(listaDiametros);
 
-        listaDiametros = new ArrayList<ClasificacionListaPPA>();
+        listaDiametros = new ArrayList<>();
         listaDiametros.add(new ClasificacionListaPPA(2,66,10.00));
         listaDiametros.add(new ClasificacionListaPPA(2,63,9.00));
         listaDiametros.add(new ClasificacionListaPPA(2,59,8.00));
@@ -104,7 +99,7 @@ public class Listas
         listaDiametros.add(new ClasificacionListaPPA(2,11,0.35));
         listaPPA.add(listaDiametros);
 
-        listaDiametros = new ArrayList<ClasificacionListaPPA>();
+        listaDiametros = new ArrayList<>();
         listaDiametros.add(new ClasificacionListaPPA(3,195,10.00));
         listaDiametros.add(new ClasificacionListaPPA(3,188,9.00));
         listaDiametros.add(new ClasificacionListaPPA(3,176,8.00));
@@ -138,7 +133,7 @@ public class Listas
         listaDiametros.add(new ClasificacionListaPPA(3,11,0.040));
         listaPPA.add(listaDiametros);
 
-        listaDiametros = new ArrayList<ClasificacionListaPPA>();
+        listaDiametros = new ArrayList<>();
         listaDiametros.add(new ClasificacionListaPPA(4,423,10.00));
         listaDiametros.add(new ClasificacionListaPPA(4,405,9.00));
         listaDiametros.add(new ClasificacionListaPPA(4,380,8.00));
@@ -178,7 +173,7 @@ public class Listas
         listaDiametros.add(new ClasificacionListaPPA(4,10,0.010));
         listaPPA.add(listaDiametros);
 
-        listaDiametros = new ArrayList<ClasificacionListaPPA>();
+        listaDiametros = new ArrayList<>();
         listaDiametros.add(new ClasificacionListaPPA(5,766,10.00));
         listaDiametros.add(new ClasificacionListaPPA(5,732,9.00));
         listaDiametros.add(new ClasificacionListaPPA(5,687,8.00));
@@ -218,7 +213,7 @@ public class Listas
         listaDiametros.add(new ClasificacionListaPPA(5,18,0.010));
         listaPPA.add(listaDiametros);
 
-        listaDiametros = new ArrayList<ClasificacionListaPPA>();
+        listaDiametros = new ArrayList<>();
         listaDiametros.add(new ClasificacionListaPPA(6,1232,10.00));
         listaDiametros.add(new ClasificacionListaPPA(6,1177,9.00));
         listaDiametros.add(new ClasificacionListaPPA(6,1102,8.00));
@@ -258,7 +253,7 @@ public class Listas
         listaDiametros.add(new ClasificacionListaPPA(6,30,0.010));
         listaPPA.add(listaDiametros);
 
-        listaDiametros = new ArrayList<ClasificacionListaPPA>();
+        listaDiametros = new ArrayList<>();
         listaDiametros.add(new ClasificacionListaPPA(7,1854,10.00));
         listaDiametros.add(new ClasificacionListaPPA(7,1770,9.00));
         listaDiametros.add(new ClasificacionListaPPA(7,1664,8.00));
@@ -298,7 +293,7 @@ public class Listas
         listaDiametros.add(new ClasificacionListaPPA(7,46,0.010));
         listaPPA.add(listaDiametros);
 
-        listaDiametros = new ArrayList<ClasificacionListaPPA>();
+        listaDiametros = new ArrayList<>();
         listaDiametros.add(new ClasificacionListaPPA(8,2639,10.00));
         listaDiametros.add(new ClasificacionListaPPA(8,2520,9.00));
         listaDiametros.add(new ClasificacionListaPPA(8,2369,8.00));
@@ -338,7 +333,7 @@ public class Listas
         listaDiametros.add(new ClasificacionListaPPA(8,67,0.010));
         listaPPA.add(listaDiametros);
 
-        listaDiametros = new ArrayList<ClasificacionListaPPA>();
+        listaDiametros = new ArrayList<>();
         listaDiametros.add(new ClasificacionListaPPA(9,3579,10.00));
         listaDiametros.add(new ClasificacionListaPPA(9,3415,9.00));
         listaDiametros.add(new ClasificacionListaPPA(9,3208,8.00));
@@ -378,7 +373,7 @@ public class Listas
         listaDiametros.add(new ClasificacionListaPPA(9,92,0.010));
         listaPPA.add(listaDiametros);
 
-        listaDiametros = new ArrayList<ClasificacionListaPPA>();
+        listaDiametros = new ArrayList<>();
         listaDiametros.add(new ClasificacionListaPPA(10,4730,10.00));
         listaDiametros.add(new ClasificacionListaPPA(10,4509,9.00));
         listaDiametros.add(new ClasificacionListaPPA(10,4250,8.00));
@@ -418,7 +413,7 @@ public class Listas
         listaDiametros.add(new ClasificacionListaPPA(10,122,0.010));
         listaPPA.add(listaDiametros);
 
-        listaDiametros = new ArrayList<ClasificacionListaPPA>();
+        listaDiametros = new ArrayList<>();
         listaDiametros.add(new ClasificacionListaPPA(12,7642,10.00));
         listaDiametros.add(new ClasificacionListaPPA(12,7307,9.00));
         listaDiametros.add(new ClasificacionListaPPA(12,6864,8.00));
@@ -458,7 +453,7 @@ public class Listas
         listaDiametros.add(new ClasificacionListaPPA(12,198,0.010));
         listaPPA.add(listaDiametros);
 
-        listaDiametros = new ArrayList<ClasificacionListaPPA>();
+        listaDiametros = new ArrayList<>();
         listaDiametros.add(new ClasificacionListaPPA(14,11124,10.00));
         listaDiametros.add(new ClasificacionListaPPA(14,10614,9.00));
         listaDiametros.add(new ClasificacionListaPPA(14,9970,8.00));
@@ -498,7 +493,7 @@ public class Listas
         listaDiametros.add(new ClasificacionListaPPA(14,297,0.010));
         listaPPA.add(listaDiametros);
 
-        listaDiametros = new ArrayList<ClasificacionListaPPA>();
+        listaDiametros = new ArrayList<>();
         listaDiametros.add(new ClasificacionListaPPA(16,15155,10.00));
         listaDiametros.add(new ClasificacionListaPPA(16,15155,9.00));
         listaDiametros.add(new ClasificacionListaPPA(16,14235,8.00));
@@ -538,7 +533,7 @@ public class Listas
         listaDiametros.add(new ClasificacionListaPPA(16,425,0.010));
         listaPPA.add(listaDiametros);
 
-        listaDiametros = new ArrayList<ClasificacionListaPPA>();
+        listaDiametros = new ArrayList<>();
         listaDiametros.add(new ClasificacionListaPPA(18,21358,10.00));
         listaDiametros.add(new ClasificacionListaPPA(18,20351,9.00));
         listaDiametros.add(new ClasificacionListaPPA(18,19233,8.00));
@@ -578,7 +573,7 @@ public class Listas
         listaDiametros.add(new ClasificacionListaPPA(18,600,0.010));
         listaPPA.add(listaDiametros);
 
-        listaDiametros = new ArrayList<ClasificacionListaPPA>();
+        listaDiametros = new ArrayList<>();
         listaDiametros.add(new ClasificacionListaPPA(20,28789,10.00));
         listaDiametros.add(new ClasificacionListaPPA(20,27418,9.00));
         listaDiametros.add(new ClasificacionListaPPA(20,25608,8.00));
@@ -618,7 +613,7 @@ public class Listas
         listaDiametros.add(new ClasificacionListaPPA(20,779,0.010));
         listaPPA.add(listaDiametros);
 
-        listaDiametros = new ArrayList<ClasificacionListaPPA>();
+        listaDiametros = new ArrayList<>();
         listaDiametros.add(new ClasificacionListaPPA(22,36625,10.00));
         listaDiametros.add(new ClasificacionListaPPA(22,34881,9.00));
         listaDiametros.add(new ClasificacionListaPPA(22,32577,8.00));
@@ -658,7 +653,7 @@ public class Listas
         listaDiametros.add(new ClasificacionListaPPA(22,1000,0.010));
         listaPPA.add(listaDiametros);
 
-        listaDiametros = new ArrayList<ClasificacionListaPPA>();
+        listaDiametros = new ArrayList<>();
         listaDiametros.add(new ClasificacionListaPPA(24,46745,10.00));
         listaDiametros.add(new ClasificacionListaPPA(24,44519,9.00));
         listaDiametros.add(new ClasificacionListaPPA(24,41579,8.00));
@@ -698,7 +693,7 @@ public class Listas
         listaDiametros.add(new ClasificacionListaPPA(24,1263,0.010));
         listaPPA.add(listaDiametros);
 
-        listaDiametros = new ArrayList<ClasificacionListaPPA>();
+        listaDiametros = new ArrayList<>();
         listaDiametros.add(new ClasificacionListaPPA(26,57720,10.00));
         listaDiametros.add(new ClasificacionListaPPA(26,54548,9.00));
         listaDiametros.add(new ClasificacionListaPPA(26,51614,8.00));
@@ -738,7 +733,7 @@ public class Listas
         listaDiametros.add(new ClasificacionListaPPA(26,1569,0.010));
         listaPPA.add(listaDiametros);
 
-        listaDiametros = new ArrayList<ClasificacionListaPPA>();
+        listaDiametros = new ArrayList<>();
         listaDiametros.add(new ClasificacionListaPPA(28,68173,10.00));
         listaDiametros.add(new ClasificacionListaPPA(28,64436,9.00));
         listaDiametros.add(new ClasificacionListaPPA(28,60837,8.00));
@@ -778,7 +773,7 @@ public class Listas
         listaDiametros.add(new ClasificacionListaPPA(28,1885,0.010));
         listaPPA.add(listaDiametros);
 
-        listaDiametros = new ArrayList<ClasificacionListaPPA>();
+        listaDiametros = new ArrayList<>();
         listaDiametros.add(new ClasificacionListaPPA(30,83272,10.00));
         listaDiametros.add(new ClasificacionListaPPA(30,79178,9.00));
         listaDiametros.add(new ClasificacionListaPPA(30,74675,8.00));
@@ -818,7 +813,7 @@ public class Listas
         listaDiametros.add(new ClasificacionListaPPA(30,2306,0.010));
         listaPPA.add(listaDiametros);
 
-        listaDiametros = new ArrayList<ClasificacionListaPPA>();
+        listaDiametros = new ArrayList<>();
         listaDiametros.add(new ClasificacionListaPPA(32,100000,10.00));
         listaDiametros.add(new ClasificacionListaPPA(32,92860,9.00));
         listaDiametros.add(new ClasificacionListaPPA(32,87579,8.00));
@@ -858,7 +853,7 @@ public class Listas
         listaDiametros.add(new ClasificacionListaPPA(32,2722,0.010));
         listaPPA.add(listaDiametros);
 
-        listaDiametros = new ArrayList<ClasificacionListaPPA>();
+        listaDiametros = new ArrayList<>();
         listaDiametros.add(new ClasificacionListaPPA(34,0,10.00));
         listaDiametros.add(new ClasificacionListaPPA(34,0,9.00));
         listaDiametros.add(new ClasificacionListaPPA(34,0,8.00));
@@ -898,7 +893,7 @@ public class Listas
         listaDiametros.add(new ClasificacionListaPPA(34,3211,0.010));
         listaPPA.add(listaDiametros);
 
-        listaDiametros = new ArrayList<ClasificacionListaPPA>();
+        listaDiametros = new ArrayList<>();
         listaDiametros.add(new ClasificacionListaPPA(36,0,10.00));
         listaDiametros.add(new ClasificacionListaPPA(36,0,9.00));
         listaDiametros.add(new ClasificacionListaPPA(36,0,8.00));
@@ -938,7 +933,7 @@ public class Listas
         listaDiametros.add(new ClasificacionListaPPA(36,3769,0.010));
         listaPPA.add(listaDiametros);
 
-        listaDiametros = new ArrayList<ClasificacionListaPPA>();
+        listaDiametros = new ArrayList<>();
         listaDiametros.add(new ClasificacionListaPPA(38,0,10.00));
         listaDiametros.add(new ClasificacionListaPPA(38,0,9.00));
         listaDiametros.add(new ClasificacionListaPPA(38,0,8.00));
@@ -978,7 +973,7 @@ public class Listas
         listaDiametros.add(new ClasificacionListaPPA(38,4373,0.010));
         listaPPA.add(listaDiametros);
 
-        listaDiametros = new ArrayList<ClasificacionListaPPA>();
+        listaDiametros = new ArrayList<>();
         listaDiametros.add(new ClasificacionListaPPA(40,0,10.00));
         listaDiametros.add(new ClasificacionListaPPA(40,0,9.00));
         listaDiametros.add(new ClasificacionListaPPA(40,0,8.00));
@@ -1018,7 +1013,7 @@ public class Listas
         listaDiametros.add(new ClasificacionListaPPA(40,4986,0.010));
         listaPPA.add(listaDiametros);
 
-        listaDiametros = new ArrayList<ClasificacionListaPPA>();
+        listaDiametros = new ArrayList<>();
         listaDiametros.add(new ClasificacionListaPPA(45,0,10.00));
         listaDiametros.add(new ClasificacionListaPPA(45,0,9.00));
         listaDiametros.add(new ClasificacionListaPPA(45,0,8.00));
@@ -1058,7 +1053,7 @@ public class Listas
         listaDiametros.add(new ClasificacionListaPPA(45,6747,0.010));
         listaPPA.add(listaDiametros);
 
-        listaDiametros = new ArrayList<ClasificacionListaPPA>();
+        listaDiametros = new ArrayList<>();
         listaDiametros.add(new ClasificacionListaPPA(50,0,10.00));
         listaDiametros.add(new ClasificacionListaPPA(50,0,9.00));
         listaDiametros.add(new ClasificacionListaPPA(50,0,8.00));
@@ -1098,7 +1093,7 @@ public class Listas
         listaDiametros.add(new ClasificacionListaPPA(50,8955,0.010));
         listaPPA.add(listaDiametros);
 
-        listaDiametros = new ArrayList<ClasificacionListaPPA>();
+        listaDiametros = new ArrayList<>();
         listaDiametros.add(new ClasificacionListaPPA(55,0,10.00));
         listaDiametros.add(new ClasificacionListaPPA(55,0,9.00));
         listaDiametros.add(new ClasificacionListaPPA(55,0,8.00));
@@ -1138,7 +1133,7 @@ public class Listas
         listaDiametros.add(new ClasificacionListaPPA(55,11579,0.010));
         listaPPA.add(listaDiametros);
 
-        listaDiametros = new ArrayList<ClasificacionListaPPA>();
+        listaDiametros = new ArrayList<>();
         listaDiametros.add(new ClasificacionListaPPA(60,0,10.00));
         listaDiametros.add(new ClasificacionListaPPA(60,0,9.00));
         listaDiametros.add(new ClasificacionListaPPA(60,0,8.00));
@@ -1178,7 +1173,7 @@ public class Listas
         listaDiametros.add(new ClasificacionListaPPA(60,14305,0.010));
         listaPPA.add(listaDiametros);
 
-        listaDiametros = new ArrayList<ClasificacionListaPPA>();
+        listaDiametros = new ArrayList<>();
         listaDiametros.add(new ClasificacionListaPPA(70,0,10.00));
         listaDiametros.add(new ClasificacionListaPPA(70,0,9.00));
         listaDiametros.add(new ClasificacionListaPPA(70,0,8.00));
@@ -1218,7 +1213,7 @@ public class Listas
         listaDiametros.add(new ClasificacionListaPPA(70,22121,0.010));
         listaPPA.add(listaDiametros);
 
-        listaDiametros = new ArrayList<ClasificacionListaPPA>();
+        listaDiametros = new ArrayList<>();
         listaDiametros.add(new ClasificacionListaPPA(80,0,10.00));
         listaDiametros.add(new ClasificacionListaPPA(80,0,9.00));
         listaDiametros.add(new ClasificacionListaPPA(80,0,8.00));
@@ -1263,7 +1258,7 @@ public class Listas
     public void ListaVelocidadPPA()
     {
         listaVelocidadPPA = new ArrayList<>();
-        listasVelocidad = new ArrayList<ClasificacionListaVelocidad>();
+        List<ClasificacionListaVelocidad> listasVelocidad = new ArrayList<>();
         listasVelocidad.add(new ClasificacionListaVelocidad(200,10.00,0));
         listasVelocidad.add(new ClasificacionListaVelocidad(200,9.00,0));
         listasVelocidad.add(new ClasificacionListaVelocidad(200,8.00,0));
@@ -1303,7 +1298,7 @@ public class Listas
         listasVelocidad.add(new ClasificacionListaVelocidad(200,0.010,77));
         listaVelocidadPPA.add(listasVelocidad);
 
-        listasVelocidad = new ArrayList<ClasificacionListaVelocidad>();
+        listasVelocidad = new ArrayList<>();
         listasVelocidad.add(new ClasificacionListaVelocidad(300,10.00,0));
         listasVelocidad.add(new ClasificacionListaVelocidad(300,9.00,0));
         listasVelocidad.add(new ClasificacionListaVelocidad(300,8.00,0));
@@ -1343,7 +1338,7 @@ public class Listas
         listasVelocidad.add(new ClasificacionListaVelocidad(300,0.010,375));
         listaVelocidadPPA.add(listasVelocidad);
 
-        listasVelocidad = new ArrayList<ClasificacionListaVelocidad>();
+        listasVelocidad = new ArrayList<>();
         listasVelocidad.add(new ClasificacionListaVelocidad(400,10.00,0));
         listasVelocidad.add(new ClasificacionListaVelocidad(400,9.00,0));
         listasVelocidad.add(new ClasificacionListaVelocidad(400,8.00,0));
@@ -1383,7 +1378,7 @@ public class Listas
         listasVelocidad.add(new ClasificacionListaVelocidad(400,0.010,1172));
         listaVelocidadPPA.add(listasVelocidad);
 
-        listasVelocidad = new ArrayList<ClasificacionListaVelocidad>();
+        listasVelocidad = new ArrayList<>();
         listasVelocidad.add(new ClasificacionListaVelocidad(500,10.00,0));
         listasVelocidad.add(new ClasificacionListaVelocidad(500,9.00,0));
         listasVelocidad.add(new ClasificacionListaVelocidad(500,8.00,0));
@@ -1423,7 +1418,7 @@ public class Listas
         listasVelocidad.add(new ClasificacionListaVelocidad(500,0.010,2927));
         listaVelocidadPPA.add(listasVelocidad);
 
-        listasVelocidad = new ArrayList<ClasificacionListaVelocidad>();
+        listasVelocidad = new ArrayList<>();
         listasVelocidad.add(new ClasificacionListaVelocidad(600,10.00,0));
         listasVelocidad.add(new ClasificacionListaVelocidad(600,9.00,0));
         listasVelocidad.add(new ClasificacionListaVelocidad(600,8.00,0));
@@ -1463,7 +1458,7 @@ public class Listas
         listasVelocidad.add(new ClasificacionListaVelocidad(600,0.010,6108));
         listaVelocidadPPA.add(listasVelocidad);
 
-        listasVelocidad = new ArrayList<ClasificacionListaVelocidad>();
+        listasVelocidad = new ArrayList<>();
         listasVelocidad.add(new ClasificacionListaVelocidad(700,10.00,0));
         listasVelocidad.add(new ClasificacionListaVelocidad(700,9.00,0));
         listasVelocidad.add(new ClasificacionListaVelocidad(700,8.00,0));
@@ -1503,7 +1498,7 @@ public class Listas
         listasVelocidad.add(new ClasificacionListaVelocidad(700,0.010,11576));
         listaVelocidadPPA.add(listasVelocidad);
 
-        listasVelocidad = new ArrayList<ClasificacionListaVelocidad>();
+        listasVelocidad = new ArrayList<>();
         listasVelocidad.add(new ClasificacionListaVelocidad(800,10.00,0));
         listasVelocidad.add(new ClasificacionListaVelocidad(800,9.00,0));
         listasVelocidad.add(new ClasificacionListaVelocidad(800,8.00,0));
@@ -1543,7 +1538,7 @@ public class Listas
         listasVelocidad.add(new ClasificacionListaVelocidad(800,0.010,19916));
         listaVelocidadPPA.add(listasVelocidad);
 
-        listasVelocidad = new ArrayList<ClasificacionListaVelocidad>();
+        listasVelocidad = new ArrayList<>();
         listasVelocidad.add(new ClasificacionListaVelocidad(900,10.00,0));
         listasVelocidad.add(new ClasificacionListaVelocidad(900,9.00,0));
         listasVelocidad.add(new ClasificacionListaVelocidad(900,8.00,0));
@@ -1583,7 +1578,7 @@ public class Listas
         listasVelocidad.add(new ClasificacionListaVelocidad(900,0.010,31486));
         listaVelocidadPPA.add(listasVelocidad);
 
-        listasVelocidad = new ArrayList<ClasificacionListaVelocidad>();
+        listasVelocidad = new ArrayList<>();
         listasVelocidad.add(new ClasificacionListaVelocidad(1000,10.00,0));
         listasVelocidad.add(new ClasificacionListaVelocidad(1000,9.00,0));
         listasVelocidad.add(new ClasificacionListaVelocidad(1000,8.00,0));
@@ -1623,7 +1618,7 @@ public class Listas
         listasVelocidad.add(new ClasificacionListaVelocidad(1000,0.010,49335));
         listaVelocidadPPA.add(listasVelocidad);
 
-        listasVelocidad = new ArrayList<ClasificacionListaVelocidad>();
+        listasVelocidad = new ArrayList<>();
         listasVelocidad.add(new ClasificacionListaVelocidad(1200,10.00,0));
         listasVelocidad.add(new ClasificacionListaVelocidad(1200,9.00,0));
         listasVelocidad.add(new ClasificacionListaVelocidad(1200,8.00,0));
@@ -1663,7 +1658,7 @@ public class Listas
         listasVelocidad.add(new ClasificacionListaVelocidad(1200,0.010,99145));
         listaVelocidadPPA.add(listasVelocidad);
 
-        listasVelocidad = new ArrayList<ClasificacionListaVelocidad>();
+        listasVelocidad = new ArrayList<>();
         listasVelocidad.add(new ClasificacionListaVelocidad(1400,10.00,0));
         listasVelocidad.add(new ClasificacionListaVelocidad(1400,9.00,0));
         listasVelocidad.add(new ClasificacionListaVelocidad(1400,8.00,0));
@@ -1703,7 +1698,7 @@ public class Listas
         listasVelocidad.add(new ClasificacionListaVelocidad(1400,0.010,0));
         listaVelocidadPPA.add(listasVelocidad);
 
-        listasVelocidad = new ArrayList<ClasificacionListaVelocidad>();
+        listasVelocidad = new ArrayList<>();
         listasVelocidad.add(new ClasificacionListaVelocidad(1600,10.00,0));
         listasVelocidad.add(new ClasificacionListaVelocidad(1600,9.00,0));
         listasVelocidad.add(new ClasificacionListaVelocidad(1600,8.00,0));
@@ -1743,7 +1738,7 @@ public class Listas
         listasVelocidad.add(new ClasificacionListaVelocidad(1600,0.010,0));
         listaVelocidadPPA.add(listasVelocidad);
 
-        listasVelocidad = new ArrayList<ClasificacionListaVelocidad>();
+        listasVelocidad = new ArrayList<>();
         listasVelocidad.add(new ClasificacionListaVelocidad(1800,10.00,0));
         listasVelocidad.add(new ClasificacionListaVelocidad(1800,9.00,10));
         listasVelocidad.add(new ClasificacionListaVelocidad(1800,8.00,12));
