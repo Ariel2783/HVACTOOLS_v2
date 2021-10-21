@@ -135,22 +135,17 @@ public class DimDucto_Temporal extends AppCompatActivity
 
         if (indexListaPerdida == 0)
         {
-            i = 0;
-            while (i < Listas.listaPerdida.size())
+            for (ClasificasionListaPerdida itemPerd: Listas.listaPerdida)
             {
-                if (Listas.listaPerdida.get(i).perdidaTabla < perdidaEstatica)
+                if (itemPerd.perdidaTabla < perdidaEstatica)
                 {
-                    int indexPerdidaInferior = i;
-                    int indexPerdidaSuperior = i-1;
-
-                    //Interpolacion para obtener el diametro equivalente y la velocidad lineal.
+                    int indexInferior = itemPerd.index;
+                    int indexSuperior = itemPerd.index - 1;
                     Interpolaciones inter = new Interpolaciones();
-                    inter.interpolacion1(edTextDiaEqv, edTextVelocidad, indexPerdidaInferior, indexPerdidaSuperior, perdidaEstatica, flujoArie);
+                    inter.interpolacionDiametroEqv(edTextDiaEqv, edTextVelocidad, indexInferior, indexSuperior, perdidaEstatica, flujoArie);
                     break;
                 }
-                i++;
             }
-
         }
         //////------
 
