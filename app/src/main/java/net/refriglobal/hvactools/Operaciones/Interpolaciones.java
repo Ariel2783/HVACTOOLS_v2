@@ -10,7 +10,16 @@ import java.util.Locale;
 
 public class Interpolaciones
 {
-    public void interpolacionDiametroEqv(EditText diaEqv, EditText velLineal, int indexPerdInf, int indexPerdSup, double perdUsuario, double flujoUsuario)
+    private double area1;
+    public Double getArea1() { return area1; }
+
+    private double diametroEqvFinal;
+    public Double getDiametroEqvFinal() {return diametroEqvFinal;}
+
+    private double velocidadFinal;
+    public Double getVelocidadFlujoAire() {return velocidadFinal;}
+
+    public void interpolacionDiametroEqv(int indexPerdInf, int indexPerdSup, double perdUsuario, double flujoUsuario)
     {
        double diametro1 = 0;
        int i = 0;
@@ -61,16 +70,65 @@ public class Interpolaciones
            double fraccionPerdida = (perdUsuario - perdidaInferior) / (perdidaSuperior - perdidaInferior);
            double valor = fraccionPerdida * Math.abs(diametro1 - diametro2);
 
-           double diametroFinal = 0;
-
            if (diametro1 < diametro2)
-               diametroFinal = diametro1 + valor;
+               diametroEqvFinal = diametro1 + valor;
 
            if (diametro2 < diametro1)
-               diametroFinal = diametro2 + valor;
+               diametroEqvFinal = diametro2 + valor;
 
-           diaEqv.setText(String.format(Locale.getDefault(), "%.2f", diametroFinal));
-           //TODO: 20211020; Continuar.
+           //Area del diametro equivalente.
+           area1 = (Math.PI * Math.pow(diametroEqvFinal/2,2)) /144; //dia en plg, area1 en ft²
        }
+    }
+
+    public void interpolacionVelocidad(int indexPerdInf, int indexPerdSup, double flujoCFM, double perdidaEstatica)
+    {
+        double velocidad1=0;
+        int i = 0;
+        while (i < Listas.listaVelocidadPPA.size())
+        {
+            if (Listas.listaVelocidadPPA.get(i).get(indexPerdSup).cfm > flujoCFM &&
+                Listas.listaVelocidadPPA.get(i-1).get(indexPerdSup).cfm < flujoCFM)
+            {
+                double velocidadSuperior = Listas.listaVelocidadPPA.get(i).get(indexPerdSup).velocidad;
+                double velocidadInferrio = Listas.listaVelocidadPPA.get(i-1).get(indexPerdSup).velocidad;
+
+                double diferenciaFlujos = Listas.listaVelocidadPPA.get(i).get(indexPerdSup).cfm - Listas.listaVelocidadPPA.get(i-1).get(indexPerdSup).cfm;
+                double fraccionFlujo = (flujoCFM - Listas.listaVelocidadPPA.get(i-1).get(indexPerdSup).cfm)/diferenciaFlujos;
+                double valorInterpolado = fraccionFlujo * (velocidadSuperior - velocidadInferrio);
+                velocidad1 = velocidadInferrio + valorInterpolado;
+                break;
+            }
+
+            i++;
+        }
+
+        double velocidad2 = 0;
+        i = 0;
+        while (i < Listas.listaVelocidadPPA.size())
+        {
+            if (Listas.listaVelocidadPPA.get(i).get(indexPerdInf).cfm > flujoCFM &&
+                Listas.listaVelocidadPPA.get(i-1).get(indexPerdInf).cfm < flujoCFM)
+            {
+                double velocidadSuperior = Listas.listaVelocidadPPA.get(i).get(indexPerdSup).velocidad;
+                double velocidadInferrio = Listas.listaVelocidadPPA.get(i-1).get(indexPerdSup).velocidad;
+
+                double diferenciaFlujos = Listas.listaVelocidadPPA.get(i).get(indexPerdInf).cfm - Listas.listaVelocidadPPA.get(i-1).get(indexPerdInf).cfm;
+                double fraccionFlujo = (flujoCFM - Listas.listaVelocidadPPA.get(i-1).get(indexPerdInf).cfm)/diferenciaFlujos;
+                double valorInterpolado = fraccionFlujo * (velocidadSuperior - velocidadInferrio);
+                velocidad2 = velocidadInferrio + valorInterpolado;
+                break;
+            }
+
+            i++;
+        }
+
+        double perdidaSuperior = Listas.listaPerdida.get(indexPerdSup).perdidaTabla;
+        double perdidaInferior = Listas.listaPerdida.get(indexPerdInf).perdidaTabla;
+
+        double fraccionFinal = (perdidaEstatica - perdidaInferior)/(perdidaSuperior - perdidaInferior);
+        double valorFinal = fraccionFinal * (velocidad1 - velocidad2);
+        velocidadFinal = velocidad2 + valorFinal;
+
     }
 }

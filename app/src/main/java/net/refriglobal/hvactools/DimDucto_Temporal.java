@@ -119,7 +119,7 @@ public class DimDucto_Temporal extends AppCompatActivity
         flujoArie = Double.parseDouble(edTextCFM.getText().toString()); //CFM, conversion de variable.
         perdidaEstatica = Double.parseDouble(edTextPerdEstatica.getText().toString()); //Perdida, conversion de variable.
 
-        int indexListaPerdida = 0;
+        int indexListaPerdida = -1;
 
         /*Obtener en este punto la posicion del arreglo de perdida, de la perdida introducida por el usario*/
        int i = 0;
@@ -133,7 +133,48 @@ public class DimDucto_Temporal extends AppCompatActivity
             i++;
         }
 
-        if (indexListaPerdida == 0)
+        /*Caso1: la perdida y flujo introducido por el usuario coincide con los valores obtenidos la grafica.*/
+        if (indexListaPerdida >= 0)
+            for (List<ClasificacionListaPPA> listaDia: Listas.listaPPA)
+            {
+                if (listaDia.size() > indexListaPerdida)
+                {
+                    if (flujoArie == listaDia.get(indexListaPerdida).cfm)
+                    {
+                        double diaEqvPrueba;
+                        diaEqvPrueba = listaDia.get(indexListaPerdida).diametro;
+                        edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.2f", diaEqvPrueba));
+
+                        //Valor de velocidad del grafico
+                        for (List<ClasificacionListaVelocidad> listaVel:Listas.listaVelocidadPPA)
+                        {
+                            if (flujoArie == listaVel.get(indexListaPerdida).cfm)
+                            {
+                                double velocidad;
+                                velocidad = listaVel.get(indexListaPerdida).velocidad;
+                                edTextVelocidad.setText(String.format(Locale.getDefault(), "%.1f", velocidad));
+                                break;
+                            }
+                        }
+                        break;
+                    }
+
+                    if (listaDia.get(indexListaPerdida).cfm > flujoArie)
+                    {
+                    /*Caso2: perdida coincide, el flujo no.
+                    la perdida introducida por el usuario coincide con la grafica, pero flujo introducido por
+                    el usuario no coincide con los valores de la grafica.
+                    Se realizara interpolacion en el flujo de aire y diametros*/
+                        break;
+                    }
+                }
+            }
+
+        //-------------
+
+        /*Si el indice de perdida continua == -1, significa que la perdida introducida por el usuario
+        * no es un valor fijo de la lista de perdida, por ende se requiere interpolacion*/
+        if (indexListaPerdida == -1)
         {
             for (ClasificasionListaPerdida itemPerd: Listas.listaPerdida)
             {
@@ -142,48 +183,19 @@ public class DimDucto_Temporal extends AppCompatActivity
                     int indexInferior = itemPerd.index;
                     int indexSuperior = itemPerd.index - 1;
                     Interpolaciones inter = new Interpolaciones();
-                    inter.interpolacionDiametroEqv(edTextDiaEqv, edTextVelocidad, indexInferior, indexSuperior, perdidaEstatica, flujoArie);
-                    break;
+                    inter.interpolacionDiametroEqv(indexInferior, indexSuperior, perdidaEstatica, flujoArie);
+                    edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.2f", inter.getDiametroEqvFinal()));
+                    areaFlujo.setText(String.format(Locale.getDefault(), "%.4f", inter.getArea1())+" ");
+
+                    inter.interpolacionVelocidad(indexInferior, indexSuperior, flujoArie, perdidaEstatica);
+                    edTextVelocidad.setText(String.format(Locale.getDefault(),"%.1f", inter.getVelocidadFlujoAire()));
+                    break; //TODO: Continuar.
                 }
             }
         }
         //////------
 
-        double diaEqvPrueba;
-        double velocidad;
-        for (List<ClasificacionListaPPA> listaDia: Listas.listaPPA)
-        {
-            if (listaDia.size() > indexListaPerdida)
-            {
-                if (flujoArie == listaDia.get(indexListaPerdida).cfm)
-                {
-                    /*Caso1: la perdida y flujo introducido por el usuario coincide con los valores obtenidos la grafica.*/
-                    diaEqvPrueba = listaDia.get(indexListaPerdida).diametro;
-                    edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.2f", diaEqvPrueba));
-                    //TODO: 20211010; Continuar con la obtencion del valor de velocida con la clase Velocidad Tabla.
 
-                    //Valor de velocidad del grafico
-                    for (List<ClasificacionListaVelocidad> listaVel:Listas.listaVelocidadPPA)
-                    {
-                        if (flujoArie == listaVel.get(indexListaPerdida).cfm)
-                        {
-                            velocidad = listaVel.get(indexListaPerdida).velocidad;
-                            edTextVelocidad.setText(String.format(Locale.getDefault(), "%.1f", velocidad));
-                        }
-                    }
-                    break;
-                }
-
-                if (listaDia.get(indexListaPerdida).cfm > flujoArie)
-                {
-                /*Caso2: perdida coincide, el flujo no.
-                la perdida introducida por el usuario coincide con la grafica, pero flujo introducido por
-                el usuario no coincide con los valores de la grafica.
-                Se realizara interpolacion en el flujo de aire y diametros*/
-                    break;
-                }
-            }
-        }
     }
 
 
