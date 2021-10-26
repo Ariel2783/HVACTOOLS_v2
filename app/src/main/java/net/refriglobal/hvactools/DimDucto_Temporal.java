@@ -15,6 +15,7 @@ import net.refriglobal.hvactools.ClasificacionListas.ClasificacionListaPPA;
 import net.refriglobal.hvactools.ClasificacionListas.ClasificacionListaVelocidad;
 import net.refriglobal.hvactools.ClasificacionListas.ClasificasionListaPerdida;
 import net.refriglobal.hvactools.ClasificacionListas.Listas;
+import net.refriglobal.hvactools.Operaciones.Calculos;
 import net.refriglobal.hvactools.Operaciones.Interpolaciones;
 
 import java.util.List;
@@ -67,31 +68,31 @@ public class DimDucto_Temporal extends AppCompatActivity
                 String select1 = condicionesAmbiente.getSelectedItem().toString();
                 if (select1.equals("10°C(50°F) Aire 97% RH 1 atm"))
                 {
-                    densidadAire.setText(String.format(Locale.getDefault(),"0.0778 "));    viscoCinematica.setText(String.format("1.5285x10ˉ⁴ "));
+                    densidadAire.setText(String.format(Locale.getDefault(),"0.0778 "));    viscoCinematica.setText(String.format("1.5285e-4 "));
                     calorEspcf.setText(String.format("0.24 "));      factorEnergia.setText(String.format("1.09 "));
                 }
 
                 if (select1.equals("20°C(68°F) Aire STP"))
                 {
-                    densidadAire.setText(String.format("0.0752 "));    viscoCinematica.setText(String.format("1.6253x10ˉ⁴ "));
+                    densidadAire.setText(String.format("0.0752 "));    viscoCinematica.setText(String.format("1.6253e-4 "));
                     calorEspcf.setText(String.format("0.24 "));      factorEnergia.setText(String.format("1.08 "));
                 }
 
                 if (select1.equals("23.9°C(75°F) Aire 50% RH 1 atm"))
                 {
-                    densidadAire.setText("0.0739 ");    viscoCinematica.setText("1.6738x10ˉ⁴ ");
+                    densidadAire.setText("0.0739 ");    viscoCinematica.setText("1.6738e-4 ");
                     calorEspcf.setText("0.24 ");      factorEnergia.setText("1.05 ");
                 }
 
                 if (select1.equals("40°C(104°F) Aire 23% RH 1 atm"))
                 {
-                    densidadAire.setText("0.0704 ");    viscoCinematica.setText("1.8191x10ˉ⁴ ");
+                    densidadAire.setText("0.0704 ");    viscoCinematica.setText("1.8191e-4 ");
                     calorEspcf.setText("0.24 ");      factorEnergia.setText("1.01 ");
                 }
 
                 if (select1.equals("50°C(122°F) Aire 11% RH 1 atm"))
                 {
-                    densidadAire.setText("0.0682 ");    viscoCinematica.setText("1.9267x10ˉ⁴ ");
+                    densidadAire.setText("0.0682 ");    viscoCinematica.setText("1.9267e-4 ");
                     calorEspcf.setText("0.24 ");      factorEnergia.setText("0.96 ");
                 }
             }
@@ -185,11 +186,22 @@ public class DimDucto_Temporal extends AppCompatActivity
                     Interpolaciones inter = new Interpolaciones();
                     inter.interpolacionDiametroEqv(indexInferior, indexSuperior, perdidaEstatica, flujoArie);
                     edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.2f", inter.getDiametroEqvFinal()));
-                    areaFlujo.setText(String.format(Locale.getDefault(), "%.4f", inter.getArea1())+" ");
+
+                    Calculos operacion = new Calculos();
+                    operacion.calculoArea(inter.getDiametroEqvFinal());
+                    areaFlujo.setText(String.format(Locale.getDefault(), "%.4f", operacion.getAreaDiametroEqv())+" ");
 
                     inter.interpolacionVelocidad(indexInferior, indexSuperior, flujoArie, perdidaEstatica);
                     edTextVelocidad.setText(String.format(Locale.getDefault(),"%.1f", inter.getVelocidadFlujoAire()));
-                    break; //TODO: Continuar.
+
+                    operacion.calculoVelDiaEqv(flujoArie);
+                    velFluidoFinal.setText(String.format(Locale.getDefault(),"%.1f",operacion.getVelocidadDiametro())+" ");
+
+                    double valorViscoCinematica = Double.parseDouble(viscoCinematica.getText().toString());
+                    operacion.calculoNumeroReynolds(operacion.getVelocidadDiametro(), inter.getDiametroEqvFinal(), valorViscoCinematica);
+                    numRaynolds.setText(String.format(Locale.getDefault(), "%.0f", operacion.getNumeroReynolds()));
+
+                    break; //TODO: Continuar
                 }
             }
         }

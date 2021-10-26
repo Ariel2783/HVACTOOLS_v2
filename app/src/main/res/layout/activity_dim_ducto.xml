@@ -457,12 +457,28 @@
                     android:textColor="@color/colorPrimary" />
 
                 <TextView
+                    android:id="@+id/textView63"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/factorFriccion"
+                    android:textColor="@color/colorPrimary" />
+
+                <TextView
+                    android:id="@+id/textView61"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/PresionVelocidad"
+                    android:textColor="@color/colorPrimary" />
+
+                <TextView
                     android:id="@+id/textView28"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="@string/Head_loss"
-                    android:textColor="@color/verde_texto"
+                    android:textColor="@color/colorPrimary"
                     android:textStyle="italic" />
             </LinearLayout>
 
@@ -501,6 +517,24 @@
 
                 <TextView
                     android:id="@+id/textViewNumReynolds"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:textColor="@color/colorPrimary"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:id="@+id/textViewFactorFriccion"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:textColor="@color/colorPrimary"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:id="@+id/textViewPresionVelocidad"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -558,6 +592,22 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="left" />
+
+                <TextView
+                    android:id="@+id/textView64"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="left" />
+
+                <TextView
+                    android:id="@+id/textView62"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="@string/plgWC"
+                    android:textColor="@color/verde_texto" />
 
                 <TextView
                     android:id="@+id/textView43"

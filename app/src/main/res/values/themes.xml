@@ -6,6 +6,5 @@
     </style>
 
     <style name="havactoolstheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
     <style name="havactoolstheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

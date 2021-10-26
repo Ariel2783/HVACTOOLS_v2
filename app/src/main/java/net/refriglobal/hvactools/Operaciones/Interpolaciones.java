@@ -10,9 +10,6 @@ import java.util.Locale;
 
 public class Interpolaciones
 {
-    private double area1;
-    public Double getArea1() { return area1; }
-
     private double diametroEqvFinal;
     public Double getDiametroEqvFinal() {return diametroEqvFinal;}
 
@@ -75,9 +72,6 @@ public class Interpolaciones
 
            if (diametro2 < diametro1)
                diametroEqvFinal = diametro2 + valor;
-
-           //Area del diametro equivalente.
-           area1 = (Math.PI * Math.pow(diametroEqvFinal/2,2)) /144; //dia en plg, area1 en ft²
        }
     }
 

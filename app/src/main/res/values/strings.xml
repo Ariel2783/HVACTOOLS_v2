@@ -22,6 +22,7 @@
     <string name="Btu_hFcfm">Btu/h·°F·cfm.</string>
     <string name="ft2">ft²</string>
     <string name="ft_min">ft/min</string>
+    <string name="plgWC">in.WC</string>
     <string name="inWC">in.WC</string>
     <string name="cfm">cfm</string>
     <string name="inWC_100ft">in.WC/100ft</string>
@@ -37,7 +38,9 @@
     <string name="Eq_DIA">Diámetro equivalente</string>
     <string name="Flow_Area">Área de flujo</string>
     <string name="Fluid_Velocity">Velocidad del fluido</string>
+    <string name="factorFriccion">Factor de friccion</string>
     <string name="Reynolds">Número de Reynolds</string>
+    <string name="PresionVelocidad">Presion de velocidad</string>
     <string name="Friction_fact">Factor de fricción</string>
     <string name="Velocity_Press">Presión Dinámica</string>
     <string name="Calcular">CALCULAR</string>
