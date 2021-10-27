@@ -1,6 +1,7 @@
 package net.refriglobal.hvactools;
 
 import androidx.appcompat.app.AppCompatActivity;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -10,7 +11,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import net.refriglobal.hvactools.ClasificacionListas.ClasificacionListaPPA;
 import net.refriglobal.hvactools.ClasificacionListas.ClasificacionListaVelocidad;
 import net.refriglobal.hvactools.ClasificacionListas.ClasificasionListaPerdida;
@@ -24,8 +24,9 @@ import java.util.Locale;
 public class DimDucto_Temporal extends AppCompatActivity
 {
     Spinner condicionesAmbiente;
-    TextView densidadAire, viscoCinematica, calorEspcf, factorEnergia;
-    TextView diaEqvFinal, areaFlujo, velFluidoFinal, numRaynolds, perdEstaticaFinal;
+    TextView textViewDensidadAire, textViewViscoCinematica, textViewCalorEspcf, textViewFactorEnergia;
+    TextView textViewDiaEqvFinal, textViewAreaFlujo, textViewVelFluidoFinal, textViewNumRaynolds, textViewPerdFricion, textViewFactorFriccion,
+             textViewPresionVelocidad;
     CheckBox chkCaudal, chkPerdEstatica, chkVelocidad, chkDiaEqv;
     EditText edTextCFM, edTextPerdEstatica, edTextVelocidad, edTextDiaEqv, edTextLadoADucto, edTextLadoBDucto;
 
@@ -35,15 +36,17 @@ public class DimDucto_Temporal extends AppCompatActivity
         setContentView(R.layout.activity_dim_ducto);
 
         condicionesAmbiente = findViewById(R.id.spinner1);
-        densidadAire        = findViewById(R.id.textViewDensidadAire);
-        viscoCinematica     = findViewById(R.id.TextViewViscoCinematica);
-        calorEspcf          = findViewById(R.id.textViewCalorEspcf);
-        factorEnergia       = findViewById(R.id.textViewFacEnergia);
-        diaEqvFinal         = findViewById(R.id.textViewDiaEqvFinal);
-        areaFlujo           = findViewById(R.id.textViewAreaFlujo);
-        velFluidoFinal      = findViewById(R.id.textViewVelFluidoFinal);
-        numRaynolds         = findViewById(R.id.textViewNumReynolds);
-        perdEstaticaFinal   = findViewById(R.id.textViewPerdestaticaFinal);
+        textViewDensidadAire        = findViewById(R.id.textViewDensidadAire);
+        textViewViscoCinematica     = findViewById(R.id.TextViewViscoCinematica);
+        textViewCalorEspcf          = findViewById(R.id.textViewCalorEspcf);
+        textViewFactorEnergia       = findViewById(R.id.textViewFacEnergia);
+        textViewDiaEqvFinal         = findViewById(R.id.textViewDiaEqvFinal);
+        textViewAreaFlujo           = findViewById(R.id.textViewAreaFlujo);
+        textViewVelFluidoFinal      = findViewById(R.id.textViewVelFluidoFinal);
+        textViewNumRaynolds         = findViewById(R.id.textViewNumReynolds);
+        textViewPerdFricion   = findViewById(R.id.textViewPerdidaFriccion);
+        textViewFactorFriccion = findViewById(R.id.textViewFactorFriccion);
+        textViewPresionVelocidad = findViewById(R.id.textViewPresionVelocidad);
 
         chkCaudal       = findViewById(R.id.checkBoxCaudal);
         chkPerdEstatica = findViewById(R.id.checkBoxPedEstatica);
@@ -60,6 +63,7 @@ public class DimDucto_Temporal extends AppCompatActivity
         //Seleccion de opciones del Spinner (condiciones)
         condicionesAmbiente.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id)
             {
@@ -68,32 +72,32 @@ public class DimDucto_Temporal extends AppCompatActivity
                 String select1 = condicionesAmbiente.getSelectedItem().toString();
                 if (select1.equals("10°C(50°F) Aire 97% RH 1 atm"))
                 {
-                    densidadAire.setText(String.format(Locale.getDefault(),"0.0778 "));    viscoCinematica.setText(String.format("1.5285e-4 "));
-                    calorEspcf.setText(String.format("0.24 "));      factorEnergia.setText(String.format("1.09 "));
+                    textViewDensidadAire.setText("0.0778 ");    textViewViscoCinematica.setText("1.5285e-4 ");
+                    textViewCalorEspcf.setText("0.24 ");      textViewFactorEnergia.setText("1.09 ");
                 }
 
                 if (select1.equals("20°C(68°F) Aire STP"))
                 {
-                    densidadAire.setText(String.format("0.0752 "));    viscoCinematica.setText(String.format("1.6253e-4 "));
-                    calorEspcf.setText(String.format("0.24 "));      factorEnergia.setText(String.format("1.08 "));
+                    textViewDensidadAire.setText("0.0752 ");    textViewViscoCinematica.setText("1.6253e-4 ");
+                    textViewCalorEspcf.setText("0.24 ");      textViewFactorEnergia.setText("1.08 ");
                 }
 
                 if (select1.equals("23.9°C(75°F) Aire 50% RH 1 atm"))
                 {
-                    densidadAire.setText("0.0739 ");    viscoCinematica.setText("1.6738e-4 ");
-                    calorEspcf.setText("0.24 ");      factorEnergia.setText("1.05 ");
+                    textViewDensidadAire.setText("0.0739 ");    textViewViscoCinematica.setText("1.6738e-4 ");
+                    textViewCalorEspcf.setText("0.24 ");      textViewFactorEnergia.setText("1.05 ");
                 }
 
                 if (select1.equals("40°C(104°F) Aire 23% RH 1 atm"))
                 {
-                    densidadAire.setText("0.0704 ");    viscoCinematica.setText("1.8191e-4 ");
-                    calorEspcf.setText("0.24 ");      factorEnergia.setText("1.01 ");
+                    textViewDensidadAire.setText("0.0704 ");    textViewViscoCinematica.setText("1.8191e-4 ");
+                    textViewCalorEspcf.setText("0.24 ");      textViewFactorEnergia.setText("1.01 ");
                 }
 
                 if (select1.equals("50°C(122°F) Aire 11% RH 1 atm"))
                 {
-                    densidadAire.setText("0.0682 ");    viscoCinematica.setText("1.9267e-4 ");
-                    calorEspcf.setText("0.24 ");      factorEnergia.setText("0.96 ");
+                    textViewDensidadAire.setText("0.0682 ");    textViewViscoCinematica.setText("1.9267e-4 ");
+                    textViewCalorEspcf.setText("0.24 ");      textViewFactorEnergia.setText("0.96 ");
                 }
             }
 
@@ -114,6 +118,7 @@ public class DimDucto_Temporal extends AppCompatActivity
         chkDiaEqv.setClickable(true);
     }
 
+    @SuppressLint({"DefaultLocale", "SetTextI18n"})
     public void calcular(View view)
     {
         double flujoArie, perdidaEstatica;
@@ -189,19 +194,29 @@ public class DimDucto_Temporal extends AppCompatActivity
 
                     Calculos operacion = new Calculos();
                     operacion.calculoArea(inter.getDiametroEqvFinal());
-                    areaFlujo.setText(String.format(Locale.getDefault(), "%.4f", operacion.getAreaDiametroEqv())+" ");
+                    textViewAreaFlujo.setText(String.format(Locale.getDefault(),"%.4f", operacion.getAreaDiametroEqv())+" ");
 
                     inter.interpolacionVelocidad(indexInferior, indexSuperior, flujoArie, perdidaEstatica);
                     edTextVelocidad.setText(String.format(Locale.getDefault(),"%.1f", inter.getVelocidadFlujoAire()));
 
                     operacion.calculoVelDiaEqv(flujoArie);
-                    velFluidoFinal.setText(String.format(Locale.getDefault(),"%.1f",operacion.getVelocidadDiametro())+" ");
+                    textViewVelFluidoFinal.setText(String.format(Locale.getDefault(),"%.1f",operacion.getVelocidadDiametro())+" ");
 
-                    double valorViscoCinematica = Double.parseDouble(viscoCinematica.getText().toString());
+                    double valorViscoCinematica = Double.parseDouble(textViewViscoCinematica.getText().toString());
                     operacion.calculoNumeroReynolds(operacion.getVelocidadDiametro(), inter.getDiametroEqvFinal(), valorViscoCinematica);
-                    numRaynolds.setText(String.format(Locale.getDefault(), "%.0f", operacion.getNumeroReynolds()));
+                    textViewNumRaynolds.setText(String.format(Locale.getDefault(), "%.0f", operacion.getNumeroReynolds()));
 
-                    break; //TODO: Continuar
+                    operacion.calculoFactorFriccion(inter.getDiametroEqvFinal());
+                    textViewFactorFriccion.setText(String.format(Locale.getDefault(),"%.5f", operacion.getFactorFriccion()));
+
+                    double aireDensidad = Double.parseDouble(textViewDensidadAire.getText().toString());
+                    operacion.calculoPresionVelocidad(aireDensidad);
+                    textViewPresionVelocidad.setText(String.format(Locale.getDefault(),"%.4f",operacion.getPresionVelocidad())+" ");
+
+                    operacion.calculoPerdidaFriccion(inter.getDiametroEqvFinal());
+                    textViewPerdFricion.setText(String.format(Locale.getDefault(),"%.4f", operacion.getPerdidaFriccion())+" ");
+
+                    break;
                 }
             }
         }

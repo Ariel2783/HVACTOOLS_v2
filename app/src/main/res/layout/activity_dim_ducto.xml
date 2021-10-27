@@ -539,17 +539,17 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="right"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/verde_texto"
                     tools:ignore="HardcodedText" />
 
                 <TextView
-                    android:id="@+id/textViewPerdestaticaFinal"
+                    android:id="@+id/textViewPerdidaFriccion"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="right"
                     android:textColor="@color/verde_texto"
-                    android:textStyle="italic"
+                    android:textStyle="bold|italic"
                     tools:ignore="HardcodedText" />
             </LinearLayout>
 

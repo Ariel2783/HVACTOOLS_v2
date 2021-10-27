@@ -30,7 +30,7 @@
     <string name="in">in</string>
 
     <string name="Flow_rate">Caudal</string>
-    <string name="Head_loss">Pérdida estática</string>
+    <string name="Head_loss">Pérdida por fricción</string>
     <string name="Velocity">Velocidad</string>
     <string name="Eq_dia">Diámetro equivalente</string>
     <string name="Duct_size">Dim. Ducto</string>

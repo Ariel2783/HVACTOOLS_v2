@@ -53,7 +53,7 @@ public class DimDucto extends AppCompatActivity {
         tv30 = findViewById(R.id.textViewAreaFlujo);
         tv32 = findViewById(R.id.textViewVelFluidoFinal);
         tv34 = findViewById(R.id.textViewNumReynolds);
-        tv36 = findViewById(R.id.textViewPerdestaticaFinal);
+        tv36 = findViewById(R.id.textViewPerdidaFriccion);
 
         chk1 = findViewById(R.id.checkBoxCaudal);
         chk2 = findViewById(R.id.checkBoxPedEstatica);

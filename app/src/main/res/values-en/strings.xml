@@ -22,7 +22,7 @@
     <string name="fpm">fpm</string>
     <string name="in">in</string>
     <string name="Flow_rate">Flow</string>
-    <string name="Head_loss">Static loss</string>
+    <string name="Head_loss">Head loss</string>
     <string name="Velocity">Velocity</string>
     <string name="Eq_dia">Equivalent diameter</string>
     <string name="Duct_size">Dim. Duct</string>
