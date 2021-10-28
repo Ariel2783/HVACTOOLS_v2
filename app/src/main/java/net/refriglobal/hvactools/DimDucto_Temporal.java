@@ -18,6 +18,7 @@ import net.refriglobal.hvactools.ClasificacionListas.Listas;
 import net.refriglobal.hvactools.Operaciones.Calculos;
 import net.refriglobal.hvactools.Operaciones.Interpolaciones;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Locale;
 
@@ -159,18 +160,43 @@ public class DimDucto_Temporal extends AppCompatActivity
                                 double velocidad;
                                 velocidad = listaVel.get(indexListaPerdida).velocidad;
                                 edTextVelocidad.setText(String.format(Locale.getDefault(), "%.1f", velocidad));
+                                //TODO: Pendiente continuar con el resto de los calculos.
                                 break;
                             }
                         }
                         break;
                     }
 
-                    if (listaDia.get(indexListaPerdida).cfm > flujoArie)
+                    if (flujoArie < listaDia.get(indexListaPerdida).cfm)
                     {
                     /*Caso2: perdida coincide, el flujo no.
                     la perdida introducida por el usuario coincide con la grafica, pero flujo introducido por
                     el usuario no coincide con los valores de la grafica.
                     Se realizara interpolacion en el flujo de aire y diametros*/
+                        Interpolaciones objInterpolacion = new Interpolaciones();
+
+                        objInterpolacion.interpolacionDiametroEqvMetodo2(indexListaPerdida, flujoArie);
+                        edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.2f", objInterpolacion.getDiametroEqvFinal()));
+
+                        objInterpolacion.interpolacionVelocidadMetodo2(flujoArie,indexListaPerdida);
+                        edTextVelocidad.setText(String.format(Locale.getDefault(),"%.1f", objInterpolacion.getVelocidadFlujoAire()));
+
+                        Calculos operacion = new Calculos();
+                        operacion.calculoArea(objInterpolacion.getDiametroEqvFinal());
+
+                        operacion.calculoVelDiaEqv(flujoArie);
+
+                        double valorViscoCinematica = Double.parseDouble(textViewViscoCinematica.getText().toString());
+                        operacion.calculoNumeroReynolds(operacion.getVelocidadDiametro(), objInterpolacion.getDiametroEqvFinal(), valorViscoCinematica);
+
+                        operacion.calculoFactorFriccion(objInterpolacion.getDiametroEqvFinal());
+
+                        double aireDensidad = Double.parseDouble(textViewDensidadAire.getText().toString());
+                        operacion.calculoPresionVelocidad(aireDensidad);
+
+                        operacion.calculoPerdidaFriccion(objInterpolacion.getDiametroEqvFinal());
+
+                        resultados(); //muestra los resultados en los textView.
                         break;
                     }
                 }
@@ -188,46 +214,55 @@ public class DimDucto_Temporal extends AppCompatActivity
                 {
                     int indexInferior = itemPerd.index;
                     int indexSuperior = itemPerd.index - 1;
+
                     Interpolaciones inter = new Interpolaciones();
                     inter.interpolacionDiametroEqv(indexInferior, indexSuperior, perdidaEstatica, flujoArie);
+
                     edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.2f", inter.getDiametroEqvFinal()));
 
                     Calculos operacion = new Calculos();
                     operacion.calculoArea(inter.getDiametroEqvFinal());
-                    textViewAreaFlujo.setText(String.format(Locale.getDefault(),"%.4f", operacion.getAreaDiametroEqv())+" ");
 
                     inter.interpolacionVelocidad(indexInferior, indexSuperior, flujoArie, perdidaEstatica);
                     edTextVelocidad.setText(String.format(Locale.getDefault(),"%.1f", inter.getVelocidadFlujoAire()));
 
                     operacion.calculoVelDiaEqv(flujoArie);
-                    textViewVelFluidoFinal.setText(String.format(Locale.getDefault(),"%.1f",operacion.getVelocidadDiametro())+" ");
 
                     double valorViscoCinematica = Double.parseDouble(textViewViscoCinematica.getText().toString());
                     operacion.calculoNumeroReynolds(operacion.getVelocidadDiametro(), inter.getDiametroEqvFinal(), valorViscoCinematica);
-                    textViewNumRaynolds.setText(String.format(Locale.getDefault(), "%.0f", operacion.getNumeroReynolds()));
 
                     operacion.calculoFactorFriccion(inter.getDiametroEqvFinal());
-                    textViewFactorFriccion.setText(String.format(Locale.getDefault(),"%.5f", operacion.getFactorFriccion()));
 
                     double aireDensidad = Double.parseDouble(textViewDensidadAire.getText().toString());
                     operacion.calculoPresionVelocidad(aireDensidad);
-                    textViewPresionVelocidad.setText(String.format(Locale.getDefault(),"%.4f",operacion.getPresionVelocidad())+" ");
 
                     operacion.calculoPerdidaFriccion(inter.getDiametroEqvFinal());
-                    textViewPerdFricion.setText(String.format(Locale.getDefault(),"%.4f", operacion.getPerdidaFriccion())+" ");
+
+                    resultados(); //muestra los resultados en los textView.
 
                     break;
                 }
             }
         }
         //////------
-
-
     }
 
+    public void resultados()
+    {
+        Calculos operacion = new Calculos();
+        DecimalFormat formatoMilDecimal1 = new DecimalFormat("###,###.#");
+        DecimalFormat formatoMil = new DecimalFormat("###,###");
+        textViewAreaFlujo.setText(String.format(Locale.getDefault(),"%.4f", operacion.getAreaDiametroEqv())+" ");
+        textViewVelFluidoFinal.setText(formatoMilDecimal1.format(operacion.getVelocidadDiametro())+" ");
+        textViewNumRaynolds.setText(formatoMil.format(operacion.getNumeroReynolds()));
+        textViewFactorFriccion.setText(String.format(Locale.getDefault(),"%.5f", operacion.getFactorFriccion()));
+        textViewPresionVelocidad.setText(String.format(Locale.getDefault(),"%.4f",operacion.getPresionVelocidad())+" ");
+        textViewPerdFricion.setText(String.format(Locale.getDefault(),"%.4f", operacion.getPerdidaFriccion())+" ");
+    }
 
     public void check1(View view)
     {
+
     }
 
     public void check2(View view)

@@ -20,7 +20,6 @@ public class MainActivity_ppa extends AppCompatActivity {
 
     ImageButton dimducto, cargatermica, extraccioncampana;
     ImageButton calculorefrigerante;
-    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +32,7 @@ public class MainActivity_ppa extends AppCompatActivity {
             }
         });
 
-        mAdView = findViewById(R.id.adView);
+        AdView mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 

@@ -244,7 +244,7 @@ public class DimDucto extends AppCompatActivity {
     }
 
     //Interpolacion para matriz con valores de, perdida, caudal, diametro equivalente.
-    public void interpolacion_1(){
+    public void  interpolacion_1(){
 
         //(CASO 1: perd. coincide, flujo no)
         if (indexPerdida!=0) //significa que contiene un valor, debido a la comparacion con la matriz "PE".

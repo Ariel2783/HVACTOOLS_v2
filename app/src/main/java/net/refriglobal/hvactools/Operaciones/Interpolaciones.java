@@ -3,6 +3,7 @@ package net.refriglobal.hvactools.Operaciones;
 import android.widget.EditText;
 
 import net.refriglobal.hvactools.ClasificacionListas.ClasificacionListaPPA;
+import net.refriglobal.hvactools.ClasificacionListas.ClasificacionListaVelocidad;
 import net.refriglobal.hvactools.ClasificacionListas.Listas;
 
 import java.util.List;
@@ -75,6 +76,33 @@ public class Interpolaciones
        }
     }
 
+    public void interpolacionDiametroEqvMetodo2(int indexPerdidaUsuario, double cfmUsuario)
+    {
+        int i = 0;
+        while (i < Listas.listaPPA.size())
+        {
+            if ((Listas.listaPPA.get(i).size() >= indexPerdidaUsuario) &&
+                    Listas.listaPPA.get(i).get(indexPerdidaUsuario).cfm > cfmUsuario &&
+                    Listas.listaPPA.get(i-1).get(indexPerdidaUsuario).cfm < cfmUsuario)
+            {
+                double flujoSuperior = Listas.listaPPA.get(i).get(indexPerdidaUsuario).cfm;
+                double flujoInferior = Listas.listaPPA.get(i-1).get(indexPerdidaUsuario).cfm;
+                double diametroSuperior = Listas.listaPPA.get(i).get(indexPerdidaUsuario).diametro;
+                double diametroInferior = Listas.listaPPA.get(i-1).get(indexPerdidaUsuario).diametro;
+
+                double difCFM = flujoSuperior - flujoInferior;
+                double fraccionFlujo = (cfmUsuario - flujoInferior)/difCFM;
+
+                double valorExtraDiametro = (diametroSuperior - diametroInferior) * fraccionFlujo;
+
+                diametroEqvFinal = diametroInferior + valorExtraDiametro;
+                break;
+            }
+
+            i++;
+        }
+    }
+
     public void interpolacionVelocidad(int indexPerdInf, int indexPerdSup, double flujoCFM, double perdidaEstatica)
     {
         double velocidad1=0;
@@ -123,6 +151,47 @@ public class Interpolaciones
         double fraccionFinal = (perdidaEstatica - perdidaInferior)/(perdidaSuperior - perdidaInferior);
         double valorFinal = fraccionFinal * (velocidad1 - velocidad2);
         velocidadFinal = velocidad2 + valorFinal;
+    }
 
+    public void interpolacionVelocidadMetodo2(double cfmUsuario, int indexPerdidaUsuario)
+    {
+        velocidadFinal = 0;
+
+        /*Caso Ideal, cuando el caudal y la perdida coinciden con los valores de la matriz de velocidad.*/
+        if (indexPerdidaUsuario >= 0)
+            for (List<ClasificacionListaVelocidad> listaVel:Listas.listaVelocidadPPA)
+            {
+                if (listaVel.get(indexPerdidaUsuario).cfm == cfmUsuario )
+                {
+                    velocidadFinal = listaVel.get(indexPerdidaUsuario).cfm;
+                    break;
+                }
+            }
+
+        /*La perdida coincide con los valores de la lista, el valor de la velocidad no coincide con los valores de la lista*/
+        if (velocidadFinal == 0)
+        {
+            int i = 0;
+            while (i < Listas.listaVelocidadPPA.size())
+            {
+                if (Listas.listaVelocidadPPA.get(i).get(indexPerdidaUsuario).cfm > cfmUsuario &&
+                    Listas.listaVelocidadPPA.get(i-1).get(indexPerdidaUsuario).cfm < cfmUsuario)
+                {
+                    double cfmSuperior = Listas.listaVelocidadPPA.get(i).get(indexPerdidaUsuario).cfm;
+                    double cfmInferrio = Listas.listaVelocidadPPA.get(i-1).get(indexPerdidaUsuario).cfm;
+
+                    double diferenciaFlujos = cfmSuperior - cfmInferrio;
+                    double fraccionFlujo = (cfmUsuario - cfmInferrio)/diferenciaFlujos;
+
+                    double velocidadSuperior = Listas.listaVelocidadPPA.get(i).get(indexPerdidaUsuario).velocidad;
+                    double velocidadInferior = Listas.listaVelocidadPPA.get(i-1).get(indexPerdidaUsuario).velocidad;
+
+                    double valorExtraVelocidad = (velocidadSuperior - velocidadInferior) * fraccionFlujo;
+                    velocidadFinal = velocidadInferior + valorExtraVelocidad;
+                    break;
+                }
+                i++;
+            }
+        }
     }
 }
