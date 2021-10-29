@@ -177,17 +177,16 @@
                 android:layout_weight="0.96"
                 android:orientation="horizontal">
 
-                <CheckBox
+                <RadioButton
                     android:id="@+id/checkBoxCaudal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0.85"
-                    android:checked="true"
-                    android:gravity="center_vertical"
-                    android:onClick="check1"
+                    android:checked="false"
+                    android:onClick="checkCFM"
                     android:text="@string/Flow_rate"
                     android:textStyle="bold"
-                    tools:ignore="NestedWeights,TouchTargetSizeCheck" />
+                    tools:ignore="TouchTargetSizeCheck" />
 
                 <EditText
                     android:id="@+id/editTextCFM"
@@ -220,16 +219,16 @@
                 android:layout_weight="0.96"
                 android:orientation="horizontal">
 
-                <CheckBox
+                <RadioButton
                     android:id="@+id/checkBoxPedEstatica"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0.85"
-                    android:checked="true"
+                    android:checked="false"
                     android:gravity="center_vertical"
-                    android:onClick="check2"
+                    android:onClick="checkPerdidaFriccion"
                     android:text="@string/Head_loss"
-                    tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
+                    tools:ignore="TouchTargetSizeCheck" />
 
                 <EditText
                     android:id="@+id/editTextPerdEstatica"
@@ -260,14 +259,14 @@
                 android:layout_weight="0.96"
                 android:orientation="horizontal">
 
-                <CheckBox
+                <RadioButton
                     android:id="@+id/checkBoxVelocidad"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0.85"
                     android:checked="false"
                     android:gravity="center_vertical"
-                    android:onClick="check3"
+                    android:onClick="checkVelocidad"
                     android:text="@string/Velocity"
                     tools:ignore="TouchTargetSizeCheck" />
 
@@ -300,15 +299,16 @@
                 android:layout_weight="0.96"
                 android:orientation="horizontal">
 
-                <CheckBox
+                <RadioButton
                     android:id="@+id/checkBoxDiaEqv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0.85"
+                    android:checked="false"
                     android:gravity="center_vertical"
-                    android:onClick="check4"
+                    android:onClick="checkDiametroEqv"
                     android:text="@string/Eq_dia"
-                    tools:ignore="TouchTargetSizeCheck" />
+                    tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck" />
 
                 <EditText
                     android:id="@+id/editTextDiaEqv"

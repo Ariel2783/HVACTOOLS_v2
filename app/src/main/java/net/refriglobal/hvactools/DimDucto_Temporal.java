@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,8 +29,9 @@ public class DimDucto_Temporal extends AppCompatActivity
     TextView textViewDensidadAire, textViewViscoCinematica, textViewCalorEspcf, textViewFactorEnergia;
     TextView textViewDiaEqvFinal, textViewAreaFlujo, textViewVelFluidoFinal, textViewNumRaynolds, textViewPerdFricion, textViewFactorFriccion,
              textViewPresionVelocidad;
-    CheckBox chkCaudal, chkPerdEstatica, chkVelocidad, chkDiaEqv;
+    RadioButton chkCaudal, chkPerdEstatica, chkVelocidad, chkDiaEqv;
     EditText edTextCFM, edTextPerdEstatica, edTextVelocidad, edTextDiaEqv, edTextLadoADucto, edTextLadoBDucto;
+    int idCFM, idPerdida, idVelocidad, idDiaEqv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,15 @@ public class DimDucto_Temporal extends AppCompatActivity
         edTextDiaEqv        = findViewById(R.id.editTextDiaEqv);
         edTextLadoADucto    = findViewById(R.id.editTextLadoADucto);
         edTextLadoBDucto    = findViewById(R.id.editTextLadoBDucto);
+
+        chkCaudal.setChecked(true);
+        chkPerdEstatica.setChecked(true);
+        chkVelocidad .setChecked(false);
+        chkDiaEqv.setChecked(false);
+        idCFM = 1;
+        idPerdida = 2;
+        idVelocidad = 0;
+        idDiaEqv = 0;
 
         //Seleccion de opciones del Spinner (condiciones)
         condicionesAmbiente.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
@@ -260,21 +271,144 @@ public class DimDucto_Temporal extends AppCompatActivity
         textViewPerdFricion.setText(String.format(Locale.getDefault(),"%.4f", operacion.getPerdidaFriccion())+" ");
     }
 
-    public void check1(View view)
+    public void checkCFM(View view)
     {
+        if (idCFM == 0)
+        {
+            idCFM = 1;
 
+            if (idPerdida == 2)
+            {
+                chkPerdEstatica.setChecked(false);
+                idPerdida = 0;
+            }
+
+            if (idVelocidad == 2)
+            {
+                chkVelocidad.setChecked(false);
+                idVelocidad = 0;
+            }
+
+            if (idDiaEqv == 2)
+            {
+                chkDiaEqv.setChecked(false);
+                idDiaEqv = 0;
+            }
+
+            if (idPerdida == 1)
+                idPerdida = 2;
+
+            if (idVelocidad == 1)
+                idVelocidad = 2;
+
+            if (idDiaEqv == 1)
+                idDiaEqv = 2;
+        }
     }
 
-    public void check2(View view)
+    public void checkPerdidaFriccion(View view)
     {
+        if (idPerdida == 0)
+        {
+            idPerdida = 1;
+
+            if (idCFM == 2)
+            {
+                chkCaudal.setChecked(false);
+                idCFM = 0;
+            }
+
+            if (idVelocidad == 2)
+            {
+                chkVelocidad.setChecked(false);
+                idVelocidad = 0;
+            }
+
+            if (idDiaEqv == 2)
+            {
+                chkDiaEqv.setChecked(false);
+                idDiaEqv = 0;
+            }
+
+            if (idCFM == 1)
+                idCFM = 2;
+
+            if (idVelocidad == 1)
+                idVelocidad = 2;
+
+            if (idDiaEqv == 1)
+                idDiaEqv = 2;
+        }
     }
 
-    public void check3(View view)
+    public void checkVelocidad(View view)
     {
+        if (idVelocidad == 0)
+        {
+            idVelocidad = 1;
+
+            if (idCFM == 2)
+            {
+                chkCaudal.setChecked(false);
+                idCFM = 0;
+            }
+
+            if (idPerdida == 2)
+            {
+                chkPerdEstatica.setChecked(false);
+                idPerdida = 0;
+            }
+
+            if (idDiaEqv == 2)
+            {
+                chkDiaEqv.setChecked(false);
+                idDiaEqv = 0;
+            }
+
+            if (idCFM == 1)
+                idCFM = 2;
+
+            if (idPerdida == 1)
+                idPerdida = 2;
+
+            if (idDiaEqv == 1)
+                idDiaEqv = 2;
+        }
     }
 
-    public void check4(View view)
+    public void checkDiametroEqv(View view)
     {
+        if (idPerdida == 0)
+        {
+            idPerdida = 1;
+
+            if (idCFM == 2)
+            {
+                chkCaudal.setChecked(false);
+                idCFM = 0;
+            }
+
+            if (idPerdida == 2)
+            {
+                chkPerdEstatica.setChecked(false);
+                idPerdida = 0;
+            }
+
+            if (idVelocidad == 2)
+            {
+                chkVelocidad.setChecked(false);
+                idVelocidad = 0;
+            }
+
+            if (idCFM == 1)
+                idCFM = 2;
+
+            if (idPerdida == 1)
+                idPerdida = 2;
+
+            if (idVelocidad == 1)
+                idVelocidad = 2;
+        }
     }
 
     public void dim1(View view)
