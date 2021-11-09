@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,7 +17,7 @@ public class DimDucto extends AppCompatActivity {
     Spinner spin1;
     TextView tv11, tv12, tv13, tv14;
     TextView tv29, tv30, tv32, tv34, tv36;
-    CheckBox chk1, chk2, chk3, chk4;
+    RadioButton chk1, chk2, chk3, chk4;
     EditText edt1, edt2, edt3, edt4, edt5, edt6;
 
     double[][]MA;
@@ -55,10 +56,10 @@ public class DimDucto extends AppCompatActivity {
         tv34 = findViewById(R.id.textViewNumReynolds);
         tv36 = findViewById(R.id.textViewPerdidaFriccion);
 
-        chk1 = findViewById(R.id.checkBoxCaudal);
-        chk2 = findViewById(R.id.checkBoxPedEstatica);
-        chk3 = findViewById(R.id.checkBoxVelocidad);
-        chk4 = findViewById(R.id.checkBoxDiaEqv);
+        chk1 = findViewById(R.id.RadioButtonCaudal);
+        chk2 = findViewById(R.id.RadioButtonPedEstatica);
+        chk3 = findViewById(R.id.RadioButtonVelocidad);
+        chk4 = findViewById(R.id.RadioButtonDiaEqv);
 
         edt1 = findViewById(R.id.editTextCFM);
         edt2 = findViewById(R.id.editTextPerdEstatica);

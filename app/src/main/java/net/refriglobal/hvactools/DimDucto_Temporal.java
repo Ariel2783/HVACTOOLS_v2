@@ -51,10 +51,10 @@ public class DimDucto_Temporal extends AppCompatActivity
         textViewFactorFriccion = findViewById(R.id.textViewFactorFriccion);
         textViewPresionVelocidad = findViewById(R.id.textViewPresionVelocidad);
 
-        chkCaudal       = findViewById(R.id.checkBoxCaudal);
-        chkPerdEstatica = findViewById(R.id.checkBoxPedEstatica);
-        chkVelocidad    = findViewById(R.id.checkBoxVelocidad);
-        chkDiaEqv       = findViewById(R.id.checkBoxDiaEqv);
+        chkCaudal       = findViewById(R.id.RadioButtonCaudal);
+        chkPerdEstatica = findViewById(R.id.RadioButtonPedEstatica);
+        chkVelocidad    = findViewById(R.id.RadioButtonVelocidad);
+        chkDiaEqv       = findViewById(R.id.RadioButtonDiaEqv);
 
         edTextCFM          = findViewById(R.id.editTextCFM);
         edTextPerdEstatica = findViewById(R.id.editTextPerdEstatica);
@@ -67,6 +67,7 @@ public class DimDucto_Temporal extends AppCompatActivity
         chkPerdEstatica.setChecked(true);
         chkVelocidad .setChecked(false);
         chkDiaEqv.setChecked(false);
+
         idCFM = 1;
         idPerdida = 2;
         idVelocidad = 0;
@@ -123,11 +124,6 @@ public class DimDucto_Temporal extends AppCompatActivity
         objListas.ListaPerdida();
         objListas.ListaPPA();
         objListas.ListaVelocidadPPA();
-
-        chkCaudal.setClickable(false);
-        chkPerdEstatica.setClickable(false);
-        chkVelocidad.setClickable(true);
-        chkDiaEqv.setClickable(true);
     }
 
     @SuppressLint({"DefaultLocale", "SetTextI18n"})
@@ -378,9 +374,9 @@ public class DimDucto_Temporal extends AppCompatActivity
 
     public void checkDiametroEqv(View view)
     {
-        if (idPerdida == 0)
+        if (idDiaEqv == 0)
         {
-            idPerdida = 1;
+            idDiaEqv = 1;
 
             if (idCFM == 2)
             {
