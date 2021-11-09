@@ -27,7 +27,7 @@ public class DimDucto_Temporal extends AppCompatActivity
 {
     Spinner condicionesAmbiente;
     TextView textViewDensidadAire, textViewViscoCinematica, textViewCalorEspcf, textViewFactorEnergia;
-    TextView textViewDiaEqvFinal, textViewAreaFlujo, textViewVelFluidoFinal, textViewNumRaynolds, textViewPerdFricion, textViewFactorFriccion,
+    TextView textViewDiaEqvFinal, textViewAreaFlujo, textViewVelFluidoFinal, textViewNumReynolds, textViewPerdFricion, textViewFactorFriccion,
              textViewPresionVelocidad;
     RadioButton chkCaudal, chkPerdEstatica, chkVelocidad, chkDiaEqv;
     EditText edTextCFM, edTextPerdEstatica, edTextVelocidad, edTextDiaEqv, edTextLadoADucto, edTextLadoBDucto;
@@ -46,7 +46,7 @@ public class DimDucto_Temporal extends AppCompatActivity
         textViewDiaEqvFinal         = findViewById(R.id.textViewDiaEqvFinal);
         textViewAreaFlujo           = findViewById(R.id.textViewAreaFlujo);
         textViewVelFluidoFinal      = findViewById(R.id.textViewVelFluidoFinal);
-        textViewNumRaynolds         = findViewById(R.id.textViewNumReynolds);
+        textViewNumReynolds         = findViewById(R.id.textViewNumReynolds);
         textViewPerdFricion   = findViewById(R.id.textViewPerdidaFriccion);
         textViewFactorFriccion = findViewById(R.id.textViewFactorFriccion);
         textViewPresionVelocidad = findViewById(R.id.textViewPresionVelocidad);
@@ -261,7 +261,7 @@ public class DimDucto_Temporal extends AppCompatActivity
         DecimalFormat formatoMil = new DecimalFormat("###,###");
         textViewAreaFlujo.setText(String.format(Locale.getDefault(),"%.4f", operacion.getAreaDiametroEqv())+" ");
         textViewVelFluidoFinal.setText(formatoMilDecimal1.format(operacion.getVelocidadDiametro())+" ");
-        textViewNumRaynolds.setText(formatoMil.format(operacion.getNumeroReynolds()));
+        textViewNumReynolds.setText(formatoMil.format(operacion.getNumeroReynolds()));
         textViewFactorFriccion.setText(String.format(Locale.getDefault(),"%.5f", operacion.getFactorFriccion()));
         textViewPresionVelocidad.setText(String.format(Locale.getDefault(),"%.4f",operacion.getPresionVelocidad())+" ");
         textViewPerdFricion.setText(String.format(Locale.getDefault(),"%.4f", operacion.getPerdidaFriccion())+" ");
@@ -275,18 +275,21 @@ public class DimDucto_Temporal extends AppCompatActivity
 
             if (idPerdida == 2)
             {
+                edTextPerdEstatica.setText("");
                 chkPerdEstatica.setChecked(false);
                 idPerdida = 0;
             }
 
             if (idVelocidad == 2)
             {
+                edTextVelocidad.setText("");
                 chkVelocidad.setChecked(false);
                 idVelocidad = 0;
             }
 
             if (idDiaEqv == 2)
             {
+                edTextDiaEqv.setText("");
                 chkDiaEqv.setChecked(false);
                 idDiaEqv = 0;
             }
@@ -299,6 +302,9 @@ public class DimDucto_Temporal extends AppCompatActivity
 
             if (idDiaEqv == 1)
                 idDiaEqv = 2;
+
+            if (edTextCFM.length() > 0)
+                edTextCFM.setText("");
         }
     }
 
@@ -310,18 +316,21 @@ public class DimDucto_Temporal extends AppCompatActivity
 
             if (idCFM == 2)
             {
+                edTextCFM.setText("");
                 chkCaudal.setChecked(false);
                 idCFM = 0;
             }
 
             if (idVelocidad == 2)
             {
+                edTextVelocidad.setText("");
                 chkVelocidad.setChecked(false);
                 idVelocidad = 0;
             }
 
             if (idDiaEqv == 2)
             {
+                edTextDiaEqv.setText("");
                 chkDiaEqv.setChecked(false);
                 idDiaEqv = 0;
             }
@@ -334,6 +343,9 @@ public class DimDucto_Temporal extends AppCompatActivity
 
             if (idDiaEqv == 1)
                 idDiaEqv = 2;
+
+            if (edTextPerdEstatica.length() > 0)
+                edTextPerdEstatica.setText("");
         }
     }
 
@@ -345,18 +357,21 @@ public class DimDucto_Temporal extends AppCompatActivity
 
             if (idCFM == 2)
             {
+                edTextCFM.setText("");
                 chkCaudal.setChecked(false);
                 idCFM = 0;
             }
 
             if (idPerdida == 2)
             {
+                edTextPerdEstatica.setText("");
                 chkPerdEstatica.setChecked(false);
                 idPerdida = 0;
             }
 
             if (idDiaEqv == 2)
             {
+                edTextDiaEqv.setText("");
                 chkDiaEqv.setChecked(false);
                 idDiaEqv = 0;
             }
@@ -369,6 +384,9 @@ public class DimDucto_Temporal extends AppCompatActivity
 
             if (idDiaEqv == 1)
                 idDiaEqv = 2;
+
+            if (edTextVelocidad.length() > 0)
+                edTextVelocidad.setText("");
         }
     }
 
@@ -380,18 +398,21 @@ public class DimDucto_Temporal extends AppCompatActivity
 
             if (idCFM == 2)
             {
+                edTextCFM.setText("");
                 chkCaudal.setChecked(false);
                 idCFM = 0;
             }
 
             if (idPerdida == 2)
             {
+                edTextPerdEstatica.setText("");
                 chkPerdEstatica.setChecked(false);
                 idPerdida = 0;
             }
 
             if (idVelocidad == 2)
             {
+                edTextVelocidad.setText("");
                 chkVelocidad.setChecked(false);
                 idVelocidad = 0;
             }
@@ -404,6 +425,9 @@ public class DimDucto_Temporal extends AppCompatActivity
 
             if (idVelocidad == 1)
                 idVelocidad = 2;
+
+            if (edTextDiaEqv.length() > 0)
+                edTextDiaEqv.setText("");
         }
     }
 
@@ -417,5 +441,18 @@ public class DimDucto_Temporal extends AppCompatActivity
 
     public void borrar(View view)
     {
+        edTextCFM.setText("");
+        edTextPerdEstatica.setText("");
+        edTextVelocidad.setText("");
+        edTextDiaEqv.setText("");
+        edTextLadoADucto.setText("");
+        edTextLadoBDucto.setText("");
+        textViewDiaEqvFinal.setText("");
+        textViewAreaFlujo.setText("");
+        textViewVelFluidoFinal.setText("");
+        textViewNumReynolds.setText("");
+        textViewFactorFriccion.setText("");
+        textViewPresionVelocidad.setText("");
+        textViewPerdFricion.setText("");
     }
 }

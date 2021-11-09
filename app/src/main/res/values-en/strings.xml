@@ -34,7 +34,7 @@
     <string name="Friction_fact">Friction factor</string>
     <string name="Velocity_Press">Dynamic pressure</string>
     <string name="Calcular">CALCULATE</string>
-    <string name="Borrar">DELETE</string>
+    <string name="Borrar">CLEAR</string>
     <string name="Perd_Falt">Enter Static Loss</string>
     <string name="Caudal_Falt">Enter the \"Flow\"</string>
     <string name="Fun_indip">Function not available at the moment</string>
