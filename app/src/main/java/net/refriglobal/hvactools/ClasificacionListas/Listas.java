@@ -90,7 +90,7 @@ public class Listas
         listaDiametros.add(new ClasificacionListaPPA(2,15,0.60));
         listaDiametros.add(new ClasificacionListaPPA(2,13,0.50));
         listaDiametros.add(new ClasificacionListaPPA(2,12,0.40));
-        listaDiametros.add(new ClasificacionListaPPA(2,11,0.35));
+        listaDiametros.add(new ClasificacionListaPPA(2,11,0.35)); //TODO: 20211118, Revisar si debe ser valor exacto a los de la lista de perdida.
         listaPPA.add(listaDiametros);
 
         listaDiametros = new ArrayList<>();
@@ -223,7 +223,7 @@ public class Listas
         listaDiametros.add(new ClasificacionListaPPA(6,359,1.00));
         listaDiametros.add(new ClasificacionListaPPA(6,340,0.90));
         listaDiametros.add(new ClasificacionListaPPA(6,318,0.80));
-        listaDiametros.add(new ClasificacionListaPPA(6,296,0.70));
+        listaDiametros.add(new ClasificacionListaPPA(6,296,0.70));//
         listaDiametros.add(new ClasificacionListaPPA(6,272,0.60));
         listaDiametros.add(new ClasificacionListaPPA(6,247,0.50));
         listaDiametros.add(new ClasificacionListaPPA(6,218,0.40));

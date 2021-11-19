@@ -135,7 +135,7 @@ public class DimDucto_Temporal extends AppCompatActivity
 
         int indexListaPerdida = -1;
 
-        /*Obtener en este punto la posicion del arreglo de perdida, de la perdida introducida por el usario*/
+        /*Obtener en este punto la posicion de la lista de perdida, de la perdida introducida por el usario*/
        int i = 0;
         while (i < Listas.listaPerdida.size())
         {
@@ -147,31 +147,51 @@ public class DimDucto_Temporal extends AppCompatActivity
             i++;
         }
 
-        /*Caso1: la perdida y flujo introducido por el usuario coincide con los valores obtenidos la grafica.*/
+        /*Caso1: la perdida y flujo introducido por el usuario coincide con los valores obtenidos de la lista*/
         if (indexListaPerdida >= 0)
             for (List<ClasificacionListaPPA> listaDia: Listas.listaPPA)
             {
                 if (listaDia.size() > indexListaPerdida)
                 {
+                    double velEqv=0;
+
                     if (flujoArie == listaDia.get(indexListaPerdida).cfm)
                     {
-                        double diaEqvPrueba;
-                        diaEqvPrueba = listaDia.get(indexListaPerdida).diametro;
-                        edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.2f", diaEqvPrueba));
-
                         //Valor de velocidad del grafico
                         for (List<ClasificacionListaVelocidad> listaVel:Listas.listaVelocidadPPA)
                         {
                             if (flujoArie == listaVel.get(indexListaPerdida).cfm)
                             {
-                                double velocidad;
-                                velocidad = listaVel.get(indexListaPerdida).velocidad;
-                                edTextVelocidad.setText(String.format(Locale.getDefault(), "%.1f", velocidad));
-                                //TODO: Pendiente continuar con el resto de los calculos.
+                                double diaEqv = listaDia.get(indexListaPerdida).diametro;
+                                edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.2f", diaEqv));
+
+                                velEqv = listaVel.get(indexListaPerdida).velocidad;
+                                edTextVelocidad.setText(String.format(Locale.getDefault(), "%.1f", velEqv));
+
+                                Calculos operacion = new Calculos();
+                                operacion.calculoArea(diaEqv);
+
+                                operacion.calculoVelDiaEqv(flujoArie);
+
+                                double valorViscoCinematica = Double.parseDouble(textViewViscoCinematica.getText().toString());
+                                operacion.calculoNumeroReynolds(operacion.getVelocidadDiametro(), diaEqv, valorViscoCinematica);
+
+                                operacion.calculoFactorFriccion(diaEqv);
+
+                                double aireDensidad = Double.parseDouble(textViewDensidadAire.getText().toString());
+                                operacion.calculoPresionVelocidad(aireDensidad);
+
+                                operacion.calculoPerdidaFriccion(diaEqv);
+
+                                resultados(); //muestra los resultados en los textView.
+
                                 break;
                             }
+
+                            //TODO:20211118, continuar, revisar con valorde 296 cfm y 0.7 de perdida, valores que coinciden con las lista.
+                            if (flujoArie < listaVel.get(indexListaPerdida).cfm)
+                                break;
                         }
-                        break;
                     }
 
                     if (flujoArie < listaDia.get(indexListaPerdida).cfm)
