@@ -1397,7 +1397,7 @@ public class Listas
         listasVelocidad.add(new ClasificacionListaVelocidad(500,0.25,17));
         listasVelocidad.add(new ClasificacionListaVelocidad(500,0.20,23));
         listasVelocidad.add(new ClasificacionListaVelocidad(500,0.15,37));
-        listasVelocidad.add(new ClasificacionListaVelocidad(500,0.10,69));
+        listasVelocidad.add(new ClasificacionListaVelocidad(500,0.10,69));//
         listasVelocidad.add(new ClasificacionListaVelocidad(500,0.090,82));
         listasVelocidad.add(new ClasificacionListaVelocidad(500,0.080,100));
         listasVelocidad.add(new ClasificacionListaVelocidad(500,0.070,124));

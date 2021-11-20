@@ -131,15 +131,32 @@ public class DimDucto_Temporal extends AppCompatActivity
     @SuppressLint({"DefaultLocale", "SetTextI18n"})
     public void calcular(View view)
     {
+        if (chkCaudal.isChecked() == true && chkPerdEstatica.isChecked() == true)
+        {
+            if (edTextCFM.getText().length() > 0 && edTextPerdEstatica.getText().length() > 0)
+                MetodoCaudalPerdEstatica();
+        }
+
+        if (chkCaudal.isChecked() == true && chkVelocidad.isChecked() == true)
+        {
+            if (edTextCFM.getText().length() > 0 && edTextVelocidad.getText().length() > 0)
+                MetodoCaudalVelocidad();
+        }
+
+    }
+
+    public void MetodoCaudalPerdEstatica()
+    {
         boolean resultadosFinales = false;
         double flujoArie, perdidaEstatica;
+
         flujoArie = Double.parseDouble(edTextCFM.getText().toString()); //CFM, conversion de variable.
         perdidaEstatica = Double.parseDouble(edTextPerdEstatica.getText().toString()); //Perdida, conversion de variable.
 
         int indexListaPerdida = -1;
 
         /*Obtener en este punto la posicion de la lista de perdida, de la perdida introducida por el usario*/
-       int i = 0;
+        int i = 0;
         while (i < Listas.listaPerdida.size())
         {
             if (perdidaEstatica == Listas.listaPerdida.get(i).perdidaTabla)
@@ -163,8 +180,11 @@ public class DimDucto_Temporal extends AppCompatActivity
                         Casos infoCaso = new Casos();
                         infoCaso.Caso1(diaEqv, flujoArie, indexListaPerdida);
 
-                        edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.2f", diaEqv));
-                        edTextVelocidad.setText(String.format(Locale.getDefault(), "%.1f", infoCaso.getVelocidadDiametro()));
+                        if (chkDiaEqv.isChecked() == false)
+                            edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.2f", diaEqv));
+
+                        if (chkVelocidad.isChecked() == false)
+                            edTextVelocidad.setText(String.format(Locale.getDefault(), "%.1f", infoCaso.getVelocidadDiametro()));
 
                         resultados();
                         resultadosFinales = true;
@@ -186,15 +206,19 @@ public class DimDucto_Temporal extends AppCompatActivity
             infoCaso.Caso2(flujoArie, indexListaPerdida);
 
             Interpolaciones datoInter = new Interpolaciones();
-            edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.2f", datoInter.getDiametroEqvFinal()));
-            edTextVelocidad.setText(String.format(Locale.getDefault(),"%.1f", datoInter.getVelocidadFlujoAire()));
+
+            if (chkDiaEqv.isChecked() == false)
+                edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.2f", datoInter.getDiametroEqvFinal()));
+
+            if (chkVelocidad.isChecked() == false)
+                edTextVelocidad.setText(String.format(Locale.getDefault(),"%.1f", datoInter.getVelocidadFlujoAire()));
 
             resultados(); //muestra los resultados en los textView.
             resultadosFinales = true;
         }
 
         /*Caso 3: si el indice de perdida continua == -1, significa que la perdida introducida por el usuario
-        * no es un valor fijo de la lista de perdida, por ende se requiere interpolacion*/
+         * no es un valor fijo de la lista de perdida, por ende se requiere interpolacion*/
         if (indexListaPerdida == -1)
         {
             for (ClasificasionListaPerdida itemPerd: Listas.listaPerdida)
@@ -208,8 +232,12 @@ public class DimDucto_Temporal extends AppCompatActivity
                     infoCaso.Caso3(indexSuperior, indexInferior, flujoArie, perdidaEstatica);
 
                     Interpolaciones datoInter = new Interpolaciones();
-                    edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.2f", datoInter.getDiametroEqvFinal()));
-                    edTextVelocidad.setText(String.format(Locale.getDefault(),"%.1f", datoInter.getVelocidadFlujoAire()));
+
+                    if (chkDiaEqv.isChecked() == false)
+                        edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.2f", datoInter.getDiametroEqvFinal()));
+
+                    if (chkVelocidad.isChecked() == false)
+                        edTextVelocidad.setText(String.format(Locale.getDefault(),"%.1f", datoInter.getVelocidadFlujoAire()));
 
                     resultados(); //muestra los resultados en los textView.
                     resultadosFinales = true;
@@ -219,6 +247,29 @@ public class DimDucto_Temporal extends AppCompatActivity
             }
         }
     }
+
+    public void MetodoCaudalVelocidad()
+    {
+        boolean resultadosFinales = false;
+        double flujoArie = Double.parseDouble(edTextCFM.getText().toString()); //CFM, conversion de variable.
+        double velocidaUsuario = Double.parseDouble(edTextVelocidad.getText().toString());
+
+        //Caso 4: el flujo y la velocidad conciden con los valores de la lista de velocidad.
+        Casos infoCaso = new Casos();
+        double perdidaEstatica = infoCaso.Caso4(flujoArie, velocidaUsuario);
+
+        if (perdidaEstatica > 0)
+        {
+            if (chkPerdEstatica.isChecked() == false)
+                edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", perdidaEstatica));
+            MetodoCaudalPerdEstatica();
+            resultadosFinales = true;
+        }
+
+        //TODO: 20211120; Continuar.
+
+    }
+
 
     public void resultados()
     {

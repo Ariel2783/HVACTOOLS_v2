@@ -119,4 +119,30 @@ public class Casos {
 
         operacion.calculoPerdidaFriccion(inter.getDiametroEqvFinal());
     }
+
+    public Double Caso4(double flujoAireUsuario, double velocidadUsuario)
+    {
+        double perdidaEstatica = 0;
+        boolean datoEncontrado = false;
+        for (List<ClasificacionListaVelocidad> listaVel:Listas.listaVelocidadPPA)
+        {
+            int i = 0;
+            while (i < listaVel.size())
+            {
+                if (flujoAireUsuario == listaVel.get(i).cfm && velocidadUsuario == listaVel.get(i).velocidad)
+                {
+                    perdidaEstatica = listaVel.get(i).perdida;
+                    datoEncontrado = true;
+                    break;
+                }
+
+                i++;
+            }
+
+            if (datoEncontrado == true)
+                break;
+        }
+
+        return perdidaEstatica;
+    }
 }
