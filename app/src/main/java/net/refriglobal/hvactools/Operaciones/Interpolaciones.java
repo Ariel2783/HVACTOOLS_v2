@@ -11,10 +11,10 @@ import java.util.Locale;
 
 public class Interpolaciones
 {
-    private double diametroEqvFinal;
+    private static double diametroEqvFinal;
     public Double getDiametroEqvFinal() {return diametroEqvFinal;}
 
-    private double velocidadFinal;
+    private static double velocidadFinal;
     public Double getVelocidadFlujoAire() {return velocidadFinal;}
 
     public void interpolacionDiametroEqv(int indexPerdInf, int indexPerdSup, double perdUsuario, double flujoUsuario)
@@ -166,6 +166,9 @@ public class Interpolaciones
                     velocidadFinal = listaVel.get(indexPerdidaUsuario).cfm;
                     break;
                 }
+
+                if (listaVel.get(indexPerdidaUsuario).cfm > cfmUsuario)
+                    break;
             }
 
         /*La perdida coincide con los valores de la lista, el valor de la velocidad no coincide con los valores de la lista*/
