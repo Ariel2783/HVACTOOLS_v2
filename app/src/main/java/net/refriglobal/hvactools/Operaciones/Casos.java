@@ -4,6 +4,7 @@ import net.refriglobal.hvactools.ClasificacionListas.ClasificacionListaVelocidad
 import net.refriglobal.hvactools.ClasificacionListas.Listas;
 import net.refriglobal.hvactools.DimDucto_Temporal;
 
+import java.io.Flushable;
 import java.util.List;
 import java.util.Locale;
 
@@ -96,7 +97,7 @@ public class Casos {
         operacion.calculoPerdidaFriccion(objInterpolacion.getDiametroEqvFinal());
     }
 
-    public void Caso3(int indexSuperior, int indexInferior, double flujoAire, double perdidaEstatica )
+    public void Caso3(int indexSuperior, int indexInferior, double flujoAire, double perdidaEstatica)
     {
         Interpolaciones inter = new Interpolaciones();
         inter.interpolacionDiametroEqv(indexInferior, indexSuperior, perdidaEstatica, flujoAire);
@@ -124,25 +125,77 @@ public class Casos {
     {
         double perdidaEstatica = 0;
         boolean datoEncontrado = false;
+        boolean fueraRango = false;
+        for (List<ClasificacionListaVelocidad> listaVel:Listas.listaVelocidadPPA)
+        {
+            for (ClasificacionListaVelocidad itemList : listaVel)
+            {
+                if (velocidadUsuario == itemList.velocidad && flujoAireUsuario == itemList.cfm)
+                {
+                    perdidaEstatica = itemList.perdida;
+                    datoEncontrado = true;
+                    break;
+                }
+
+                /*si la busqueda de velocidad no se encuentra en los valores de la lista*/
+                if (itemList.velocidad > velocidadUsuario)
+                {
+                    fueraRango = true;
+                    break;
+                }
+
+                /*Sentencia para determinar si la busqueda esta en la lista de velocidad incorrecta y saltar
+                 * al siguiente valor de velocidad*/
+                if (velocidadUsuario != itemList.velocidad)
+                    break;
+            }
+
+            if (datoEncontrado == true || fueraRango == true)
+                break;
+        }
+
+        return perdidaEstatica;
+    }
+
+    public Double Caso5(double flujoAireUsuario, double velocidadUsuario)
+    {
+        double perdidaInter = 0;
         for (List<ClasificacionListaVelocidad> listaVel:Listas.listaVelocidadPPA)
         {
             int i = 0;
             while (i < listaVel.size())
             {
-                if (flujoAireUsuario == listaVel.get(i).cfm && velocidadUsuario == listaVel.get(i).velocidad)
+                if (velocidadUsuario == listaVel.get(i).velocidad && listaVel.get(i).cfm > flujoAireUsuario)
                 {
-                    perdidaEstatica = listaVel.get(i).perdida;
-                    datoEncontrado = true;
-                    break;
+                    double cfmSuperior = listaVel.get(i).cfm;
+                    double cfmInferior = listaVel.get(i-1).cfm;
+
+                    double perdSuperior = listaVel.get(i-1).perdida;
+                    double perdInfeior = listaVel.get(i).perdida;
+
+                    double relacionDiferencia = cfmSuperior - cfmInferior;
+                    double diferenciaCfmUsuario = flujoAireUsuario - cfmInferior;
+                    double fraccionCfm = diferenciaCfmUsuario/relacionDiferencia;
+
+                    double diferenciaPerdidas = perdSuperior - perdInfeior;
+                    double valorExtraPerdida = fraccionCfm * diferenciaPerdidas;
+
+                    perdidaInter = perdSuperior - valorExtraPerdida;
                 }
+
+                /*Sentencia para determinar si la busqueda esta en la lista de velocidad incorrecta y saltar
+                 * al siguiente valor de velocidad*/
+                if (velocidadUsuario != listaVel.get(i).velocidad || perdidaInter > 0)
+                    break;
 
                 i++;
             }
 
-            if (datoEncontrado == true)
+            if (perdidaInter > 0)
                 break;
+
         }
 
-        return perdidaEstatica;
+        return perdidaInter;
     }
 }

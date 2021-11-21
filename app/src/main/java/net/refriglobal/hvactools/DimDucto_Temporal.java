@@ -67,8 +67,12 @@ public class DimDucto_Temporal extends AppCompatActivity
 
         chkCaudal.setChecked(true);
         chkPerdEstatica.setChecked(true);
+
         chkVelocidad .setChecked(false);
+        edTextVelocidad.setEnabled(false);
+
         chkDiaEqv.setChecked(false);
+        edTextDiaEqv.setEnabled(false);
 
         idCFM = 1;
         idPerdida = 2;
@@ -250,26 +254,40 @@ public class DimDucto_Temporal extends AppCompatActivity
 
     public void MetodoCaudalVelocidad()
     {
+        double perdidaEstatica = 0;
         boolean resultadosFinales = false;
         double flujoArie = Double.parseDouble(edTextCFM.getText().toString()); //CFM, conversion de variable.
         double velocidaUsuario = Double.parseDouble(edTextVelocidad.getText().toString());
 
         //Caso 4: el flujo y la velocidad conciden con los valores de la lista de velocidad.
         Casos infoCaso = new Casos();
-        double perdidaEstatica = infoCaso.Caso4(flujoArie, velocidaUsuario);
+        perdidaEstatica = infoCaso.Caso4(flujoArie, velocidaUsuario);
 
         if (perdidaEstatica > 0)
         {
             if (chkPerdEstatica.isChecked() == false)
                 edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", perdidaEstatica));
+
             MetodoCaudalPerdEstatica();
             resultadosFinales = true;
         }
 
-        //TODO: 20211120; Continuar.
+        //Caso 5: los CFM no coinciden con la lista y la velocidad si.
+        if (resultadosFinales == false)
+        {
+            perdidaEstatica = infoCaso.Caso5(flujoArie, velocidaUsuario);
+            if (perdidaEstatica > 0)
+            {
+                if (chkPerdEstatica.isChecked() == false)
+                    edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", perdidaEstatica));
 
+                MetodoCaudalPerdEstatica();
+                resultadosFinales = true;
+            }
+        }
+
+        //TODO: Continuar, crear caso6 para cuando los CFM coninciden con la lista y la velocidad no.
     }
-
 
     public void resultados()
     {
@@ -289,10 +307,12 @@ public class DimDucto_Temporal extends AppCompatActivity
         if (idCFM == 0)
         {
             idCFM = 1;
+            edTextCFM.setEnabled(true);
 
             if (idPerdida == 2)
             {
                 edTextPerdEstatica.setText("");
+                edTextPerdEstatica.setEnabled(false);
                 chkPerdEstatica.setChecked(false);
                 idPerdida = 0;
             }
@@ -300,6 +320,7 @@ public class DimDucto_Temporal extends AppCompatActivity
             if (idVelocidad == 2)
             {
                 edTextVelocidad.setText("");
+                edTextVelocidad.setEnabled(false);
                 chkVelocidad.setChecked(false);
                 idVelocidad = 0;
             }
@@ -307,18 +328,29 @@ public class DimDucto_Temporal extends AppCompatActivity
             if (idDiaEqv == 2)
             {
                 edTextDiaEqv.setText("");
+                edTextDiaEqv.setEnabled(false);
                 chkDiaEqv.setChecked(false);
                 idDiaEqv = 0;
             }
 
             if (idPerdida == 1)
+            {
                 idPerdida = 2;
+                edTextPerdEstatica.setEnabled(true);
+            }
+
 
             if (idVelocidad == 1)
+            {
                 idVelocidad = 2;
+                edTextVelocidad.setEnabled(true);
+            }
 
             if (idDiaEqv == 1)
+            {
                 idDiaEqv = 2;
+                edTextDiaEqv.setEnabled(true);
+            }
 
             if (edTextCFM.length() > 0)
                 edTextCFM.setText("");
@@ -330,10 +362,12 @@ public class DimDucto_Temporal extends AppCompatActivity
         if (idPerdida == 0)
         {
             idPerdida = 1;
+            edTextPerdEstatica.setEnabled(true);
 
             if (idCFM == 2)
             {
                 edTextCFM.setText("");
+                edTextCFM.setEnabled(false);
                 chkCaudal.setChecked(false);
                 idCFM = 0;
             }
@@ -341,6 +375,7 @@ public class DimDucto_Temporal extends AppCompatActivity
             if (idVelocidad == 2)
             {
                 edTextVelocidad.setText("");
+                edTextVelocidad.setEnabled(false);
                 chkVelocidad.setChecked(false);
                 idVelocidad = 0;
             }
@@ -348,18 +383,28 @@ public class DimDucto_Temporal extends AppCompatActivity
             if (idDiaEqv == 2)
             {
                 edTextDiaEqv.setText("");
+                edTextDiaEqv.setEnabled(false);
                 chkDiaEqv.setChecked(false);
                 idDiaEqv = 0;
             }
 
             if (idCFM == 1)
+            {
+                edTextCFM.setEnabled(true);
                 idCFM = 2;
+            }
 
             if (idVelocidad == 1)
+            {
+                edTextVelocidad.setEnabled(true);
                 idVelocidad = 2;
+            }
 
             if (idDiaEqv == 1)
+            {
+                edTextDiaEqv.setEnabled(true);
                 idDiaEqv = 2;
+            }
 
             if (edTextPerdEstatica.length() > 0)
                 edTextPerdEstatica.setText("");
@@ -371,10 +416,12 @@ public class DimDucto_Temporal extends AppCompatActivity
         if (idVelocidad == 0)
         {
             idVelocidad = 1;
+            edTextVelocidad.setEnabled(true);
 
             if (idCFM == 2)
             {
                 edTextCFM.setText("");
+                edTextCFM.setEnabled(false);
                 chkCaudal.setChecked(false);
                 idCFM = 0;
             }
@@ -382,6 +429,7 @@ public class DimDucto_Temporal extends AppCompatActivity
             if (idPerdida == 2)
             {
                 edTextPerdEstatica.setText("");
+                edTextPerdEstatica.setEnabled(false);
                 chkPerdEstatica.setChecked(false);
                 idPerdida = 0;
             }
@@ -389,18 +437,28 @@ public class DimDucto_Temporal extends AppCompatActivity
             if (idDiaEqv == 2)
             {
                 edTextDiaEqv.setText("");
+                edTextDiaEqv.setEnabled(false);
                 chkDiaEqv.setChecked(false);
                 idDiaEqv = 0;
             }
 
             if (idCFM == 1)
+            {
                 idCFM = 2;
+                edTextCFM.setEnabled(true);
+            }
 
             if (idPerdida == 1)
+            {
                 idPerdida = 2;
+                edTextPerdEstatica.setEnabled(true);
+            }
 
             if (idDiaEqv == 1)
+            {
                 idDiaEqv = 2;
+                edTextDiaEqv.setEnabled(true);
+            }
 
             if (edTextVelocidad.length() > 0)
                 edTextVelocidad.setText("");
@@ -412,10 +470,12 @@ public class DimDucto_Temporal extends AppCompatActivity
         if (idDiaEqv == 0)
         {
             idDiaEqv = 1;
+            edTextDiaEqv.setEnabled(true);
 
             if (idCFM == 2)
             {
                 edTextCFM.setText("");
+                edTextCFM.setEnabled(false);
                 chkCaudal.setChecked(false);
                 idCFM = 0;
             }
@@ -423,6 +483,7 @@ public class DimDucto_Temporal extends AppCompatActivity
             if (idPerdida == 2)
             {
                 edTextPerdEstatica.setText("");
+                edTextPerdEstatica.setEnabled(false);
                 chkPerdEstatica.setChecked(false);
                 idPerdida = 0;
             }
@@ -430,18 +491,28 @@ public class DimDucto_Temporal extends AppCompatActivity
             if (idVelocidad == 2)
             {
                 edTextVelocidad.setText("");
+                edTextVelocidad.setEnabled(false);
                 chkVelocidad.setChecked(false);
                 idVelocidad = 0;
             }
 
             if (idCFM == 1)
+            {
                 idCFM = 2;
+                edTextCFM.setEnabled(true);
+            }
 
             if (idPerdida == 1)
+            {
                 idPerdida = 2;
+                edTextPerdEstatica.setEnabled(true);
+            }
 
             if (idVelocidad == 1)
+            {
                 idVelocidad = 2;
+                edTextVelocidad.setEnabled(true);
+            }
 
             if (edTextDiaEqv.length() > 0)
                 edTextDiaEqv.setText("");
