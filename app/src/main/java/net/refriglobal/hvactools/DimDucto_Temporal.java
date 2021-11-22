@@ -286,8 +286,15 @@ public class DimDucto_Temporal extends AppCompatActivity
             }
         }
 
-        //TODO: Continuar, crear caso6 para cuando los CFM coninciden con la lista y la velocidad no.
+        //Caso 6: Los CFM coinciden la velocidad no.
+        if (resultadosFinales == false)
+        {
+            perdidaEstatica = infoCaso.Caso6(flujoArie, velocidaUsuario);
+        }
+
     }
+
+
 
     public void resultados()
     {

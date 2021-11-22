@@ -160,12 +160,15 @@ public class Casos {
     public Double Caso5(double flujoAireUsuario, double velocidadUsuario)
     {
         double perdidaInter = 0;
+        double velocidadEnCurso = 0;
         for (List<ClasificacionListaVelocidad> listaVel:Listas.listaVelocidadPPA)
         {
             int i = 0;
             while (i < listaVel.size())
             {
-                if (velocidadUsuario == listaVel.get(i).velocidad && listaVel.get(i).cfm > flujoAireUsuario)
+                velocidadEnCurso = listaVel.get(i).velocidad;
+
+                if (velocidadUsuario == velocidadEnCurso && listaVel.get(i).cfm > flujoAireUsuario)
                 {
                     double cfmSuperior = listaVel.get(i).cfm;
                     double cfmInferior = listaVel.get(i-1).cfm;
@@ -185,17 +188,24 @@ public class Casos {
 
                 /*Sentencia para determinar si la busqueda esta en la lista de velocidad incorrecta y saltar
                  * al siguiente valor de velocidad*/
-                if (velocidadUsuario != listaVel.get(i).velocidad || perdidaInter > 0)
+                if (velocidadUsuario != velocidadEnCurso || perdidaInter > 0)
                     break;
 
                 i++;
             }
 
-            if (perdidaInter > 0)
+            if (perdidaInter > 0 || velocidadEnCurso > velocidadUsuario)
                 break;
-
         }
 
         return perdidaInter;
+    }
+
+    public Double Caso6(double flujoAireUsuario, double velocidadUsuario)
+    {
+
+
+
+        return 12.00;
     }
 }
