@@ -23,7 +23,7 @@ public class Interpolaciones
        int i = 0;
        while (i < Listas.listaPPA.size())
        {
-           if ((Listas.listaPPA.get(i).size() >= indexPerdInf) &&
+           if ((Listas.listaPPA.get(i).size() > indexPerdInf) &&
                (Listas.listaPPA.get(i).get(indexPerdSup).cfm > flujoUsuario) &&
                (Listas.listaPPA.get(i-1).get(indexPerdSup).cfm < flujoUsuario))
            {
@@ -43,7 +43,7 @@ public class Interpolaciones
        i = 0;
        while (i < Listas.listaPPA.size())
        {
-           if ((Listas.listaPPA.get(i).size() >= indexPerdInf) &&
+           if ((Listas.listaPPA.get(i).size() > indexPerdInf) &&
                (Listas.listaPPA.get(i).get(indexPerdInf).cfm > flujoUsuario) &&
                (Listas.listaPPA.get(i-1).get(indexPerdInf).cfm < flujoUsuario))
            {

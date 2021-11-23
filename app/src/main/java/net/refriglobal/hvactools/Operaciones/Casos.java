@@ -203,9 +203,109 @@ public class Casos {
 
     public Double Caso6(double flujoAireUsuario, double velocidadUsuario)
     {
+        double perdidaInter = 0;
+        double velocidadSuperior = 0;
+        double velocidadInferior = 0;
+        double perdidaSup = 0;
+        double perdidaInf = 0;
 
+        int h = 0;
+        while (h < Listas.listaVelocidadPPA.size())
+        {
+            if (velocidadUsuario < Listas.listaVelocidadPPA.get(h).get(0).velocidad)
+            {
+                velocidadSuperior = Listas.listaVelocidadPPA.get(h).get(0).velocidad;
+                velocidadInferior = Listas.listaVelocidadPPA.get(h-1).get(0).velocidad;
 
+                int indexVelocidadSup = h;
+                int indexVelocidadInf = h-1;
 
-        return 12.00;
+                int i = 0;
+                while (i < Listas.listaVelocidadPPA.get(indexVelocidadSup).size())
+                {
+                    if (flujoAireUsuario == Listas.listaVelocidadPPA.get(indexVelocidadSup).get(i).cfm)
+                    {
+                        perdidaSup = Listas.listaVelocidadPPA.get(indexVelocidadSup).get(i).perdida;
+                        break;
+                    }
+
+                    //Interpolacion para encontrar la perdida respectiva a los cfm que no se encuentran en la lista
+                    if (flujoAireUsuario < Listas.listaVelocidadPPA.get(indexVelocidadSup).get(i).cfm)
+                    {
+                        double cfmSuperior = Listas.listaVelocidadPPA.get(indexVelocidadSup).get(i).cfm;
+                        double cfmInferior = Listas.listaVelocidadPPA.get(indexVelocidadSup).get(i-1).cfm;
+
+                        double perdCfmSuperior = Listas.listaVelocidadPPA.get(indexVelocidadSup).get(i).perdida;
+                        double perdCfmInfeior = Listas.listaVelocidadPPA.get(indexVelocidadSup).get(i-1).perdida;
+
+                        double relacionDiferencia = cfmSuperior - cfmInferior;
+                        double diferenciaCfmUsuario = flujoAireUsuario - cfmInferior;
+                        double fraccionCfm = diferenciaCfmUsuario/relacionDiferencia;
+
+                        double diferenciaPerdidas = perdCfmInfeior - perdCfmSuperior ;
+                        double valorExtraPerdida = fraccionCfm * diferenciaPerdidas;
+
+                        perdidaSup = perdCfmSuperior + valorExtraPerdida;
+
+                        break;
+                    }
+
+                    i++;
+                }
+
+                i = 0;
+                while (i < Listas.listaVelocidadPPA.get(indexVelocidadInf).size())
+                {
+                    if (flujoAireUsuario == Listas.listaVelocidadPPA.get(indexVelocidadInf).get(i).cfm)
+                    {
+                        perdidaInf = Listas.listaVelocidadPPA.get(indexVelocidadInf).get(i).perdida;
+                        break;
+                    }
+
+                    //Interpolacion para encontrar la perdida respectiva a los cfm que no se encuentran en la lista
+                    if (flujoAireUsuario < Listas.listaVelocidadPPA.get(indexVelocidadInf).get(i).cfm)
+                    {
+                        double cfmSuperior = Listas.listaVelocidadPPA.get(indexVelocidadInf).get(i).cfm;
+                        double cfmInferior = Listas.listaVelocidadPPA.get(indexVelocidadInf).get(i-1).cfm;
+
+                        double perdCfmSuperior = Listas.listaVelocidadPPA.get(indexVelocidadInf).get(i).perdida;
+                        double perdCfmInfeior = Listas.listaVelocidadPPA.get(indexVelocidadInf).get(i-1).perdida;
+
+                        double relacionDiferencia = cfmSuperior - cfmInferior;
+                        double diferenciaCfmUsuario = flujoAireUsuario - cfmInferior;
+                        double fraccionCfm = diferenciaCfmUsuario/relacionDiferencia;
+
+                        double diferenciaPerdidas = perdCfmInfeior - perdCfmSuperior ;
+                        double valorExtraPerdida = fraccionCfm * diferenciaPerdidas;
+
+                        perdidaInf = perdCfmSuperior + valorExtraPerdida;
+
+                        break;
+                    }
+
+                    i++;
+                }
+
+                if (perdidaSup > 0 && perdidaInf > 0)
+                    break;
+            }
+
+            h++;
+        }
+
+        if (perdidaSup > 0 && perdidaInf > 0)
+        {
+            //Interpolacion para obtener a perdida final respectiva a la velocidad y cfm del usuario.
+            double diferenciaVelocidades = velocidadSuperior - velocidadInferior;
+            double difVelUsuario = velocidadUsuario - velocidadInferior;
+
+            double relacionVelUsuario = difVelUsuario / diferenciaVelocidades;
+
+            double difPerdidaInterpoladas = perdidaSup - perdidaInf;
+            double valorExtraPerdida = difPerdidaInterpoladas * relacionVelUsuario;
+            perdidaInter = perdidaInf + valorExtraPerdida;
+        }
+
+        return perdidaInter;
     }
 }

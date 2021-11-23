@@ -286,15 +286,21 @@ public class DimDucto_Temporal extends AppCompatActivity
             }
         }
 
-        //Caso 6: Los CFM coinciden la velocidad no.
+        //Caso 6: Los CFM coinciden o no, y la velocidad no.
         if (resultadosFinales == false)
         {
             perdidaEstatica = infoCaso.Caso6(flujoArie, velocidaUsuario);
+            if (perdidaEstatica > 0)
+            {
+                if (chkPerdEstatica.isChecked() == false)
+                    edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", perdidaEstatica));
+
+                MetodoCaudalPerdEstatica();
+                resultadosFinales = true;
+            }
         }
 
     }
-
-
 
     public void resultados()
     {
