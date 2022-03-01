@@ -147,8 +147,8 @@ public class DimDucto extends AppCompatActivity {
 
     public void calcular(View view)
     {
-        if (chk1.isChecked() == true & chk2.isChecked() == true) //Seleccion de Caudal y perdida
-        {
+        //if (chk1.isChecked() == true & chk2.isChecked() == true) //Seleccion de Caudal y perdida
+        //{
             // Iniciacion para borrar los valores anteriores.
             edt3.setText(String.format(""));
             edt4.setText(String.format(""));
@@ -232,7 +232,7 @@ public class DimDucto extends AppCompatActivity {
                 this.alertas();//Mensajes de alerta.
             }
             this.toast_show(); //Mensaje flotantes.
-        }
+        //}
         this.num_reynolds(); //calculo del numero de Reynolds.
 
         tv36.setText(String.format("%.3f", perdidaEstatica)+" "); //muestra la perdida / 100 ft en la parte inferior

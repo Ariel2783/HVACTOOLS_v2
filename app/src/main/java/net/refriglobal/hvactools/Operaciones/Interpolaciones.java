@@ -177,23 +177,40 @@ public class Interpolaciones
             int i = 0;
             while (i < Listas.listaVelocidadPPA.size())
             {
-                if (Listas.listaVelocidadPPA.get(i).get(indexPerdidaUsuario).cfm > cfmUsuario &&
-                    Listas.listaVelocidadPPA.get(i-1).get(indexPerdidaUsuario).cfm < cfmUsuario)
+                try
                 {
-                    double cfmSuperior = Listas.listaVelocidadPPA.get(i).get(indexPerdidaUsuario).cfm;
-                    double cfmInferrio = Listas.listaVelocidadPPA.get(i-1).get(indexPerdidaUsuario).cfm;
+                    if (Listas.listaVelocidadPPA.get(i).get(indexPerdidaUsuario).cfm > cfmUsuario &&
+                            Listas.listaVelocidadPPA.get(i - 1).get(indexPerdidaUsuario).cfm < cfmUsuario)
+                    {
+                        double cfmSuperior = Listas.listaVelocidadPPA.get(i).get(indexPerdidaUsuario).cfm;
+                        double cfmInferrio = Listas.listaVelocidadPPA.get(i - 1).get(indexPerdidaUsuario).cfm;
 
-                    double diferenciaFlujos = cfmSuperior - cfmInferrio;
-                    double fraccionFlujo = (cfmUsuario - cfmInferrio)/diferenciaFlujos;
+                        double diferenciaFlujos = cfmSuperior - cfmInferrio;
+                        double fraccionFlujo = (cfmUsuario - cfmInferrio) / diferenciaFlujos;
 
-                    double velocidadSuperior = Listas.listaVelocidadPPA.get(i).get(indexPerdidaUsuario).velocidad;
-                    double velocidadInferior = Listas.listaVelocidadPPA.get(i-1).get(indexPerdidaUsuario).velocidad;
+                        double velocidadSuperior = Listas.listaVelocidadPPA.get(i).get(indexPerdidaUsuario).velocidad;
+                        double velocidadInferior = Listas.listaVelocidadPPA.get(i - 1).get(indexPerdidaUsuario).velocidad;
 
-                    double valorExtraVelocidad = (velocidadSuperior - velocidadInferior) * fraccionFlujo;
-                    velocidadFinal = velocidadInferior + valorExtraVelocidad;
-                    break;
+                        double valorExtraVelocidad = (velocidadSuperior - velocidadInferior) * fraccionFlujo;
+                        velocidadFinal = velocidadInferior + valorExtraVelocidad;
+                        break;
+                    }
+                    i++;
                 }
-                i++;
+                catch (Exception e) //Para cuando se requiere extrapolacion
+                {
+                    if (Listas.listaVelocidadPPA.get(i).get(indexPerdidaUsuario).velocidad == 200 ||
+                            Listas.listaVelocidadPPA.get(i).get(indexPerdidaUsuario).velocidad == 12000 )
+                    {
+                        double cfmSuperior = Listas.listaVelocidadPPA.get(i+1).get(indexPerdidaUsuario).cfm;
+                        double cfmInferior = Listas.listaVelocidadPPA.get(i).get(indexPerdidaUsuario).cfm;
+
+                        double fraccionVelocidad = (cfmInferior - cfmUsuario)/(cfmSuperior - cfmInferior);
+                        double factorCorrecion = 0.96607; //Factor de correcion para aproximar la grafica logaritmica.
+                        velocidadFinal = (Listas.listaVelocidadPPA.get(i).get(indexPerdidaUsuario).velocidad * (1-fraccionVelocidad))*factorCorrecion;
+                        break;
+                    }
+                }
             }
         }
     }

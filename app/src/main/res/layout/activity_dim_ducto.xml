@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -184,9 +185,11 @@
                     android:layout_weight="0.85"
                     android:checked="false"
                     android:gravity="center_vertical"
-                    android:onClick="checkCFM"
+
+                    android:onClick="chkCaudalClick"
                     android:text="@string/Flow_rate"
                     tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck" />
+                <!--android:onClick="checkCFM"--><!--android:onClick="checkCFM"-->
 
                 <EditText
                     android:id="@+id/editTextCFM"
@@ -226,9 +229,11 @@
                     android:layout_weight="0.85"
                     android:checked="false"
                     android:gravity="center_vertical"
-                    android:onClick="checkPerdidaFriccion"
+
+                    android:onClick="chkPerdEstaticaClick"
                     android:text="@string/Head_loss"
                     tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck" />
+                <!--android:onClick="checkPerdidaFriccion"-->
 
                 <EditText
                     android:id="@+id/editTextPerdEstatica"
@@ -266,9 +271,11 @@
                     android:layout_weight="0.85"
                     android:checked="false"
                     android:gravity="center_vertical"
-                    android:onClick="checkVelocidad"
+
+                    android:onClick="chkVelocidadClick"
                     android:text="@string/Velocity"
                     tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck" />
+                <!--android:onClick="checkVelocidad"-->
 
                 <EditText
                     android:id="@+id/editTextVelocidad"
@@ -306,9 +313,11 @@
                     android:layout_weight="0.85"
                     android:checked="false"
                     android:gravity="center_vertical"
-                    android:onClick="checkDiametroEqv"
+
+                    android:onClick="chkDiaEqvClick"
                     android:text="@string/Eq_dia"
                     tools:ignore="TouchTargetSizeCheck" />
+                <!--android:onClick="checkDiametroEqv"-->
 
                 <EditText
                     android:id="@+id/editTextDiaEqv"

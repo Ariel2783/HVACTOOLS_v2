@@ -26,6 +26,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@android:color/transparent"
+            android:contentDescription="@null"
+            android:importantForAccessibility="no"
             app:srcCompat="@drawable/dimducto"
             tools:layout_editor_absoluteX="76dp"
             tools:layout_editor_absoluteY="58dp" />
@@ -36,6 +38,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@android:color/transparent"
+            android:contentDescription="@null"
+            android:importantForAccessibility="no"
             app:srcCompat="@drawable/cargatermica"
             tools:layout_editor_absoluteX="210dp"
             tools:layout_editor_absoluteY="43dp" />
@@ -103,8 +107,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:contentDescription="@string/ignore"
-                app:srcCompat="@drawable/ic_launcher" />
+                android:contentDescription="@null"
+                android:importantForAccessibility="no"
+                app:srcCompat="@drawable/ic_launcher"
+                tools:ignore="ImageContrastCheck" />
 
             <TextView
                 android:id="@+id/textView54"
@@ -127,6 +133,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
+                android:contentDescription="@null"
+                android:importantForAccessibility="no"
                 app:srcCompat="@drawable/ico_cal_refrig" />
 
             <TextView

@@ -68,7 +68,7 @@ public class DimDucto_Temporal extends AppCompatActivity
         chkCaudal.setChecked(true);
         chkPerdEstatica.setChecked(true);
 
-        chkVelocidad .setChecked(false);
+        chkVelocidad.setChecked(false);
         edTextVelocidad.setEnabled(false);
 
         chkDiaEqv.setChecked(false);
@@ -145,8 +145,24 @@ public class DimDucto_Temporal extends AppCompatActivity
         {
             if (edTextCFM.getText().length() > 0 && edTextVelocidad.getText().length() > 0)
                 MetodoCaudalVelocidad();
+            //TODO: 20220301 - Continuar.
         }
 
+        if  (chkCaudal.isChecked() == true && chkDiaEqv.isChecked() == true)
+        {
+        }
+
+        if (chkPerdEstatica.isChecked() == true && chkVelocidad.isChecked() == true)
+        {
+        }
+
+        if (chkPerdEstatica.isChecked() == true && chkDiaEqv.isChecked() == true)
+        {
+        }
+
+        if (chkVelocidad.isChecked() == true && chkDiaEqv.isChecked() == true)
+        {
+        }
     }
 
     public void MetodoCaudalPerdEstatica()
@@ -159,7 +175,7 @@ public class DimDucto_Temporal extends AppCompatActivity
 
         int indexListaPerdida = -1;
 
-        /*Obtener en este punto la posicion de la lista de perdida, de la perdida introducida por el usario*/
+        /**Obtener en este punto la posicion de la lista de perdida, de la perdida introducida por el usario*/
         int i = 0;
         while (i < Listas.listaPerdida.size())
         {
@@ -171,8 +187,8 @@ public class DimDucto_Temporal extends AppCompatActivity
             i++;
         }
 
-        /*Caso1: la perdida y flujo introducido por el usuario coincide con los valores obtenidos de la lista*/
-        if (indexListaPerdida >= 0 && resultadosFinales == false)
+        /**Caso1: la perdida y flujo introducido por el usuario coincide con los valores obtenidos de la lista*/
+        if (indexListaPerdida >= 0)
             for (List<ClasificacionListaPPA> listaDia: Listas.listaPPA)
             {
                 if (listaDia.size() > indexListaPerdida)
@@ -200,7 +216,7 @@ public class DimDucto_Temporal extends AppCompatActivity
                 }
             }
 
-        /*Caso2: perdida coincide, el flujo no.
+        /**Caso2: perdida coincide, el flujo no.
         la perdida introducida por el usuario coincide con la grafica, pero flujo introducido por
         el usuario no coincide con los valores de la grafica.
         Se realizara interpolacion en el flujo de aire y diametros*/
@@ -221,7 +237,7 @@ public class DimDucto_Temporal extends AppCompatActivity
             resultadosFinales = true;
         }
 
-        /*Caso 3: si el indice de perdida continua == -1, significa que la perdida introducida por el usuario
+        /**Caso 3: si el indice de perdida continua == -1, significa que la perdida introducida por el usuario
          * no es un valor fijo de la lista de perdida, por ende se requiere interpolacion*/
         if (indexListaPerdida == -1)
         {
@@ -300,6 +316,9 @@ public class DimDucto_Temporal extends AppCompatActivity
             }
         }
 
+        /*Caso 7: pendiente cuando la velocidad es inferior al la velocida minima (200)
+        * y superior a la maxima (12000)*/
+
     }
 
     public void resultados()
@@ -315,7 +334,7 @@ public class DimDucto_Temporal extends AppCompatActivity
         textViewPerdFricion.setText(String.format(Locale.getDefault(),"%.4f", operacion.getPerdidaFriccion())+" ");
     }
 
-    public void checkCFM(View view)
+    public void chkCaudalClick(View view)
     {
         if (idCFM == 0)
         {
@@ -370,7 +389,7 @@ public class DimDucto_Temporal extends AppCompatActivity
         }
     }
 
-    public void checkPerdidaFriccion(View view)
+    public void chkPerdEstaticaClick(View view)
     {
         if (idPerdida == 0)
         {
@@ -424,7 +443,7 @@ public class DimDucto_Temporal extends AppCompatActivity
         }
     }
 
-    public void checkVelocidad(View view)
+    public void chkVelocidadClick(View view)
     {
         if (idVelocidad == 0)
         {
@@ -478,7 +497,7 @@ public class DimDucto_Temporal extends AppCompatActivity
         }
     }
 
-    public void checkDiametroEqv(View view)
+    public void chkDiaEqvClick(View view)
     {
         if (idDiaEqv == 0)
         {

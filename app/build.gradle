@@ -20,11 +20,11 @@ android {
     productFlavors {
     }
     buildToolsVersion '30.0.3'
-    lintOptions{
-        abortOnError false
-    }
     buildFeatures {
         viewBinding true
+    }
+    lint {
+        abortOnError false
     }
 }
 
