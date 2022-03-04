@@ -1,6 +1,8 @@
 package net.refriglobal.hvactools.Operaciones;
 
+import net.refriglobal.hvactools.ClasificacionListas.ClasificacionListaPPA;
 import net.refriglobal.hvactools.ClasificacionListas.ClasificacionListaVelocidad;
+import net.refriglobal.hvactools.ClasificacionListas.ClasificasionListaPerdida;
 import net.refriglobal.hvactools.ClasificacionListas.Listas;
 import net.refriglobal.hvactools.DimDucto_Temporal;
 
@@ -42,11 +44,10 @@ public class Casos {
                 break;
             }
 
-            Interpolaciones inter = new Interpolaciones();
-
             if (flujoArie < listaVel.get(indexListaPerdida).cfm)
             {
                 //Interpolar velocidad.
+                Interpolaciones inter = new Interpolaciones();
                 inter.interpolacionVelocidadMetodo2(flujoArie, indexListaPerdida);
 
                 velocidadEqv = inter.getVelocidadFlujoAire();
@@ -79,22 +80,7 @@ public class Casos {
         objInterpolacion.interpolacionDiametroEqvMetodo2(indexListaPerdida, flujoArie);
         objInterpolacion.interpolacionVelocidadMetodo2(flujoArie,indexListaPerdida);
 
-        Calculos operacion = new Calculos();
-        operacion.calculoArea(objInterpolacion.getDiametroEqvFinal());
-
-        operacion.calculoVelDiaEqv(flujoArie);
-
-        DimDucto_Temporal objDim = new DimDucto_Temporal();
-
-        double valorViscoCinematica = Double.parseDouble(objDim.textViewViscoCinematica.getText().toString());
-        operacion.calculoNumeroReynolds(operacion.getVelocidadDiametro(), objInterpolacion.getDiametroEqvFinal(), valorViscoCinematica);
-
-        operacion.calculoFactorFriccion(objInterpolacion.getDiametroEqvFinal());
-
-        double aireDensidad = Double.parseDouble(objDim.textViewDensidadAire.getText().toString());
-        operacion.calculoPresionVelocidad(aireDensidad);
-
-        operacion.calculoPerdidaFriccion(objInterpolacion.getDiametroEqvFinal());
+        OperacionesFinales(flujoArie);
     }
 
     public void Caso3(int indexSuperior, int indexInferior, double flujoAire, double perdidaEstatica)
@@ -103,22 +89,7 @@ public class Casos {
         inter.interpolacionDiametroEqv(indexInferior, indexSuperior, perdidaEstatica, flujoAire);
         inter.interpolacionVelocidad(indexInferior, indexSuperior, flujoAire, perdidaEstatica);
 
-        Calculos operacion = new Calculos();
-        operacion.calculoArea(inter.getDiametroEqvFinal());
-
-        operacion.calculoVelDiaEqv(flujoAire);
-
-        DimDucto_Temporal objDim = new DimDucto_Temporal();
-
-        double valorViscoCinematica = Double.parseDouble(objDim.textViewViscoCinematica.getText().toString());
-        operacion.calculoNumeroReynolds(operacion.getVelocidadDiametro(), inter.getDiametroEqvFinal(), valorViscoCinematica);
-
-        operacion.calculoFactorFriccion(inter.getDiametroEqvFinal());
-
-        double aireDensidad = Double.parseDouble(objDim.textViewDensidadAire.getText().toString());
-        operacion.calculoPresionVelocidad(aireDensidad);
-
-        operacion.calculoPerdidaFriccion(inter.getDiametroEqvFinal());
+        OperacionesFinales(flujoAire);
     }
 
     public Double Caso4(double flujoAireUsuario, double velocidadUsuario)
@@ -133,6 +104,8 @@ public class Casos {
                 if (velocidadUsuario == itemList.velocidad && flujoAireUsuario == itemList.cfm)
                 {
                     perdidaEstatica = itemList.perdida;
+                    OperacionesFinales(flujoAireUsuario);
+
                     datoEncontrado = true;
                     break;
                 }
@@ -198,6 +171,27 @@ public class Casos {
                 break;
         }
 
+        if (perdidaInter > 0)
+        {
+            int indexInferior = 0;
+            int indexSuperior = 0;
+            for (ClasificasionListaPerdida itemPerd : Listas.listaPerdida) {
+                if (itemPerd.perdidaTabla < perdidaInter) {
+                    indexInferior = itemPerd.index;
+                    indexSuperior = itemPerd.index - 1;
+                    break;
+                }
+            }
+
+            if (indexInferior > 0 && indexSuperior > 0)
+            {
+                /*Se obtiene el diametro equivalente correspondiente*/
+                Interpolaciones inter = new Interpolaciones();
+                inter.interpolacionDiametroEqv(indexInferior, indexSuperior, perdidaInter, flujoAireUsuario);
+
+                OperacionesFinales(flujoAireUsuario);
+            }
+        }
         return perdidaInter;
     }
 
@@ -306,6 +300,67 @@ public class Casos {
             perdidaInter = perdidaInf + valorExtraPerdida;
         }
 
+        /****************************/
+        if (perdidaInter > 0)
+        {
+            int indexInferior = 0;
+            int indexSuperior = 0;
+            for (ClasificasionListaPerdida itemPerd : Listas.listaPerdida) {
+                if (itemPerd.perdidaTabla < perdidaInter) {
+                    indexInferior = itemPerd.index;
+                    indexSuperior = itemPerd.index - 1;
+                    break;
+                }
+            }
+
+            if (indexInferior > 0 && indexSuperior > 0)
+            {
+                /*Se obtiene el diametro equivalente correspondiente*/
+                Interpolaciones inter = new Interpolaciones();
+                inter.interpolacionDiametroEqv(indexInferior, indexSuperior, perdidaInter, flujoAireUsuario);
+
+                OperacionesFinales(flujoAireUsuario);
+            }
+        }
+
+        /****************************/
+
         return perdidaInter;
+    }
+
+    public Double Caso7(double flujo, double diametro)
+    {
+        double perdidaEstatica = 0;
+
+        for (List<ClasificacionListaPPA> listaPpa:Listas.listaPPA)
+            for (ClasificacionListaPPA itemLista :listaPpa)
+              if (flujo == itemLista.cfm && diametro == itemLista.diametro)
+              {
+                  perdidaEstatica = itemLista.perdida;
+                  break;
+              }
+
+        return perdidaEstatica;
+    }
+
+    public void OperacionesFinales(double flujoAire)
+    {
+        Interpolaciones inter = new Interpolaciones();
+
+        Calculos operacion = new Calculos();
+        operacion.calculoArea(inter.getDiametroEqvFinal());
+        operacion.calculoVelDiaEqv(flujoAire);
+
+        DimDucto_Temporal objDim = new DimDucto_Temporal();
+
+        double valorViscoCinematica = Double.parseDouble(objDim.textViewViscoCinematica.getText().toString());
+        operacion.calculoNumeroReynolds(operacion.getVelocidadDiametro(), inter.getDiametroEqvFinal(), valorViscoCinematica);
+
+        operacion.calculoFactorFriccion(inter.getDiametroEqvFinal());
+
+        double aireDensidad = Double.parseDouble(objDim.textViewDensidadAire.getText().toString());
+        operacion.calculoPresionVelocidad(aireDensidad);
+
+        operacion.calculoPerdidaFriccion(inter.getDiametroEqvFinal());
     }
 }

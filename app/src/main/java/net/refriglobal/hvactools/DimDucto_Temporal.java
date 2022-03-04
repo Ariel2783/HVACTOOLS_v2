@@ -145,11 +145,12 @@ public class DimDucto_Temporal extends AppCompatActivity
         {
             if (edTextCFM.getText().length() > 0 && edTextVelocidad.getText().length() > 0)
                 MetodoCaudalVelocidad();
-            //TODO: 20220301 - Continuar.
         }
 
         if  (chkCaudal.isChecked() == true && chkDiaEqv.isChecked() == true)
         {
+            if (edTextCFM.getText().length() > 0 && edTextDiaEqv.getText().length() > 0)
+                MetodoCaudalDiaEqv();
         }
 
         if (chkPerdEstatica.isChecked() == true && chkVelocidad.isChecked() == true)
@@ -165,7 +166,7 @@ public class DimDucto_Temporal extends AppCompatActivity
         }
     }
 
-    public void MetodoCaudalPerdEstatica()
+    public void     MetodoCaudalPerdEstatica()
     {
         boolean resultadosFinales = false;
         double flujoArie, perdidaEstatica;
@@ -272,32 +273,43 @@ public class DimDucto_Temporal extends AppCompatActivity
     {
         double perdidaEstatica = 0;
         boolean resultadosFinales = false;
-        double flujoArie = Double.parseDouble(edTextCFM.getText().toString()); //CFM, conversion de variable.
+        double flujoAire = Double.parseDouble(edTextCFM.getText().toString()); //CFM, conversion de variable.
         double velocidaUsuario = Double.parseDouble(edTextVelocidad.getText().toString());
 
         //Caso 4: el flujo y la velocidad conciden con los valores de la lista de velocidad.
         Casos infoCaso = new Casos();
-        perdidaEstatica = infoCaso.Caso4(flujoArie, velocidaUsuario);
+        perdidaEstatica = infoCaso.Caso4(flujoAire, velocidaUsuario);
 
         if (perdidaEstatica > 0)
         {
             if (chkPerdEstatica.isChecked() == false)
                 edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", perdidaEstatica));
 
-            MetodoCaudalPerdEstatica();
+            Interpolaciones inter = new Interpolaciones();
+
+            if (chkDiaEqv.isChecked() == false)
+                edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.2f", inter.getDiametroEqvFinal()));
+
+            resultados(); //muestra los resultados en los textView.
             resultadosFinales = true;
         }
 
         //Caso 5: los CFM no coinciden con la lista y la velocidad si.
         if (resultadosFinales == false)
         {
-            perdidaEstatica = infoCaso.Caso5(flujoArie, velocidaUsuario);
+            perdidaEstatica = infoCaso.Caso5(flujoAire, velocidaUsuario);
+
             if (perdidaEstatica > 0)
             {
                 if (chkPerdEstatica.isChecked() == false)
                     edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", perdidaEstatica));
 
-                MetodoCaudalPerdEstatica();
+                Interpolaciones inter = new Interpolaciones();
+
+                if (chkDiaEqv.isChecked() == false)
+                    edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.2f", inter.getDiametroEqvFinal()));
+
+                resultados(); //muestra los resultados en los textView.
                 resultadosFinales = true;
             }
         }
@@ -305,13 +317,18 @@ public class DimDucto_Temporal extends AppCompatActivity
         //Caso 6: Los CFM coinciden o no, y la velocidad no.
         if (resultadosFinales == false)
         {
-            perdidaEstatica = infoCaso.Caso6(flujoArie, velocidaUsuario);
+            perdidaEstatica = infoCaso.Caso6(flujoAire, velocidaUsuario);
             if (perdidaEstatica > 0)
             {
                 if (chkPerdEstatica.isChecked() == false)
                     edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", perdidaEstatica));
 
-                MetodoCaudalPerdEstatica();
+                Interpolaciones inter = new Interpolaciones();
+
+                if (chkDiaEqv.isChecked() == false)
+                    edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.2f", inter.getDiametroEqvFinal()));
+
+                resultados(); //muestra los resultados en los textView.
                 resultadosFinales = true;
             }
         }
@@ -319,6 +336,24 @@ public class DimDucto_Temporal extends AppCompatActivity
         /*Caso 7: pendiente cuando la velocidad es inferior al la velocida minima (200)
         * y superior a la maxima (12000)*/
 
+    }
+
+    public void MetodoCaudalDiaEqv()
+    {
+        double perdidaEstatica = 0;
+        boolean resultadosFinales = false;
+        double flujoAire = Double.parseDouble(edTextCFM.getText().toString()); //CFM, conversion de variable.
+        double DiaEqvUsuario = Double.parseDouble(edTextDiaEqv.getText().toString());
+
+        //Caso 7: el flujo y diametro conciden con los valores de la lista ListaPPA
+        Casos infoCaso = new Casos();
+        perdidaEstatica = infoCaso.Caso7(flujoAire, DiaEqvUsuario);
+
+        if (perdidaEstatica > 0)
+        {
+            if (chkPerdEstatica.isChecked() == false)
+                edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", perdidaEstatica));
+        }
     }
 
     public void resultados()
