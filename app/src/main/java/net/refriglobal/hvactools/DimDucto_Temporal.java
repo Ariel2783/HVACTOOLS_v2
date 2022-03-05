@@ -31,7 +31,7 @@ public class DimDucto_Temporal extends AppCompatActivity
     public static TextView textViewDiaEqvFinal, textViewAreaFlujo, textViewVelFluidoFinal, textViewNumReynolds, textViewPerdFricion, textViewFactorFriccion,
              textViewPresionVelocidad;
     RadioButton chkCaudal, chkPerdEstatica, chkVelocidad, chkDiaEqv;
-    EditText edTextCFM, edTextPerdEstatica, edTextVelocidad, edTextDiaEqv, edTextLadoADucto, edTextLadoBDucto;
+    public static EditText edTextCFM, edTextPerdEstatica, edTextVelocidad, edTextDiaEqv, edTextLadoADucto, edTextLadoBDucto;
     int idCFM, idPerdida, idVelocidad, idDiaEqv;
 
 
@@ -166,7 +166,7 @@ public class DimDucto_Temporal extends AppCompatActivity
         }
     }
 
-    public void     MetodoCaudalPerdEstatica()
+    public void MetodoCaudalPerdEstatica()
     {
         boolean resultadosFinales = false;
         double flujoArie, perdidaEstatica;
@@ -353,6 +353,8 @@ public class DimDucto_Temporal extends AppCompatActivity
         {
             if (chkPerdEstatica.isChecked() == false)
                 edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", perdidaEstatica));
+
+            resultados();
         }
     }
 

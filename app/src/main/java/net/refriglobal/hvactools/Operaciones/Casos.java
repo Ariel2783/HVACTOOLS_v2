@@ -328,17 +328,53 @@ public class Casos {
         return perdidaInter;
     }
 
-    public Double Caso7(double flujo, double diametro)
-    {
+    public Double Caso7(double flujo, double diametro) {
         double perdidaEstatica = 0;
+        boolean datoEncontrado = false;
+        for (List<ClasificacionListaPPA> listaPpa : Listas.listaPPA)
+        {
+            for (ClasificacionListaPPA itemLista : listaPpa)
+                if (flujo == itemLista.cfm && diametro == itemLista.diametro) {
+                    perdidaEstatica = itemLista.perdida;
 
-        for (List<ClasificacionListaPPA> listaPpa:Listas.listaPPA)
-            for (ClasificacionListaPPA itemLista :listaPpa)
-              if (flujo == itemLista.cfm && diametro == itemLista.diametro)
-              {
-                  perdidaEstatica = itemLista.perdida;
-                  break;
-              }
+                    Interpolaciones inter = new Interpolaciones();
+
+                    /****************/
+                    //Proceso para encontrar el indice de la perdida obtenida
+                    int indexPerdida = -1;
+                    for (ClasificasionListaPerdida itemPerd: Listas.listaPerdida)
+                    {
+                        if (itemPerd.perdidaTabla == perdidaEstatica)
+                        {
+                            //TODO: pendiente con valores 2400 cfm y 14 plg
+                            indexPerdida = itemPerd.index;
+                            inter.interpolacionVelocidadMetodo2(flujo,indexPerdida);
+                            break;
+                        }
+                    }
+
+                    if (indexPerdida == -1)
+                    {
+                        //TODO: 20220304; Continuar con la interpolacion de la velocidad.
+                    }
+                    /****************/
+
+                    DimDucto_Temporal objDim = new DimDucto_Temporal();
+
+                    //Se envia el valor del diametro introducido por el usuario a la variable diametroEqvFinal, para ser utilizados
+                    //en los calculos finales.
+                    inter.setDiametroEqv(objDim.edTextDiaEqv.getText().toString());
+                    OperacionesFinales(flujo);
+                    datoEncontrado = true;
+                    break;
+                }
+
+            if (datoEncontrado == true)
+                break;
+        }
+
+
+            /**>> Obtener o interpolar Velocidad y realizar calculos de resultados finales.*/
 
         return perdidaEstatica;
     }

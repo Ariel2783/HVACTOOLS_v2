@@ -14,6 +14,11 @@ public class Interpolaciones
     private static double diametroEqvFinal;
     public Double getDiametroEqvFinal() {return diametroEqvFinal;}
 
+    public void setDiametroEqv(String dia)
+    {
+        diametroEqvFinal = Double.parseDouble(dia);
+    }
+
     private static double velocidadFinal;
     public Double getVelocidadFlujoAire() {return velocidadFinal;}
 
