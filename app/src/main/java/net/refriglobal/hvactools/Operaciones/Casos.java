@@ -331,11 +331,12 @@ public class Casos {
     public Double Caso7(double flujo, double diametro) {
         double perdidaEstatica = 0;
         boolean finCiclo = false;
+
         for (List<ClasificacionListaPPA> listaPpa : Listas.listaPPA)
         {
             for (ClasificacionListaPPA itemLista : listaPpa)
             {
-                if (flujo == itemLista.cfm && diametro == itemLista.diametro)
+                if (diametro == itemLista.diametro && flujo == itemLista.cfm )
                 {
                     perdidaEstatica = itemLista.perdida;
 
@@ -373,6 +374,10 @@ public class Casos {
                     }
                 }
 
+                //Control para evitar revisar todos los valores de un diametro de la listaPPA
+                if (diametro != itemLista.diametro)
+                    break;
+
                 //Control para no revisar toda la lista de no ser necesario
                 if (itemLista.diametro > diametro)
                 {
@@ -386,6 +391,22 @@ public class Casos {
         }
 
         return perdidaEstatica;
+    }
+
+    public Double Caso8(double flujo, double diametro)
+    {
+        for (List<ClasificacionListaPPA> listaPpa : Listas.listaPPA)
+        {
+            for (ClasificacionListaPPA itemLista : listaPpa)
+            {
+                if (diametro > itemLista.diametro)
+                {
+
+                }
+            }
+        }
+
+        return 27.0;
     }
 
     public void OperacionesFinales(double flujoAire)
