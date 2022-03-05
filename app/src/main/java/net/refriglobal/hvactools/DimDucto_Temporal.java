@@ -354,8 +354,19 @@ public class DimDucto_Temporal extends AppCompatActivity
             if (chkPerdEstatica.isChecked() == false)
                 edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", perdidaEstatica));
 
+            Interpolaciones inter = new Interpolaciones();
+            edTextVelocidad.setText(String.format(Locale.getDefault(), "%.1f", inter.getVelocidadFlujoAire()));
+
             resultados();
+            resultadosFinales = true;
         }
+
+        //Caso 8: el flujo coincide el diametro no
+        if (resultadosFinales == false)
+        {
+
+        }
+
     }
 
     public void resultados()
