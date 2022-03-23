@@ -395,15 +395,33 @@ public class Casos {
 
     public Double Caso8(double flujo, double diametro)
     {
+        boolean finCiclo = false;
+
+        int i=0;
         for (List<ClasificacionListaPPA> listaPpa : Listas.listaPPA)
         {
+            int listaSup = -1;
+            int listaInf = -1;
+
+            int h = 0;
             for (ClasificacionListaPPA itemLista : listaPpa)
             {
-                if (diametro > itemLista.diametro)
+                if (itemLista.diametro > diametro)
                 {
+                    listaSup = i;
+                    listaInf = i-1;
 
+                    Interpolaciones inter = new Interpolaciones();
+                    inter.interpolacionPerdida(listaInf, listaSup, flujo, diametro);
                 }
+
+                else
+                    break;
+
+                h++;
             }
+
+            i++;
         }
 
         return 27.0;

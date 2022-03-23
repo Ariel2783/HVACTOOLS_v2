@@ -361,7 +361,7 @@ public class DimDucto_Temporal extends AppCompatActivity
             resultadosFinales = true;
         }
 
-        //Caso 8: el flujo coincide el diametro no
+        //Caso 8: el diametro no coincide
         if (resultadosFinales == false)
         {
             perdidaEstatica = infoCaso.Caso8(flujoAire, DiaEqvUsuario);

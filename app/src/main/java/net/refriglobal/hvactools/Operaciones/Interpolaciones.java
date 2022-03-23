@@ -22,6 +22,9 @@ public class Interpolaciones
     private static double velocidadFinal;
     public Double getVelocidadFlujoAire() {return velocidadFinal;}
 
+    private static double perdidaFinal;
+    public Double getPerdidaFinal() {return perdidaFinal;}
+
     public void interpolacionDiametroEqv(int indexPerdInf, int indexPerdSup, double perdUsuario, double flujoUsuario)
     {
        double diametro1 = 0;
@@ -220,5 +223,95 @@ public class Interpolaciones
         }
     }
 
+    public void interpolacionPerdida(int listaInf, int listaSup, double flujoCFM, double diaEqvUsuario)
+    {
+        double perdidaInferior = -1;
+        double perdidaSuperior = -1;
+        double diaInf = 0;
+        double diaSup = 0;
 
+        int i = 0;
+        while (i < Listas.listaPPA.get(listaInf).size())
+        {
+            if (Listas.listaPPA.get(listaInf).get(i).cfm == flujoCFM)
+            {
+                perdidaInferior = Listas.listaPPA.get(listaInf).get(i).perdida;
+                break;
+            }
+            i++;
+        }
+
+        i = 0;
+        while (i < Listas.listaPPA.get(listaSup).size())
+        {
+            if (Listas.listaPPA.get(listaSup).get(i).cfm == flujoCFM)
+            {
+                perdidaSuperior = Listas.listaPPA.get(listaSup).get(i).perdida;
+                break;
+            }
+            i++;
+        }
+
+        if (perdidaInferior == -1 || perdidaSuperior == -1)
+        {
+            double perd01 = 0;
+            double perd02 = 0;
+
+
+            i = 0;
+            while (i < Listas.listaPPA.get(listaInf).size())
+            {
+                if (Listas.listaPPA.get(listaInf).get(i).cfm < flujoCFM)
+                {
+                    perd01 = Listas.listaPPA.get(listaInf).get(i).perdida;
+                    perd02 = Listas.listaPPA.get(listaInf).get(i-1).perdida;
+                    diaInf = Listas.listaPPA.get(listaInf).get(1).diametro;
+
+                    double cfm01 = Listas.listaPPA.get(listaInf).get(i).cfm;
+                    double cfm02 = Listas.listaPPA.get(listaInf).get(i-1).cfm;
+
+                    double difCFM = cfm02 - cfm01;
+                    double fraccionCFM = (flujoCFM - cfm01) / difCFM;
+
+                    double difPerdida = perd02 - perd01;
+                    perdidaInferior = (difPerdida * fraccionCFM) + perd01;
+                    break;
+                }
+
+                i++;
+            }
+
+            i = 0;
+            while (i < Listas.listaPPA.get(listaSup).size())
+            {
+                if (Listas.listaPPA.get(listaSup).get(i).cfm < flujoCFM)
+                {
+                    perd01 = Listas.listaPPA.get(listaSup).get(i).perdida;
+                    perd02 = Listas.listaPPA.get(listaSup).get(i-1).perdida;
+                    diaSup = Listas.listaPPA.get(listaSup).get(1).diametro;
+
+                    double cfm01 = Listas.listaPPA.get(listaSup).get(i).cfm;
+                    double cfm02 = Listas.listaPPA.get(listaSup).get(i-1).cfm;
+
+                    double difCFM = cfm02 - cfm01;
+                    double fraccionCFM = (flujoCFM - cfm01) / difCFM;
+
+                    double difPerdida = perd02 - perd01;
+                    perdidaSuperior = (difPerdida * fraccionCFM) + perd01;
+                    break;
+                }
+
+                i++;
+            }
+        }
+
+        if (perdidaInferior > -1 || perdidaSuperior > -1)
+        {
+            double fraccionDiametro = (diaEqvUsuario - diaInf)/(diaSup - diaInf);
+            double difPerdida = Math.abs(perdidaSuperior - perdidaInferior);
+            perdidaFinal = Math.abs((difPerdida * fraccionDiametro) - perdidaInferior);
+        }
+
+        //TODO: 20220323; Continuar con el calculo de los datos y el resto.
+    }
 }
