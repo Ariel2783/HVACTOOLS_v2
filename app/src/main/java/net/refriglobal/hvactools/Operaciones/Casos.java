@@ -413,6 +413,12 @@ public class Casos {
 
                     Interpolaciones inter = new Interpolaciones();
                     inter.interpolacionPerdida(listaInf, listaSup, flujo, diametro);
+
+                    if (inter.getPerdidaFinal() > 0 )
+                    {
+                        finCiclo = true;
+                        break;
+                    }
                 }
 
                 else
@@ -421,10 +427,16 @@ public class Casos {
                 h++;
             }
 
+            if (finCiclo)
+                break;
+
             i++;
         }
 
-        return 27.0;
+        //TODO: 20220325; Continuar con la ionterpolacion de velocidad de la grafica.
+
+        Interpolaciones inter = new Interpolaciones();
+        return inter.getPerdidaFinal();
     }
 
     public void OperacionesFinales(double flujoAire)

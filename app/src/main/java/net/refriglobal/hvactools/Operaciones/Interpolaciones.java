@@ -257,7 +257,6 @@ public class Interpolaciones
             double perd01 = 0;
             double perd02 = 0;
 
-
             i = 0;
             while (i < Listas.listaPPA.get(listaInf).size())
             {
