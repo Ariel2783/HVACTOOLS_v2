@@ -147,7 +147,7 @@ public class DimDucto_Temporal extends AppCompatActivity
                 MetodoCaudalVelocidad();
         }
 
-        if  (chkCaudal.isChecked() == true && chkDiaEqv.isChecked() == true)
+        if (chkCaudal.isChecked() == true && chkDiaEqv.isChecked() == true)
         {
             if (edTextCFM.getText().length() > 0 && edTextDiaEqv.getText().length() > 0)
                 MetodoCaudalDiaEqv();
@@ -276,6 +276,11 @@ public class DimDucto_Temporal extends AppCompatActivity
         double flujoAire = Double.parseDouble(edTextCFM.getText().toString()); //CFM, conversion de variable.
         double velocidaUsuario = Double.parseDouble(edTextVelocidad.getText().toString());
 
+        //Se envia la informacion inicial del usuario a los metodos set de la variables.
+        Interpolaciones setVariables = new Interpolaciones();
+        setVariables.setFlujoAire(flujoAire);
+        setVariables.setVelocidadFlujoAire(velocidaUsuario);
+
         //Caso 4: el flujo y la velocidad conciden con los valores de la lista de velocidad.
         Casos infoCaso = new Casos();
         perdidaEstatica = infoCaso.Caso4(flujoAire, velocidaUsuario);
@@ -345,16 +350,18 @@ public class DimDucto_Temporal extends AppCompatActivity
         double flujoAire = Double.parseDouble(edTextCFM.getText().toString()); //CFM, conversion de variable.
         double DiaEqvUsuario = Double.parseDouble(edTextDiaEqv.getText().toString());
 
+        //Se envia la informacion inicial del usuario a los metodos set de la variables.
+        Interpolaciones inter = new Interpolaciones();
+        inter.setFlujoAire(flujoAire);
+        inter.setDiametroEqv(DiaEqvUsuario);
+
         //Caso 7: el flujo y diametro conciden con los valores de la lista ListaPPA
         Casos infoCaso = new Casos();
         perdidaEstatica = infoCaso.Caso7(flujoAire, DiaEqvUsuario);
 
         if (perdidaEstatica > 0)
         {
-            if (chkPerdEstatica.isChecked() == false)
-                edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", perdidaEstatica));
-
-            Interpolaciones inter = new Interpolaciones();
+            edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", perdidaEstatica));
             edTextVelocidad.setText(String.format(Locale.getDefault(), "%.1f", inter.getVelocidadFlujoAire()));
 
             resultados();
@@ -367,6 +374,14 @@ public class DimDucto_Temporal extends AppCompatActivity
             perdidaEstatica = infoCaso.Caso8(flujoAire, DiaEqvUsuario);
         }
 
+        if (perdidaEstatica > 0)
+        {
+            edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", perdidaEstatica));
+            edTextVelocidad.setText(String.format(Locale.getDefault(), "%.1f", inter.getVelocidadFlujoAire()));
+
+            resultados();
+            resultadosFinales = true;
+        }
     }
 
     public void resultados()

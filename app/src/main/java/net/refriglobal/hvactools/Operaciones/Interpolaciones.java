@@ -14,16 +14,23 @@ public class Interpolaciones
     private static double diametroEqvFinal;
     public Double getDiametroEqvFinal() {return diametroEqvFinal;}
 
-    public void setDiametroEqv(String dia)
+    public void setDiametroEqv(double dia)
     {
-        diametroEqvFinal = Double.parseDouble(dia);
+        diametroEqvFinal = dia;
     }
 
     private static double velocidadFinal;
     public Double getVelocidadFlujoAire() {return velocidadFinal;}
 
+    public void setVelocidadFlujoAire(double velocidad) { velocidadFinal = velocidad;}
+
     private static double perdidaFinal;
     public Double getPerdidaFinal() {return perdidaFinal;}
+
+    public void setPerdidaFinal(double perdida){perdidaFinal = perdida;}
+
+    private static double flujoAire;
+    public void setFlujoAire(double caudal) { flujoAire = caudal;}
 
     public void interpolacionDiametroEqv(int indexPerdInf, int indexPerdSup, double perdUsuario, double flujoUsuario)
     {
@@ -310,7 +317,5 @@ public class Interpolaciones
             double difPerdida = Math.abs(perdidaSuperior - perdidaInferior);
             perdidaFinal = Math.abs((difPerdida * fraccionDiametro) - perdidaInferior);
         }
-
-        //TODO: 20220323; Continuar con el calculo de los datos y el resto.
     }
 }

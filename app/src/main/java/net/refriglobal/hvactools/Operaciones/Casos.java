@@ -367,7 +367,7 @@ public class Casos {
 
                         //Se envia el valor del diametro introducido por el usuario a la variable diametroEqvFinal, para ser utilizados
                         //en los calculos finales.
-                        inter.setDiametroEqv(objDim.edTextDiaEqv.getText().toString());
+                        inter.setDiametroEqv(diametro);
                         OperacionesFinales(flujo);
                         finCiclo = true;
                         break;
@@ -433,9 +433,22 @@ public class Casos {
             i++;
         }
 
-        //TODO: 20220325; Continuar con la ionterpolacion de velocidad de la grafica.
-
         Interpolaciones inter = new Interpolaciones();
+
+        //TODO: 20220325; Continuar con la ionterpolacion de velocidad de la grafica.
+        for (ClasificasionListaPerdida itemPerd: Listas.listaPerdida)
+        {
+            if (itemPerd.perdidaTabla < inter.getPerdidaFinal())
+            {
+                int indexPerdInferior = itemPerd.index;
+                int indexPerdSuperior = itemPerd.index - 1;
+                inter.interpolacionVelocidad(indexPerdSuperior, indexPerdInferior, flujo, inter.getPerdidaFinal());
+                break;
+            }
+        }
+
+        OperacionesFinales(flujo);
+
         return inter.getPerdidaFinal();
     }
 
