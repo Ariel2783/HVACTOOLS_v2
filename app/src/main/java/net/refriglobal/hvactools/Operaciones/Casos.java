@@ -374,16 +374,16 @@ public class Casos {
                     }
                 }
 
-                //Control para evitar revisar todos los valores de un diametro de la listaPPA
-                if (diametro != itemLista.diametro)
-                    break;
-
                 //Control para no revisar toda la lista de no ser necesario
-                if (itemLista.diametro > diametro)
+                if (itemLista.diametro > diametro || itemLista.diametro == diametro)
                 {
                     finCiclo = true;
                     break;
                 }
+
+                //Control para evitar revisar todos los valores de un diametro de la listaPPA
+                if (diametro != itemLista.diametro)
+                    break;
             }
 
             if (finCiclo == true)
@@ -400,10 +400,65 @@ public class Casos {
         int i=0;
         for (List<ClasificacionListaPPA> listaPpa : Listas.listaPPA)
         {
+            for (ClasificacionListaPPA itemLista : listaPpa)
+            {
+                if (itemLista.diametro == diametro)
+                {
+                    int listaDiametro = i;
+
+                    Interpolaciones inter = new Interpolaciones();
+                    inter.interpolacionPerdida(flujo, diametro, listaDiametro);
+
+                    if (inter.getPerdidaFinal() > 0 )
+                    {
+                        finCiclo = true;
+                        break;
+                    }
+                }
+
+                if (itemLista.diametro > diametro)
+                {
+                    finCiclo = true;
+                    break;
+                }
+
+                break;
+            }
+
+            if (finCiclo)
+                break;
+
+            i++;
+        }
+
+         Interpolaciones inter = new Interpolaciones();
+
+        for (ClasificasionListaPerdida itemPerd: Listas.listaPerdida)
+        {
+            if (itemPerd.perdidaTabla < inter.getPerdidaFinal())
+            {
+                int indexPerdInferior = itemPerd.index;
+                int indexPerdSuperior = itemPerd.index - 1;
+                inter.interpolacionVelocidad(indexPerdSuperior, indexPerdInferior, flujo, inter.getPerdidaFinal());
+                break;
+            }
+        }
+
+        OperacionesFinales(flujo);
+
+        return inter.getPerdidaFinal();
+    }
+
+    public Double Caso9(double flujo, double diametro)
+    {
+        boolean finCiclo = false;
+
+        int i=0;
+        for (List<ClasificacionListaPPA> listaPpa : Listas.listaPPA)
+        {
             int listaSup = -1;
             int listaInf = -1;
 
-            int h = 0;
             for (ClasificacionListaPPA itemLista : listaPpa)
             {
                 if (itemLista.diametro > diametro)
@@ -412,7 +467,7 @@ public class Casos {
                     listaInf = i-1;
 
                     Interpolaciones inter = new Interpolaciones();
-                    inter.interpolacionPerdida(listaInf, listaSup, flujo, diametro);
+                    inter.interpolacionPerdida2(listaInf, listaSup, flujo, diametro);
 
                     if (inter.getPerdidaFinal() > 0 )
                     {
@@ -423,8 +478,6 @@ public class Casos {
 
                 else
                     break;
-
-                h++;
             }
 
             if (finCiclo)
@@ -435,7 +488,6 @@ public class Casos {
 
         Interpolaciones inter = new Interpolaciones();
 
-        //TODO: 20220325; Continuar con la ionterpolacion de velocidad de la grafica.
         for (ClasificasionListaPerdida itemPerd: Listas.listaPerdida)
         {
             if (itemPerd.perdidaTabla < inter.getPerdidaFinal())

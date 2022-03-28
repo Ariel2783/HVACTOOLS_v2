@@ -363,24 +363,33 @@ public class DimDucto_Temporal extends AppCompatActivity
         {
             edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", perdidaEstatica));
             edTextVelocidad.setText(String.format(Locale.getDefault(), "%.1f", inter.getVelocidadFlujoAire()));
-
             resultados();
             resultadosFinales = true;
         }
 
-        //Caso 8: el diametro no coincide
+        //Caso 8: el diametro coincide y el caudal no coincide con los valores de la grafica
         if (resultadosFinales == false)
         {
             perdidaEstatica = infoCaso.Caso8(flujoAire, DiaEqvUsuario);
+
+            if (perdidaEstatica > 0)
+                resultadosFinales = true;
         }
 
-        if (perdidaEstatica > 0)
+        //Caso 9: el diametro no coincide y el caudal no coincide con los valores de la grafica
+        if (resultadosFinales == false)
+        {
+            perdidaEstatica = infoCaso.Caso9(flujoAire, DiaEqvUsuario);
+
+            if (perdidaEstatica > 0)
+                resultadosFinales = true;
+        }
+
+        if (resultadosFinales == true)
         {
             edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", perdidaEstatica));
             edTextVelocidad.setText(String.format(Locale.getDefault(), "%.1f", inter.getVelocidadFlujoAire()));
-
             resultados();
-            resultadosFinales = true;
         }
     }
 
