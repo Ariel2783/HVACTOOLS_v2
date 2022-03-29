@@ -174,6 +174,11 @@ public class DimDucto_Temporal extends AppCompatActivity
         flujoArie = Double.parseDouble(edTextCFM.getText().toString()); //CFM, conversion de variable.
         perdidaEstatica = Double.parseDouble(edTextPerdEstatica.getText().toString()); //Perdida, conversion de variable.
 
+        //Se restablercen a cero los valores del calculo anterior.
+        Interpolaciones setInfo = new Interpolaciones();
+        setInfo.setVelocidadFlujoAire(0.00);
+        setInfo.setDiametroEqv(0.00);
+
         int indexListaPerdida = -1;
 
         /**Obtener en este punto la posicion de la lista de perdida, de la perdida introducida por el usario*/
@@ -276,6 +281,11 @@ public class DimDucto_Temporal extends AppCompatActivity
         double flujoAire = Double.parseDouble(edTextCFM.getText().toString()); //CFM, conversion de variable.
         double velocidaUsuario = Double.parseDouble(edTextVelocidad.getText().toString());
 
+        //Se restablercen a cero los valores del calculo anterior.
+        Interpolaciones setInfo = new Interpolaciones();
+        setInfo.setPerdidaFinal(0.00);
+        setInfo.setDiametroEqv(0.00);
+
         //Se envia la informacion inicial del usuario a los metodos set de la variables.
         Interpolaciones setVariables = new Interpolaciones();
         setVariables.setFlujoAire(flujoAire);
@@ -349,6 +359,11 @@ public class DimDucto_Temporal extends AppCompatActivity
         boolean resultadosFinales = false;
         double flujoAire = Double.parseDouble(edTextCFM.getText().toString()); //CFM, conversion de variable.
         double DiaEqvUsuario = Double.parseDouble(edTextDiaEqv.getText().toString());
+
+        //Se restablercen a cero los valores del calculo anterior.
+        Interpolaciones setInfo = new Interpolaciones();
+        setInfo.setPerdidaFinal(0.00);
+        setInfo.setVelocidadFlujoAire(0.00);
 
         //Se envia la informacion inicial del usuario a los metodos set de la variables.
         Interpolaciones inter = new Interpolaciones();
