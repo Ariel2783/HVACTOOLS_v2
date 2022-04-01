@@ -165,6 +165,8 @@ public class DimDucto_Temporal extends AppCompatActivity
 
         if (chkVelocidad.isChecked() == true && chkDiaEqv.isChecked() == true)
         {
+            if (edTextVelocidad.getText().length() > 0 && edTextDiaEqv.getText().length() > 0)
+                MetodoVelDiaEqv();
         }
     }
 
@@ -374,7 +376,8 @@ public class DimDucto_Temporal extends AppCompatActivity
 
         //Caso 7: el flujo y diametro conciden con los valores de la lista ListaPPA
         Casos infoCaso = new Casos();
-        perdidaEstatica = infoCaso.Caso7(flujoAire, DiaEqvUsuario);
+        infoCaso.Caso7(flujoAire, DiaEqvUsuario);
+        perdidaEstatica = inter.getPerdidaFinal();
 
         if (perdidaEstatica > 0)
         {
@@ -457,6 +460,52 @@ public class DimDucto_Temporal extends AppCompatActivity
             edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.2f", getInfo.getDiametroEqvFinal()));
             Casos operaciones = new Casos();
             operaciones.OperacionesFinales(getInfo.getFlujoAire());
+            resultados();
+        }
+    }
+
+    public void MetodoVelDiaEqv()
+    {
+        boolean resultadosFinales = false;
+        double velocidaUsuario = Double.parseDouble(edTextVelocidad.getText().toString());
+        double DiaEqvUsuario = Double.parseDouble(edTextDiaEqv.getText().toString());
+
+        //Se restablercen a cero los valores del calculo anterior.
+        Interpolaciones setGetInfo = new Interpolaciones();
+        setGetInfo.setFlujoAire(0.00);
+        setGetInfo.setPerdidaFinal(0.00);
+
+        //Calculo de los cfm en funcion de la velocidad y diametro del usuario.
+        double cfm = velocidaUsuario * (Math.PI * Math.pow((DiaEqvUsuario/24), 2));
+        cfm = Math.round(cfm*100.0)/100.0;
+
+        //Caso 7: los cfm calculados y el diametro conciden con los valores de la lista ListaPPA
+        Casos infoCaso = new Casos();
+        infoCaso.Caso7(cfm, DiaEqvUsuario);
+
+        //Se restablece al valor del usuario ya que
+        //en el metodo de interpolacion del caso 7 se obtiene la velocidad de la lista de la grafica.
+        setGetInfo.setDiametroEqv(DiaEqvUsuario);
+        setGetInfo.setVelocidadFlujoAire(velocidaUsuario);
+
+        double perdidaEstatica = setGetInfo.getPerdidaFinal();
+
+        if (perdidaEstatica > 0)
+            resultadosFinales = true;
+
+        if (resultadosFinales == false)
+        {
+            //Caso 13:
+            Casos infoCasos = new Casos();
+            infoCasos.Caso13(cfm, velocidaUsuario, DiaEqvUsuario);
+        }
+
+        if (resultadosFinales == true)
+        {
+            edTextCFM.setText(String.format(Locale.getDefault(), "%.0f", cfm));
+            edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", perdidaEstatica));
+            Casos operaciones = new Casos();
+            operaciones.OperacionesFinales(cfm);
             resultados();
         }
     }

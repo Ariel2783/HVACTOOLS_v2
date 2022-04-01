@@ -328,7 +328,7 @@ public class Casos {
         return perdidaInter;
     }
 
-    public Double Caso7(double flujo, double diametro)
+    public void Caso7(double flujo, double diametro)
     {
         double perdidaEstatica = 0;
         boolean finCiclo = false;
@@ -361,22 +361,10 @@ public class Casos {
                         //TODO: 20220304; Revisar si esto llega a ocurrir, de ser asi mejorar o colocar un mensaje al usuario
                         // en caso de que no se obtenga la velocidad.
                     }
-
-                    if (indexPerdida > -1)
-                    {
-                        DimDucto_Temporal objDim = new DimDucto_Temporal();
-
-                        //Se envia el valor del diametro introducido por el usuario a la variable diametroEqvFinal, para ser utilizados
-                        //en los calculos finales.
-                        inter.setDiametroEqv(diametro);
-                        OperacionesFinales(flujo);
-                        finCiclo = true;
-                        break;
-                    }
                 }
 
                 //Control para no revisar toda la lista de no ser necesario
-                if (itemLista.diametro > diametro || itemLista.diametro == diametro)
+                if (itemLista.diametro > diametro)
                 {
                     finCiclo = true;
                     break;
@@ -391,7 +379,8 @@ public class Casos {
                 break;
         }
 
-        return perdidaEstatica;
+        Interpolaciones inter = new Interpolaciones();
+        inter.setPerdidaFinal(perdidaEstatica);
     }
 
     public Double Caso8(double flujo, double diametro)
@@ -457,18 +446,18 @@ public class Casos {
         int i=0;
         for (List<ClasificacionListaPPA> listaPpa : Listas.listaPPA)
         {
-            int listaSup = -1;
-            int listaInf = -1;
+            int listaDiaSup = -1;
+            int listaDiaInf = -1;
 
             for (ClasificacionListaPPA itemLista : listaPpa)
             {
                 if (itemLista.diametro > diametro)
                 {
-                    listaSup = i;
-                    listaInf = i-1;
+                    listaDiaSup = i;
+                    listaDiaInf = i-1;
 
                     Interpolaciones inter = new Interpolaciones();
-                    inter.interpolacionPerdida2(listaInf, listaSup, flujo, diametro);
+                    inter.interpolacionPerdida2(listaDiaInf, listaDiaSup, flujo, diametro);
 
                     if (inter.getPerdidaFinal() > 0 )
                     {
@@ -626,6 +615,11 @@ public class Casos {
         {
             inter.interpolacionDiametroEqv(indexPerdInf, indexPerdSup, perdidaUsuario, inter.getFlujoAire());
         }
+    }
+
+    public void Caso13(double cfm, double velocidadusuario, double diaEqv)
+    {
+
     }
 
     public void OperacionesFinales(double flujoAire)

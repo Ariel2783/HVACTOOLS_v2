@@ -259,41 +259,41 @@ public class Interpolaciones
         }
     }
 
-    public void interpolacionPerdida2(int listaInf, int listaSup, double flujoCFM, double diaEqvUsuario)
+    public void interpolacionPerdida2(int listaDiaInf, int listaDiaSup, double flujoCFM, double diaEqvUsuario)
     {
-        double diaInf = Listas.listaPPA.get(listaInf).get(1).diametro;
-        double diaSup = Listas.listaPPA.get(listaSup).get(1).diametro;
+        double diaInf = Listas.listaPPA.get(listaDiaInf).get(1).diametro;
+        double diaSup = Listas.listaPPA.get(listaDiaSup).get(1).diametro;
 
         double perdidaInferior = -1;
         double perdidaSuperior = -1;
 
         int i = 0;
-        while (i < Listas.listaPPA.get(listaInf).size())
+        while (i < Listas.listaPPA.get(listaDiaInf).size())
         {
-            if (Listas.listaPPA.get(listaInf).get(i).cfm == flujoCFM)
+            if (Listas.listaPPA.get(listaDiaInf).get(i).cfm == flujoCFM)
             {
-                perdidaInferior = Listas.listaPPA.get(listaInf).get(i).perdida;
+                perdidaInferior = Listas.listaPPA.get(listaDiaInf).get(i).perdida;
                 break;
             }
 
             //Instruccion para terminar el ciclo, para evitar buscar en los valores inferiores al flujo del usuario.
-            if(Listas.listaPPA.get(listaInf).get(i).cfm < flujoCFM && Listas.listaPPA.get(listaInf).get(i).cfm != 0)
+            if(Listas.listaPPA.get(listaDiaInf).get(i).cfm < flujoCFM && Listas.listaPPA.get(listaDiaInf).get(i).cfm != 0)
                 break;
 
             i++;
         }
 
         i = 0;
-        while (i < Listas.listaPPA.get(listaSup).size())
+        while (i < Listas.listaPPA.get(listaDiaSup).size())
         {
-            if (Listas.listaPPA.get(listaSup).get(i).cfm == flujoCFM)
+            if (Listas.listaPPA.get(listaDiaSup).get(i).cfm == flujoCFM)
             {
-                perdidaSuperior = Listas.listaPPA.get(listaSup).get(i).perdida;
+                perdidaSuperior = Listas.listaPPA.get(listaDiaSup).get(i).perdida;
                 break;
             }
 
             //Instruccion para terminar el ciclo, para evitar buscar en los valores inferiores al flujo del usuario.
-            if(Listas.listaPPA.get(listaSup).get(i).cfm < flujoCFM && Listas.listaPPA.get(listaSup).get(i).cfm != 0)
+            if(Listas.listaPPA.get(listaDiaSup).get(i).cfm < flujoCFM && Listas.listaPPA.get(listaDiaSup).get(i).cfm != 0)
                 break;
 
             i++;
@@ -302,16 +302,16 @@ public class Interpolaciones
         if (perdidaInferior == -1 || perdidaSuperior == -1)
         {
             i = 0;
-            while (i < Listas.listaPPA.get(listaInf).size())
+            while (i < Listas.listaPPA.get(listaDiaInf).size())
             {
-                if (Listas.listaPPA.get(listaInf).get(i).cfm < flujoCFM && Listas.listaPPA.get(listaInf).get(i).cfm !=0)
+                if (Listas.listaPPA.get(listaDiaInf).get(i).cfm < flujoCFM && Listas.listaPPA.get(listaDiaInf).get(i).cfm !=0)
                 {
-                    double perd01 = Listas.listaPPA.get(listaInf).get(i).perdida;
-                    double perd02 = Listas.listaPPA.get(listaInf).get(i-1).perdida;
-                    diaInf = Listas.listaPPA.get(listaInf).get(1).diametro;
+                    double perd01 = Listas.listaPPA.get(listaDiaInf).get(i).perdida;
+                    double perd02 = Listas.listaPPA.get(listaDiaInf).get(i-1).perdida;
+                    diaInf = Listas.listaPPA.get(listaDiaInf).get(1).diametro;
 
-                    double cfm01 = Listas.listaPPA.get(listaInf).get(i).cfm;
-                    double cfm02 = Listas.listaPPA.get(listaInf).get(i-1).cfm;
+                    double cfm01 = Listas.listaPPA.get(listaDiaInf).get(i).cfm;
+                    double cfm02 = Listas.listaPPA.get(listaDiaInf).get(i-1).cfm;
 
                     double difCFM = cfm02 - cfm01;
                     double fraccionCFM = (flujoCFM - cfm01) / difCFM;
@@ -324,16 +324,16 @@ public class Interpolaciones
             }
 
             i = 0;
-            while (i < Listas.listaPPA.get(listaSup).size())
+            while (i < Listas.listaPPA.get(listaDiaSup).size())
             {
-                if (Listas.listaPPA.get(listaSup).get(i).cfm < flujoCFM && Listas.listaPPA.get(listaSup).get(i).cfm !=0)
+                if (Listas.listaPPA.get(listaDiaSup).get(i).cfm < flujoCFM && Listas.listaPPA.get(listaDiaSup).get(i).cfm !=0)
                 {
-                    double perd01 = Listas.listaPPA.get(listaSup).get(i).perdida;
-                    double perd02 = Listas.listaPPA.get(listaSup).get(i-1).perdida;
-                    diaSup = Listas.listaPPA.get(listaSup).get(1).diametro;
+                    double perd01 = Listas.listaPPA.get(listaDiaSup).get(i).perdida;
+                    double perd02 = Listas.listaPPA.get(listaDiaSup).get(i-1).perdida;
+                    diaSup = Listas.listaPPA.get(listaDiaSup).get(1).diametro;
 
-                    double cfm01 = Listas.listaPPA.get(listaSup).get(i).cfm;
-                    double cfm02 = Listas.listaPPA.get(listaSup).get(i-1).cfm;
+                    double cfm01 = Listas.listaPPA.get(listaDiaSup).get(i).cfm;
+                    double cfm02 = Listas.listaPPA.get(listaDiaSup).get(i-1).cfm;
 
                     double difCFM = cfm02 - cfm01;
                     double fraccionCFM = (flujoCFM - cfm01) / difCFM;
