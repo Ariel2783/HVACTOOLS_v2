@@ -621,8 +621,11 @@ public class Casos {
             inter.interpolacionCFM2(indexPerdInf, indexPerdSup, indexListaVelocidadSup, indexListaVelocidadInf, perdidaUsuario, velocidadUsuario);
         }
 
-
-
+        Interpolaciones inter = new Interpolaciones();
+        if (inter.getFlujoAire() > 0)
+        {
+            inter.interpolacionDiametroEqv(indexPerdInf, indexPerdSup, perdidaUsuario, inter.getFlujoAire());
+        }
     }
 
     public void OperacionesFinales(double flujoAire)

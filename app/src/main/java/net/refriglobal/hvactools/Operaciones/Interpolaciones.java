@@ -400,7 +400,5 @@ public class Interpolaciones
         double fraccionVel = (velocidadUsuario - velocidadInf)/(velocidadSup - velocidadInf);
 
         flujoAire = ( (Math.abs(cfmVelSup - cfmVelInf))*fraccionVel ) + cfmVelInf;
-        //TODO:20220331; Continuar
-        double a = 0;
     }
 }

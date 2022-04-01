@@ -445,6 +445,8 @@ public class DimDucto_Temporal extends AppCompatActivity
         if (resultadosFinales == false)
         {
             infoCasos.Caso12(perdidaUsuario, velocidadUsuario);
+            if (setInfo.getFlujoAire() > 0 && setInfo.getDiametroEqvFinal() > 0)
+                resultadosFinales = true;
         }
 
         if (resultadosFinales == true)
