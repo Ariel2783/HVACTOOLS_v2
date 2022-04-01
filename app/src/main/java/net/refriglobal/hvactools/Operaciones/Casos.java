@@ -328,7 +328,8 @@ public class Casos {
         return perdidaInter;
     }
 
-    public Double Caso7(double flujo, double diametro) {
+    public Double Caso7(double flujo, double diametro)
+    {
         double perdidaEstatica = 0;
         boolean finCiclo = false;
 
@@ -502,6 +503,126 @@ public class Casos {
         OperacionesFinales(flujo);
 
         return inter.getPerdidaFinal();
+    }
+
+    public void Caso10(double perdidaUsuario, double velocidadUsuario)
+    {
+        int indexPerdida = -1;
+        boolean resultado = false;
+
+        //Se busca la posicion en la lista de la perdida introducida por el usuario
+        for (ClasificasionListaPerdida itemPerdida : Listas.listaPerdida)
+        {
+            if (itemPerdida.perdidaTabla == perdidaUsuario)
+            {
+                indexPerdida = itemPerdida.index;
+                resultado = true;
+                break;
+            }
+        }
+
+        if (resultado == true)
+        {
+            //Proceso para obtener los cfm correspondientes.
+            for (List<ClasificacionListaVelocidad> listaVel : Listas.listaVelocidadPPA)
+            {
+                if (velocidadUsuario == listaVel.get(indexPerdida).velocidad)
+                {
+                    double flujoAire = listaVel.get(indexPerdida).cfm; //Se obtiene el valor de cfm correspondiente.
+
+                    Interpolaciones setDato = new Interpolaciones();
+                    setDato.setFlujoAire(flujoAire); //Se establece el valor de los cfm.
+
+                    //Proceso para obtener el diametro equivalente.
+                    Interpolaciones inter = new Interpolaciones();
+                    inter.interpolacionDiametroEqvMetodo2(indexPerdida, flujoAire);
+
+                    break;
+                }
+            }
+        }
+    }
+
+    public void Caso11(double perdidaUsuario, double velocidadUsuario)
+    {
+        int indexPerdida = -1;
+
+        //Se busca la posicion en la lista de la perdida introducida por el usuario
+        for (ClasificasionListaPerdida itemPerdida : Listas.listaPerdida)
+        {
+            if (itemPerdida.perdidaTabla == perdidaUsuario)
+            {
+                indexPerdida = itemPerdida.index;
+                break;
+            }
+        }
+
+        //Si la perdida del usuario no existe en la lista, entonces el indexPerdida es = -1.
+        if (indexPerdida == -1)
+        {
+            int indexPerdInf = -1;
+            int indexPerdSup = -1;
+
+            //Porceso de interpolacion.
+            for (ClasificasionListaPerdida itemPerdida : Listas.listaPerdida)
+            {
+                if (perdidaUsuario > itemPerdida.perdidaTabla)
+                {
+                    indexPerdInf = itemPerdida.index;
+                    indexPerdSup = indexPerdInf - 1;
+
+                    Interpolaciones inter = new Interpolaciones();
+                    inter.interpolacionCFM(indexPerdInf, indexPerdSup, perdidaUsuario, velocidadUsuario);
+
+                    if (inter.getFlujoAire() > 0)
+                        inter.interpolacionDiametroEqv(indexPerdInf, indexPerdSup, perdidaUsuario, inter.getFlujoAire());
+
+                    break;
+                }
+            }
+        }
+    }
+
+    public void Caso12(double perdidaUsuario, double velocidadUsuario)
+    {
+        int indexPerdInf = -1;
+        int indexPerdSup = -1;
+
+        //Porceso para obtener los indice superior e inferior a la perdida del usuario
+        for (ClasificasionListaPerdida itemPerdida : Listas.listaPerdida)
+        {
+            if (perdidaUsuario > itemPerdida.perdidaTabla)
+            {
+                indexPerdInf = itemPerdida.index;
+                indexPerdSup = indexPerdInf - 1;
+                break;
+            }
+        }
+
+        //Proceso para obtener los index de la lista superior e inferior a la velocidad del usuario.
+        int indexListaVelocidadSup = -1;
+        int indexListaVelocidadInf = -1;
+        int i = 0;
+        for (List<ClasificacionListaVelocidad> listaVel : Listas.listaVelocidadPPA)
+        {
+            if (listaVel.get(0).velocidad > velocidadUsuario)
+            {
+                indexListaVelocidadSup = i;
+                indexListaVelocidadInf = i - 1;
+                break;
+            }
+
+            i++;
+        }
+
+        if (indexPerdInf > 0 && indexPerdSup > 0 && indexListaVelocidadInf > 0 && indexListaVelocidadSup > 0)
+        {
+            Interpolaciones inter = new Interpolaciones();
+            inter.interpolacionCFM2(indexPerdInf, indexPerdSup, indexListaVelocidadSup, indexListaVelocidadInf, perdidaUsuario, velocidadUsuario);
+        }
+
+
+
     }
 
     public void OperacionesFinales(double flujoAire)

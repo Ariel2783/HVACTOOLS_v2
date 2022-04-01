@@ -32,6 +32,8 @@ public class Interpolaciones
     public void setPerdidaFinal(double perdida){perdidaFinal = perdida;}
 
     private static double flujoAire;
+    public Double getFlujoAire(){return  flujoAire;}
+
     public void setFlujoAire(double caudal) { flujoAire = caudal;}
 
     public void interpolacionDiametroEqv(int indexPerdInf, int indexPerdSup, double perdUsuario, double flujoUsuario)
@@ -350,5 +352,55 @@ public class Interpolaciones
             double difPerdida = Math.abs(perdidaSuperior - perdidaInferior);
             perdidaFinal = Math.abs((difPerdida * fraccionDiametro) - perdidaInferior);
         }
+    }
+
+    public void interpolacionCFM(int indexPerdInf, int indexPerdSup, double perdUsuario, double velocidadUsuario)
+    {
+        for (List<ClasificacionListaVelocidad> listaVel : Listas.listaVelocidadPPA)
+        {
+            if (velocidadUsuario == listaVel.get(0).velocidad)
+            {
+                double cfmPerdInf = listaVel.get(indexPerdInf).cfm;
+                double cfm0PerdSup = listaVel.get(indexPerdSup).cfm;
+
+                double perdInf = listaVel.get(indexPerdInf).perdida;
+                double perdSup = listaVel.get(indexPerdSup).perdida;
+
+                double fraccionPerd = (perdUsuario - perdInf) / (perdSup - perdInf);
+                double valorextraCFM = Math.abs(cfmPerdInf - cfm0PerdSup) * fraccionPerd;
+                flujoAire = cfmPerdInf - valorextraCFM;
+                break;
+            }
+        }
+    }
+
+    public void interpolacionCFM2(int indexPerdInf, int indexPerdSup, int indexListaVelSup, int indexListaVelInf, double perdUsuario, double velocidadUsuario)
+    {
+        //Lista superior de velocidad.
+        double perdInf = Listas.listaPerdida.get(indexPerdInf).perdidaTabla;
+        double perdSup = Listas.listaPerdida.get(indexPerdSup).perdidaTabla;
+        double fraccionPerdida = (perdUsuario - perdInf)/(perdSup - perdInf);
+
+        double cfmPerdInfVelSup = Listas.listaVelocidadPPA.get(indexListaVelSup).get(indexPerdInf).cfm;
+        double cfmPerdSupVelSup = Listas.listaVelocidadPPA.get(indexListaVelSup).get(indexPerdSup).cfm;
+
+        double valorInterpolado = (cfmPerdInfVelSup - cfmPerdSupVelSup)*fraccionPerdida;
+        double cfmVelSup = cfmPerdInfVelSup - valorInterpolado;
+
+        //Lista inferior de velocidad.
+        double cfmPerdInfVelInf = Listas.listaVelocidadPPA.get(indexListaVelInf).get(indexPerdInf).cfm;
+        double cfmPerdSupVelInf = Listas.listaVelocidadPPA.get(indexListaVelInf).get(indexPerdSup).cfm;
+
+        valorInterpolado = (cfmPerdInfVelInf - cfmPerdSupVelInf)*fraccionPerdida;
+        double cfmVelInf = cfmPerdInfVelInf - valorInterpolado;
+
+        double velocidadInf = Listas.listaVelocidadPPA.get(indexListaVelInf).get(0).velocidad;
+        double velocidadSup = Listas.listaVelocidadPPA.get(indexListaVelSup).get(0).velocidad;
+
+        double fraccionVel = (velocidadUsuario - velocidadInf)/(velocidadSup - velocidadInf);
+
+        flujoAire = ( (Math.abs(cfmVelSup - cfmVelInf))*fraccionVel ) + cfmVelInf;
+        //TODO:20220331; Continuar
+        double a = 0;
     }
 }

@@ -155,6 +155,8 @@ public class DimDucto_Temporal extends AppCompatActivity
 
         if (chkPerdEstatica.isChecked() == true && chkVelocidad.isChecked() == true)
         {
+            if (edTextPerdEstatica.getText().length() > 0 && edTextVelocidad.getText().length() > 0)
+                MetodoPerdidaVelocidad();
         }
 
         if (chkPerdEstatica.isChecked() == true && chkDiaEqv.isChecked() == true)
@@ -404,6 +406,55 @@ public class DimDucto_Temporal extends AppCompatActivity
         {
             edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", perdidaEstatica));
             edTextVelocidad.setText(String.format(Locale.getDefault(), "%.1f", inter.getVelocidadFlujoAire()));
+            resultados();
+        }
+    }
+
+    public void MetodoPerdidaVelocidad()
+    {
+        boolean resultadosFinales = false;
+        double perdidaUsuario = Double.parseDouble(edTextPerdEstatica.getText().toString());
+        double velocidadUsuario = Double.parseDouble(edTextVelocidad.getText().toString());
+
+        //Se restablercen a cero los valores del calculo anterior.
+        Interpolaciones setInfo = new Interpolaciones();
+        setInfo.setFlujoAire(0.00);
+        setInfo.setDiametroEqv(0.00);
+
+        //Se envia la informacion inicial del usuario a los metodos set de las variables.
+        setInfo.setPerdidaFinal(perdidaUsuario);
+        setInfo.setVelocidadFlujoAire(velocidadUsuario);
+
+        Casos infoCasos = new Casos();
+
+        //Caso 10: la perdida y la veloidad coinciden con los valores de la lista de la grafica.
+        infoCasos.Caso10(perdidaUsuario, velocidadUsuario);
+        if (setInfo.getFlujoAire() > 0 && setInfo.getDiametroEqvFinal() > 0)
+            resultadosFinales = true;
+
+        //Caso 11: la perdida no coincide la velocidad si.
+        if (resultadosFinales == false)
+        {
+            infoCasos.Caso11(perdidaUsuario, velocidadUsuario);
+
+            if (setInfo.getFlujoAire() > 0 && setInfo.getDiametroEqvFinal() > 0)
+                resultadosFinales = true;
+        }
+
+        //Caso 12: la perdida y la velocidad no coinciden
+        if (resultadosFinales == false)
+        {
+            infoCasos.Caso12(perdidaUsuario, velocidadUsuario);
+        }
+
+        if (resultadosFinales == true)
+        {
+            Interpolaciones getInfo = new Interpolaciones();
+
+            edTextCFM.setText(String.format(Locale.getDefault(), "%.0f", getInfo.getFlujoAire()));
+            edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.2f", getInfo.getDiametroEqvFinal()));
+            Casos operaciones = new Casos();
+            operaciones.OperacionesFinales(getInfo.getFlujoAire());
             resultados();
         }
     }
