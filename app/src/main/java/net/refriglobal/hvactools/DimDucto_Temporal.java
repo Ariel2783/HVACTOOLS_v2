@@ -488,22 +488,29 @@ public class DimDucto_Temporal extends AppCompatActivity
         setGetInfo.setDiametroEqv(DiaEqvUsuario);
         setGetInfo.setVelocidadFlujoAire(velocidaUsuario);
 
-        double perdidaEstatica = setGetInfo.getPerdidaFinal();
-
-        if (perdidaEstatica > 0)
+        if (setGetInfo.getPerdidaFinal() > 0)
             resultadosFinales = true;
 
         if (resultadosFinales == false)
         {
-            //Caso 13:
-            Casos infoCasos = new Casos();
-            infoCasos.Caso13(cfm, velocidaUsuario, DiaEqvUsuario);
+            //Caso 13: los cfm calculados no coinciden con la lista y el diametro si concide con los valores de la lista ListaPPA
+            infoCaso.Caso13(cfm, velocidaUsuario, DiaEqvUsuario);
+            if (setGetInfo.getPerdidaFinal() > 0)
+                resultadosFinales = true;
+        }
+
+        if (resultadosFinales == false)
+        {
+            //Caso 14: los cfm calculados y el diametro no concide con los valores de la lista ListaPPA
+            infoCaso.Caso14(cfm, velocidaUsuario, DiaEqvUsuario);
+            if (setGetInfo.getPerdidaFinal() > 0)
+                resultadosFinales = true;
         }
 
         if (resultadosFinales == true)
         {
             edTextCFM.setText(String.format(Locale.getDefault(), "%.0f", cfm));
-            edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", perdidaEstatica));
+            edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", setGetInfo.getPerdidaFinal()));
             Casos operaciones = new Casos();
             operaciones.OperacionesFinales(cfm);
             resultados();

@@ -612,14 +612,80 @@ public class Casos {
 
         Interpolaciones inter = new Interpolaciones();
         if (inter.getFlujoAire() > 0)
-        {
             inter.interpolacionDiametroEqv(indexPerdInf, indexPerdSup, perdidaUsuario, inter.getFlujoAire());
-        }
     }
 
     public void Caso13(double cfm, double velocidadusuario, double diaEqv)
     {
+        int i = 0;
+        int indexListDia = -1;
 
+        //Proceso para ubicar la lista del diametro correspondiente.
+        for (List<ClasificacionListaPPA> lista: Listas.listaPPA)
+        {
+            for (ClasificacionListaPPA item: lista)
+            {
+                if (item.diametro == diaEqv)
+                    indexListDia = i;
+
+                else
+                    break;
+            }
+            i++;
+        }
+
+        if (indexListDia >= 0)
+        {
+            int h = 0;
+            while (h < Listas.listaPPA.get(indexListDia).size())
+            {
+                if (cfm > Listas.listaPPA.get(indexListDia).get(h).cfm && Listas.listaPPA.get(indexListDia).get(h).cfm > 0)
+                {
+                    double flujoInf = Listas.listaPPA.get(indexListDia).get(h).cfm;
+                    double flujoSup = Listas.listaPPA.get(indexListDia).get(h-1).cfm;
+
+                    double perdInf = Listas.listaPPA.get(indexListDia).get(h).perdida;
+                    double  perdSup = Listas.listaPPA.get(indexListDia).get(h-1).perdida;
+
+                    Interpolaciones inter = new Interpolaciones();
+                    inter.interpolacionPerdida3(cfm, flujoInf, flujoSup, perdInf, perdSup);
+                    break;
+                }
+
+                h++;
+            }
+        }
+    }
+
+    public void Caso14(double cfm, double velocidadusuario, double diaEqv)
+    {
+        int i = 0;
+        int indexListDiaSup = -1;
+        int indexListDiaInf = -1;
+
+        //Proceso para ubicar la lista del diametro superior e inferior con respecto al diametro del usuario.
+        for (List<ClasificacionListaPPA> lista: Listas.listaPPA)
+        {
+            for (ClasificacionListaPPA item: lista)
+            {
+                if (item.diametro > diaEqv)
+                {
+                    indexListDiaSup = i;
+                    indexListDiaInf = i-1;
+                    break;
+                }
+
+                else
+                    break;
+            }
+            i++;
+
+            if (indexListDiaSup > 0 || indexListDiaInf > 0)
+                break;
+        }
+
+        Interpolaciones inter = new Interpolaciones();
+        inter.interpolacionesCFM3(indexListDiaInf, indexListDiaSup, cfm, velocidadusuario, diaEqv);
     }
 
     public void OperacionesFinales(double flujoAire)

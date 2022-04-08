@@ -354,6 +354,13 @@ public class Interpolaciones
         }
     }
 
+    public void interpolacionPerdida3(double cfmCal, double flujoInf, double flujoSup, double perdInf, double perdSup)
+    {
+        double fraccionCFM = (cfmCal - flujoInf)/(flujoSup - flujoInf);
+        double valorInterpolado = (perdSup - perdInf)*fraccionCFM;
+        perdidaFinal = valorInterpolado + perdInf;
+    }
+
     public void interpolacionCFM(int indexPerdInf, int indexPerdSup, double perdUsuario, double velocidadUsuario)
     {
         for (List<ClasificacionListaVelocidad> listaVel : Listas.listaVelocidadPPA)
@@ -400,5 +407,103 @@ public class Interpolaciones
         double fraccionVel = (velocidadUsuario - velocidadInf)/(velocidadSup - velocidadInf);
 
         flujoAire = ( (Math.abs(cfmVelSup - cfmVelInf))*fraccionVel ) + cfmVelInf;
+    }
+
+    public void interpolacionesCFM3(int indexDiaInf, int indexDiaSup, double cfm, double velocidadUsuario, double diaEqv)
+    {
+        double perdida01 = -1;
+        double perdida02 = -1;
+
+        //Lista de diametro inferior.
+        int i = 0;
+        while (i < Listas.listaPPA.get(indexDiaInf).size())
+        {
+            //Si los cfm conciden con el valor de la lista.
+            if (Listas.listaPPA.get(indexDiaInf).get(i).cfm == cfm)
+            {
+                perdida01 = Listas.listaPPA.get(indexDiaInf).get(i).perdida;
+                break;
+            }
+
+            //Termina la busqueda ya que no es necesaria si el valor es inferior
+            if (Listas.listaPPA.get(indexDiaInf).get(i).cfm < cfm)
+                break;
+
+            i++;
+        }
+
+        //Si los cfm no exactos a los valores de la lista.
+        if (perdida01 == -1)
+        {
+            i = 0;
+            while (i < Listas.listaPPA.get(indexDiaInf).size())
+            {
+                if (Listas.listaPPA.get(indexDiaInf).get(i).cfm < cfm)
+                {
+                    double cfmInf = Listas.listaPPA.get(indexDiaInf).get(i).cfm;
+                    double cfmSup = Listas.listaPPA.get(indexDiaInf).get(i-1).cfm;
+
+                    double perdInf = Listas.listaPPA.get(indexDiaInf).get(i).perdida;
+                    double perdSup = Listas.listaPPA.get(indexDiaInf).get(i-1).perdida;
+
+                    double fraccionCfm = (cfm - cfmInf)/(cfmSup - cfmInf);
+                    double valorInterPerdida = (perdSup - perdInf) * fraccionCfm;
+                    perdida01 = valorInterPerdida + perdInf;
+                    break;
+                }
+
+                i++;
+            }
+        }
+
+        //Lista de diametro superior.
+        i = 0;
+        while (i < Listas.listaPPA.get(indexDiaSup).size())
+        {
+            //Si los cfm conciden con el valor de la lista.
+            if (Listas.listaPPA.get(indexDiaSup).get(i).cfm == cfm)
+            {
+                perdida02 = Listas.listaPPA.get(indexDiaSup).get(i).perdida;
+                break;
+            }
+
+            //Termina la busqueda ya que no es necesaria si el valor es inferior
+            if (Listas.listaPPA.get(indexDiaSup).get(i).cfm < cfm)
+                break;
+
+            i++;
+        }
+
+        //Si los cfm no exactos a los valores de la lista.
+        if (perdida02 == -1)
+        {
+            i = 0;
+            while (i < Listas.listaPPA.get(indexDiaSup).size())
+            {
+                if (Listas.listaPPA.get(indexDiaSup).get(i).cfm < cfm)
+                {
+                    double cfmInf = Listas.listaPPA.get(indexDiaSup).get(i).cfm;
+                    double cfmSup = Listas.listaPPA.get(indexDiaSup).get(i-1).cfm;
+
+                    double perdInf = Listas.listaPPA.get(indexDiaSup).get(i).perdida;
+                    double perdSup = Listas.listaPPA.get(indexDiaSup).get(i-1).perdida;
+
+                    double fraccionCfm = (cfm - cfmInf)/(cfmSup - cfmInf);
+                    double valorInterPerdida = (perdSup - perdInf) * fraccionCfm;
+                    perdida02 = valorInterPerdida + perdInf;
+                    break;
+                }
+
+                i++;
+            }
+        }
+
+        //Perdida final
+        double diaInf = Listas.listaPPA.get(indexDiaInf).get(0).diametro;
+        double diaSup = Listas.listaPPA.get(indexDiaSup).get(0).diametro;
+
+        double fraccionDiametro = (diaEqv - diaInf) / (diaSup - diaInf);
+        double valorInterPerdida = (perdida01 - perdida02) * fraccionDiametro;
+        perdidaFinal = Math.abs(valorInterPerdida - perdida01);
     }
 }
