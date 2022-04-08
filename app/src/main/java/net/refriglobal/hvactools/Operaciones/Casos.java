@@ -685,7 +685,7 @@ public class Casos {
         }
 
         Interpolaciones inter = new Interpolaciones();
-        inter.interpolacionesCFM3(indexListDiaInf, indexListDiaSup, cfm, velocidadusuario, diaEqv);
+        inter.interpolacionPerdida2(indexListDiaInf, indexListDiaSup, cfm, diaEqv);
     }
 
     public void OperacionesFinales(double flujoAire)
