@@ -161,6 +161,8 @@ public class DimDucto_Temporal extends AppCompatActivity
 
         if (chkPerdEstatica.isChecked() == true && chkDiaEqv.isChecked() == true)
         {
+            if (edTextPerdEstatica.getText().length() > 0 && edTextDiaEqv.getText().length() > 0)
+                MetodoPerdidaDiaEqv();
         }
 
         if (chkVelocidad.isChecked() == true && chkDiaEqv.isChecked() == true)
@@ -513,6 +515,44 @@ public class DimDucto_Temporal extends AppCompatActivity
             edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", setGetInfo.getPerdidaFinal()));
             Casos operaciones = new Casos();
             operaciones.OperacionesFinales(cfm);
+            resultados();
+        }
+    }
+
+    public void MetodoPerdidaDiaEqv()
+    {
+        boolean resultadosFinales = false;
+        double perdidaUsuario = Double.parseDouble(edTextPerdEstatica.getText().toString());
+        double DiaEqvUsuario = Double.parseDouble(edTextDiaEqv.getText().toString());
+
+        //Se restablercen a cero los valores del calculo anterior.
+        Interpolaciones setGetInfo = new Interpolaciones();
+        setGetInfo.setFlujoAire(0.00);
+        setGetInfo.setVelocidadFlujoAire(0.00);
+
+        //Se envia la informacion inicial del usuario a los metodos set de las variables.
+        setGetInfo.setPerdidaFinal(perdidaUsuario);
+        setGetInfo.setDiametroEqv(DiaEqvUsuario);
+
+        //Caso 15: La perdida y el diametro coinciden con los valores de la lista.
+        Casos infoCasos = new Casos();
+        infoCasos.Caso15(perdidaUsuario, DiaEqvUsuario);
+        if (setGetInfo.getFlujoAire() > 0 && setGetInfo.getVelocidadFlujoAire() > 0)
+            resultadosFinales = true;
+
+        if (resultadosFinales == false)
+        {
+            //Caso16
+            //TODO: 20220412; Continuar.
+        }
+
+
+        if (resultadosFinales == true)
+        {
+            edTextCFM.setText(String.format(Locale.getDefault(), "%.0f", setGetInfo.getFlujoAire()));
+            edTextVelocidad.setText(String.format(Locale.getDefault(), "%.1f", setGetInfo.getVelocidadFlujoAire()));
+            Casos operaciones = new Casos();
+            operaciones.OperacionesFinales(setGetInfo.getFlujoAire());
             resultados();
         }
     }

@@ -688,6 +688,40 @@ public class Casos {
         inter.interpolacionPerdida2(indexListDiaInf, indexListDiaSup, cfm, diaEqv);
     }
 
+    public void Caso15(double perdUsuario, double diaEqv)
+    {
+        int indexPerdida = -1;
+        //Se obtiene el index correspondiente de la lista
+        for (ClasificasionListaPerdida item:Listas.listaPerdida)
+            if (perdUsuario == item.perdidaTabla)
+            {
+                indexPerdida = item.index;
+                break;
+            }
+
+        //Se busca el diametro correspondiente.
+        double cfm = -1;
+        for (List<ClasificacionListaPPA> lista: Listas.listaPPA)
+            if (diaEqv == lista.get(0).diametro)
+            {
+                Interpolaciones setGetInter = new Interpolaciones();
+                cfm = lista.get(indexPerdida).cfm; //Se obtiene los cfm correspondiente.
+                setGetInter.setFlujoAire(cfm);
+                break;
+            }
+
+        //Se busca la velocidad correspondiente. Lo mas probable que esto no ocurra.
+        for (List<ClasificacionListaVelocidad> lista :Listas.listaVelocidadPPA)
+            if (cfm == lista.get(indexPerdida).cfm && cfm != -1)
+            {
+                double velocidad = 0;
+                velocidad = lista.get(indexPerdida).velocidad;
+                Interpolaciones setGetInter = new Interpolaciones();
+                setGetInter.setVelocidadFlujoAire(velocidad);
+                break;
+            }
+    }
+
     public void OperacionesFinales(double flujoAire)
     {
         Interpolaciones inter = new Interpolaciones();
