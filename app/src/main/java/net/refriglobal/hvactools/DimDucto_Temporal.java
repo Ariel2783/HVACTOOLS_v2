@@ -540,11 +540,19 @@ public class DimDucto_Temporal extends AppCompatActivity
         if (setGetInfo.getFlujoAire() > 0 && setGetInfo.getVelocidadFlujoAire() > 0)
             resultadosFinales = true;
 
+        //Caso16: la perdida no coincide el diametro si.
         if (resultadosFinales == false)
         {
-            //Caso16
-            //TODO: 20220412; Continuar.
+            infoCasos.Caso16(perdidaUsuario, DiaEqvUsuario);
+
+            if (setGetInfo.getFlujoAire() > 0 && setGetInfo.getVelocidadFlujoAire() > 0)
+                resultadosFinales = true;
         }
+
+        //Caso17: la perdida coincide el diametro no.
+        //TODO: 20220415; CONTINUAR.
+
+        //Caso18: la perdida no coincide y el diametro tampoco.
 
 
         if (resultadosFinales == true)

@@ -409,4 +409,16 @@ public class Interpolaciones
         flujoAire = ( (Math.abs(cfmVelSup - cfmVelInf))*fraccionVel ) + cfmVelInf;
     }
 
+    public void interpolacionCFM3(int indexPerdInf, int indexPerdSup, int indexDiaEqv)
+    {
+        double perdidaInf = Listas.listaPPA.get(indexDiaEqv).get(indexPerdInf).perdida;
+        double perdidaSup = Listas.listaPPA.get(indexDiaEqv).get(indexPerdSup).perdida;
+        double cfmInf = Listas.listaPPA.get(indexDiaEqv).get(indexPerdInf).cfm;
+        double cfmSup = Listas.listaPPA.get(indexDiaEqv).get(indexPerdSup).cfm;
+
+        double fraccionPerdida = (perdidaFinal - perdidaInf) / (perdidaSup - perdidaInf);
+        double valorInterCFM = (cfmSup - cfmInf) * fraccionPerdida;
+        flujoAire = cfmInf + valorInterCFM;
+    }
+
 }

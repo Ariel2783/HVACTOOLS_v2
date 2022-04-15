@@ -1,5 +1,7 @@
 package net.refriglobal.hvactools.Operaciones;
 
+import com.google.android.gms.dynamic.IFragmentWrapper;
+
 import net.refriglobal.hvactools.ClasificacionListas.ClasificacionListaPPA;
 import net.refriglobal.hvactools.ClasificacionListas.ClasificacionListaVelocidad;
 import net.refriglobal.hvactools.ClasificacionListas.ClasificasionListaPerdida;
@@ -701,30 +703,72 @@ public class Casos {
                 break;
             }
 
-        //Se busca el diametro correspondiente.
-        double cfm = -1;
+        if (indexPerdida > 0)
+        {
+            //Se busca el diametro correspondiente.
+            double cfm = -1;
+            for (List<ClasificacionListaPPA> lista: Listas.listaPPA)
+                if (diaEqv == lista.get(0).diametro)
+                {
+                    cfm = lista.get(indexPerdida).cfm; //Se obtiene los cfm correspondiente.
+                    setGetInter.setFlujoAire(cfm);
+                    break;
+                }
+
+            //Se busca la velocidad correspondiente. Lo mas probable que esto no ocurra.
+            for (List<ClasificacionListaVelocidad> lista :Listas.listaVelocidadPPA)
+                if (cfm == lista.get(indexPerdida).cfm && cfm != -1)
+                {
+                    double velocidad = 0;
+                    velocidad = lista.get(indexPerdida).velocidad;
+                    setGetInter.setVelocidadFlujoAire(velocidad);
+                    break;
+                }
+
+            //Interpolacion para encontrar la velocidad en caso que no conicida con la lista.
+            if (setGetInter.getVelocidadFlujoAire() == 0)
+                setGetInter.interpolacionVelocidadMetodo2(cfm, indexPerdida);
+        }
+
+    }
+
+    public void Caso16(double perdUsuario, double diaEqv)
+    {
+        int indexPerdInf = -1;
+        int indexPerdSup = -1;
+
+        //Se busca el rango de perdida que contenga la perdida del usuario.
+        for (ClasificasionListaPerdida itemPerdida : Listas.listaPerdida)
+            if (perdUsuario > itemPerdida.perdidaTabla)
+            {
+                indexPerdInf = itemPerdida.index;
+                indexPerdSup = itemPerdida.index - 1;
+                break;
+            }
+
+        //Se busca el indice de la lista correspondiente al diametro.
+        int indexDiaEqv = -1;
+        int i=0;
         for (List<ClasificacionListaPPA> lista: Listas.listaPPA)
+        {
             if (diaEqv == lista.get(0).diametro)
             {
-                cfm = lista.get(indexPerdida).cfm; //Se obtiene los cfm correspondiente.
-                setGetInter.setFlujoAire(cfm);
+                indexDiaEqv = i;
                 break;
             }
+            i++;
+        }
 
-        //Se busca la velocidad correspondiente. Lo mas probable que esto no ocurra.
-        for (List<ClasificacionListaVelocidad> lista :Listas.listaVelocidadPPA)
-            if (cfm == lista.get(indexPerdida).cfm && cfm != -1)
-            {
-                double velocidad = 0;
-                velocidad = lista.get(indexPerdida).velocidad;
-                setGetInter.setVelocidadFlujoAire(velocidad);
-                break;
-            }
+        Interpolaciones inter = new Interpolaciones();
 
-        //Interpolacion para encontrar la velocidad en caso que no conicida con la lista.
-        if (setGetInter.getVelocidadFlujoAire() == 0)
-            setGetInter.interpolacionVelocidadMetodo2(cfm, indexPerdida);
-    }
+        if (indexPerdInf > 0 && indexPerdSup > 0 && indexDiaEqv > 0)
+            inter.interpolacionCFM3(indexPerdInf, indexPerdSup, indexDiaEqv);
+
+        //Interpolacion Velocidad
+        if (inter.getFlujoAire() > 0)
+            inter.interpolacionVelocidad(indexPerdInf, indexPerdSup, inter.getFlujoAire(), perdUsuario);
+
+   }
 
     public void OperacionesFinales(double flujoAire)
     {
