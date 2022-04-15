@@ -690,6 +690,8 @@ public class Casos {
 
     public void Caso15(double perdUsuario, double diaEqv)
     {
+        Interpolaciones setGetInter = new Interpolaciones();
+
         int indexPerdida = -1;
         //Se obtiene el index correspondiente de la lista
         for (ClasificasionListaPerdida item:Listas.listaPerdida)
@@ -704,7 +706,6 @@ public class Casos {
         for (List<ClasificacionListaPPA> lista: Listas.listaPPA)
             if (diaEqv == lista.get(0).diametro)
             {
-                Interpolaciones setGetInter = new Interpolaciones();
                 cfm = lista.get(indexPerdida).cfm; //Se obtiene los cfm correspondiente.
                 setGetInter.setFlujoAire(cfm);
                 break;
@@ -716,10 +717,13 @@ public class Casos {
             {
                 double velocidad = 0;
                 velocidad = lista.get(indexPerdida).velocidad;
-                Interpolaciones setGetInter = new Interpolaciones();
                 setGetInter.setVelocidadFlujoAire(velocidad);
                 break;
             }
+
+        //Interpolacion para encontrar la velocidad en caso que no conicida con la lista.
+        if (setGetInter.getVelocidadFlujoAire() == 0)
+            setGetInter.interpolacionVelocidadMetodo2(cfm, indexPerdida);
     }
 
     public void OperacionesFinales(double flujoAire)
