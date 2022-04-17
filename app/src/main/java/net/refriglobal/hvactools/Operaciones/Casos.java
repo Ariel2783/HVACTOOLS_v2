@@ -175,8 +175,8 @@ public class Casos {
 
         if (perdidaInter > 0)
         {
-            int indexInferior = 0;
-            int indexSuperior = 0;
+            int indexInferior = -1;
+            int indexSuperior = -1;
             for (ClasificasionListaPerdida itemPerd : Listas.listaPerdida) {
                 if (itemPerd.perdidaTabla < perdidaInter) {
                     indexInferior = itemPerd.index;
@@ -185,7 +185,7 @@ public class Casos {
                 }
             }
 
-            if (indexInferior > 0 && indexSuperior > 0)
+            if (indexInferior >= 0 && indexSuperior >= 0)
             {
                 /*Se obtiene el diametro equivalente correspondiente*/
                 Interpolaciones inter = new Interpolaciones();
@@ -305,8 +305,8 @@ public class Casos {
         /****************************/
         if (perdidaInter > 0)
         {
-            int indexInferior = 0;
-            int indexSuperior = 0;
+            int indexInferior = -1;
+            int indexSuperior = -1;
             for (ClasificasionListaPerdida itemPerd : Listas.listaPerdida) {
                 if (itemPerd.perdidaTabla < perdidaInter) {
                     indexInferior = itemPerd.index;
@@ -315,7 +315,7 @@ public class Casos {
                 }
             }
 
-            if (indexInferior > 0 && indexSuperior > 0)
+            if (indexInferior >= 0 && indexSuperior >= 0)
             {
                 /*Se obtiene el diametro equivalente correspondiente*/
                 Interpolaciones inter = new Interpolaciones();
@@ -606,7 +606,7 @@ public class Casos {
             i++;
         }
 
-        if (indexPerdInf > 0 && indexPerdSup > 0 && indexListaVelocidadInf > 0 && indexListaVelocidadSup > 0)
+        if (indexPerdInf >= 0 && indexPerdSup >= 0 && indexListaVelocidadInf >= 0 && indexListaVelocidadSup >= 0)
         {
             Interpolaciones inter = new Interpolaciones();
             inter.interpolacionCFM2(indexPerdInf, indexPerdSup, indexListaVelocidadSup, indexListaVelocidadInf, perdidaUsuario, velocidadUsuario);
@@ -682,7 +682,7 @@ public class Casos {
             }
             i++;
 
-            if (indexListDiaSup > 0 || indexListDiaInf > 0)
+            if (indexListDiaSup >= 0 || indexListDiaInf >= 0)
                 break;
         }
 
@@ -761,7 +761,7 @@ public class Casos {
 
         Interpolaciones inter = new Interpolaciones();
 
-        if (indexPerdInf > 0 && indexPerdSup > 0 && indexDiaEqv > 0)
+        if (indexPerdInf >= 0 && indexPerdSup >= 0 && indexDiaEqv >= 0)
             inter.interpolacionCFM3(indexPerdInf, indexPerdSup, indexDiaEqv);
 
         //Interpolacion Velocidad
