@@ -421,4 +421,16 @@ public class Interpolaciones
         flujoAire = cfmInf + valorInterCFM;
     }
 
+    public void interpolacionCFM4(int indexPerdUsuario, int indexListaInfDia, int indexListaSupDia)
+    {
+        double diaSup = Listas.listaPPA.get(indexListaSupDia).get(0).diametro;
+        double diaInf = Listas.listaPPA.get(indexListaInfDia).get(0).diametro;
+        double cfmSup = Listas.listaPPA.get(indexListaSupDia).get(indexPerdUsuario).cfm;
+        double cfmInf = Listas.listaPPA.get(indexListaInfDia).get(indexPerdUsuario).cfm;
+
+        double fraccionDiametro = (diametroEqvFinal - diaInf)/(diaSup - diaInf);
+        double datoInterpolado = (cfmSup - cfmInf) * fraccionDiametro;
+        flujoAire = datoInterpolado + cfmInf;
+    }
+
 }

@@ -770,6 +770,45 @@ public class Casos {
 
    }
 
+   public void Caso17(double perdUsuario, double diaEqv)
+   {
+       int indexPerdida = -1;
+       //Se obtiene el index correspondiente de la lista
+       for (ClasificasionListaPerdida item:Listas.listaPerdida)
+           if (perdUsuario == item.perdidaTabla)
+           {
+               indexPerdida = item.index;
+               break;
+           }
+
+       //Se obtine las lista que estan en rango del diametro del usuario.
+       if (indexPerdida > -1)
+       {
+           int indexListaInfDia = -1;
+           int indexListaSupDia = -1;
+
+           int i = 0;
+           for (List<ClasificacionListaPPA> lista:Listas.listaPPA)
+           {
+               if (lista.get(0).diametro > diaEqv)
+               {
+                   indexListaSupDia = i;
+                   indexListaInfDia = i - 1;
+                   break;
+               }
+
+               i++;
+           }
+
+           if (indexListaInfDia > -1 && indexListaSupDia > -1)
+           {
+                Interpolaciones inter = new Interpolaciones();
+                inter.interpolacionCFM4(indexPerdida, indexListaInfDia, indexListaSupDia); //Se interpola el valor de los CFM
+                inter.interpolacionVelocidadMetodo2(inter.getFlujoAire(), indexPerdida); //Se interpola el valor de la velocidad del flujo.
+           }
+       }
+   }
+
     public void OperacionesFinales(double flujoAire)
     {
         Interpolaciones inter = new Interpolaciones();

@@ -185,6 +185,10 @@ public class DimDucto_Temporal extends AppCompatActivity
         setInfo.setVelocidadFlujoAire(0.00);
         setInfo.setDiametroEqv(0.00);
 
+        //Se establecen los valores en la clase de interpolaciones.
+        setInfo.setFlujoAire(flujoArie);
+        setInfo.setPerdidaFinal(perdidaEstatica);
+
         int indexListaPerdida = -1;
 
         /**Obtener en este punto la posicion de la lista de perdida, de la perdida introducida por el usario*/
@@ -550,10 +554,19 @@ public class DimDucto_Temporal extends AppCompatActivity
         }
 
         //Caso17: la perdida coincide el diametro no.
-        //TODO: 20220415; CONTINUAR.
+        if (resultadosFinales == false)
+        {
+            infoCasos.Caso17(perdidaUsuario, DiaEqvUsuario);
+
+            if (setGetInfo.getFlujoAire() > 0 && setGetInfo.getVelocidadFlujoAire() > 0)
+                resultadosFinales = true;
+        }
 
         //Caso18: la perdida no coincide y el diametro tampoco.
+        if (resultadosFinales == false)
+        {
 
+        }
 
         if (resultadosFinales == true)
         {
