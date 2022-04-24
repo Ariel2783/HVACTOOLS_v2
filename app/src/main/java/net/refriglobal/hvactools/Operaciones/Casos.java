@@ -809,6 +809,47 @@ public class Casos {
        }
    }
 
+   public void Caso18(double perdUsuario, double diaEqv)
+   {
+       int indexPerdInf = -1;
+       int indexPerdSup = -1;
+
+       //Se busca el rango de perdida que contenga la perdida del usuario.
+       for (ClasificasionListaPerdida itemPerdida : Listas.listaPerdida)
+           if (perdUsuario > itemPerdida.perdidaTabla)
+           {
+               indexPerdInf = itemPerdida.index;
+               indexPerdSup = itemPerdida.index - 1;
+               break;
+           }
+
+
+       if (indexPerdInf > -1 && indexPerdSup > -1)
+       {
+            int indexListaInfDia = -1;
+            int indexListaSupDia = -1;
+
+            int i = 0;
+            for (List<ClasificacionListaPPA> lista:Listas.listaPPA)
+            {
+                if (lista.get(0).diametro > diaEqv)
+                {
+                    indexListaSupDia = i;
+                    indexListaInfDia = i - 1;
+                    break;
+                }
+
+                i++;
+            }
+
+            if (indexPerdInf > -1 && indexPerdSup > -1)
+            {
+                Interpolaciones inter = new Interpolaciones();
+                inter.interpolacionCFM5(indexPerdInf, indexPerdSup, indexListaInfDia, indexListaSupDia); //Se interpola el valor de los CFM
+            }
+       }
+   }
+
     public void OperacionesFinales(double flujoAire)
     {
         Interpolaciones inter = new Interpolaciones();

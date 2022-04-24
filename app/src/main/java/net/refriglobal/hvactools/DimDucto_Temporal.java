@@ -565,7 +565,8 @@ public class DimDucto_Temporal extends AppCompatActivity
         //Caso18: la perdida no coincide y el diametro tampoco.
         if (resultadosFinales == false)
         {
-
+            infoCasos.Caso18(perdidaUsuario, DiaEqvUsuario);
+            //TODO: 20220417; Continuar.
         }
 
         if (resultadosFinales == true)

@@ -433,4 +433,36 @@ public class Interpolaciones
         flujoAire = datoInterpolado + cfmInf;
     }
 
+    public void interpolacionCFM5(int indexPerdInf, int indexPerdSup, int indexListaInfDia, int indexListaSupDia)
+    {
+        //Calculo de la fraccion de interpolacion.
+        double perdInf = Listas.listaPerdida.get(indexPerdInf).perdidaTabla;
+        double perdSup = Listas.listaPerdida.get(indexPerdSup).perdidaTabla;
+        double fraccionPerdida = (perdidaFinal - perdInf)/(perdSup - perdInf);
+
+        //Lista de diametro superior.
+        double cfmPerdInfDiaSup = Listas.listaPPA.get(indexListaSupDia).get(indexPerdInf).cfm;
+        double cfmPerdSupDiaSup = Listas.listaPPA.get(indexListaSupDia).get(indexPerdSup).cfm;
+
+        double valorInterpolado = (cfmPerdSupDiaSup - cfmPerdInfDiaSup) * fraccionPerdida;
+        double cfmDiaSup = cfmPerdInfDiaSup + valorInterpolado; //********
+
+        //Lista de diametro inferior.
+        double cfmPerdInfDiaInf = Listas.listaPPA.get(indexListaInfDia).get(indexPerdInf).cfm;
+        double cfmPerdSupDiaInf = Listas.listaPPA.get(indexListaInfDia).get(indexPerdSup).cfm;
+
+        valorInterpolado = (cfmPerdSupDiaInf - cfmPerdInfDiaInf) * fraccionPerdida;
+        double cfmDiaInf = cfmPerdInfDiaInf + valorInterpolado;  //********
+
+        //Se obtienen los diametros que contienen el diametro del usuario.
+        double DiaSup = Listas.listaPPA.get(indexListaSupDia).get(0).diametro;
+        double DiaInf = Listas.listaPPA.get(indexListaInfDia).get(0).diametro;
+
+        double fraccionDiametro = (diametroEqvFinal - DiaInf)/(DiaSup - DiaInf);
+        double valorCfmInterpolado = (cfmDiaSup - cfmDiaInf) * fraccionDiametro;
+
+        flujoAire = valorCfmInterpolado + cfmDiaInf;
+
+    }
+
 }
