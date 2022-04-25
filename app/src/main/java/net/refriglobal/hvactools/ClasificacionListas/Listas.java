@@ -8,6 +8,7 @@ public class Listas
     public static List<ClasificasionListaPerdida> listaPerdida;
     public static List<List<ClasificacionListaPPA>> listaPPA;
     public static List<List<ClasificacionListaVelocidad>> listaVelocidadPPA;
+    public static List<List<LadoRectangular>> listaRectangularEqv;
 
     public void ListaPerdida()
     {
@@ -2651,5 +2652,18 @@ public class Listas
         listasVelocidad.add(new ClasificacionListaVelocidad(12000,0.02,0));
         listasVelocidad.add(new ClasificacionListaVelocidad(12000,0.01,0));
         listaVelocidadPPA.add(listasVelocidad);
+    }
+
+    public void ListaDuctoRectangular()
+    {
+        listaRectangularEqv = new ArrayList<>();
+        List<LadoRectangular> listaLados = new ArrayList<>();
+        listaLados.add(new LadoRectangular(5.0, 4.0, 5.0));
+        listaRectangularEqv.add(listaLados);
+
+        listaLados = new ArrayList<>();
+        listaLados.add(new LadoRectangular(5.5, 4, 6));
+        listaLados.add(new LadoRectangular(5.5, 5.0, 5.0));
+        listaRectangularEqv.add(listaLados);
     }
 }
