@@ -846,6 +846,7 @@ public class Casos {
             {
                 Interpolaciones inter = new Interpolaciones();
                 inter.interpolacionCFM5(indexPerdInf, indexPerdSup, indexListaInfDia, indexListaSupDia); //Se interpola el valor de los CFM
+                inter.interpolacionVelocidad(indexPerdInf, indexPerdSup, inter.getFlujoAire(), inter.getPerdidaFinal());
             }
        }
    }

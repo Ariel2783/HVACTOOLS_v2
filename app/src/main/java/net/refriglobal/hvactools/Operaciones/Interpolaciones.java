@@ -462,7 +462,5 @@ public class Interpolaciones
         double valorCfmInterpolado = (cfmDiaSup - cfmDiaInf) * fraccionDiametro;
 
         flujoAire = valorCfmInterpolado + cfmDiaInf;
-
     }
-
 }
