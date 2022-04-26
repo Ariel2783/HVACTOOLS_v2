@@ -15,6 +15,7 @@ import android.widget.Toast;
 import net.refriglobal.hvactools.ClasificacionListas.ClasificacionListaPPA;
 import net.refriglobal.hvactools.ClasificacionListas.ClasificacionListaVelocidad;
 import net.refriglobal.hvactools.ClasificacionListas.ClasificasionListaPerdida;
+import net.refriglobal.hvactools.ClasificacionListas.LadoRectangular;
 import net.refriglobal.hvactools.ClasificacionListas.Listas;
 import net.refriglobal.hvactools.Operaciones.Calculos;
 import net.refriglobal.hvactools.Operaciones.Casos;
@@ -813,6 +814,31 @@ public class DimDucto_Temporal extends AppCompatActivity
 
     public void dim1(View view)
     {
+        double diaEqv = Double.parseDouble(edTextDiaEqv.getText().toString());
+
+        if (diaEqv > 0)
+        {
+            /**Se obtine el lado introducido por el usuario.**/
+            double ladoA = Double.parseDouble(edTextLadoADucto.getText().toString());
+
+            for (List<LadoRectangular> listaRectangular:Listas.listaRectangularEqv)
+            {
+                if (diaEqv == listaRectangular.get(0).DiaEqv) //Se busca el diametro equivalente en las listas*
+                {
+                    for (LadoRectangular item:listaRectangular)
+                    {
+                        if (ladoA == item.LadoHor) //Se compara si el valor ladoA del usuario existe en la lista del diaEqv.
+                        {
+                            double ladoB = item.LadoVer;
+                            edTextLadoADucto.setText();
+                            //TODO: 20220425; continuar
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+        }
     }
 
     public void dim2(View view)

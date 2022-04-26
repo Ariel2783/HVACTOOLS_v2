@@ -2665,5 +2665,70 @@ public class Listas
         listaLados.add(new LadoRectangular(5.5, 4, 6));
         listaLados.add(new LadoRectangular(5.5, 5.0, 5.0));
         listaRectangularEqv.add(listaLados);
+
+        listaLados = new ArrayList<>();
+        listaLados.add(new LadoRectangular(6.0, 4.0, 8.0));
+        listaLados.add(new LadoRectangular(6.0, 5.0, 6.0));
+        listaRectangularEqv.add(listaLados);
+
+        listaLados = new ArrayList<>();
+        listaLados.add(new LadoRectangular(6.5, 4.0, 9.0));
+        listaLados.add(new LadoRectangular(6.5, 5.0, 7.0));
+        listaLados.add(new LadoRectangular(6.5, 6.0, 6.0));
+        listaLados = new ArrayList<>();
+
+        listaLados = new ArrayList<>();
+        listaLados.add(new LadoRectangular(7.0, 4.0, 11.0));
+        listaLados.add(new LadoRectangular(7.0, 5.0, 8.0));
+        listaLados.add(new LadoRectangular(7.0, 6.0, 7.0));
+        listaLados = new ArrayList<>();
+
+        listaLados = new ArrayList<>();
+        listaLados.add(new LadoRectangular(7.5, 4.0, 13.0));
+        listaLados.add(new LadoRectangular(7.5, 5.0, 10.0));
+        listaLados.add(new LadoRectangular(7.5, 6.0, 8.0));
+        listaLados.add(new LadoRectangular(7.5, 7.0, 7.0));
+        listaLados = new ArrayList<>();
+
+        listaLados = new ArrayList<>();
+        listaLados.add(new LadoRectangular(8.0, 4.0, 15.0));
+        listaLados.add(new LadoRectangular(8.0, 5.0, 11.0));
+        listaLados.add(new LadoRectangular(8.0, 6.0, 9.0));
+        listaLados.add(new LadoRectangular(8.0, 7.0, 8.0));
+        listaLados = new ArrayList<>();
+
+        listaLados = new ArrayList<>();
+        listaLados.add(new LadoRectangular(8.5, 4.0, 17.0));
+        listaLados.add(new LadoRectangular(8.5, 5.0, 13.0));
+        listaLados.add(new LadoRectangular(8.5, 6.0, 10.0));
+        listaLados.add(new LadoRectangular(8.5, 7.0, 9.0));
+        listaLados = new ArrayList<>();
+
+        listaLados = new ArrayList<>();
+        listaLados.add(new LadoRectangular(9.0, 4.0, 20.0));
+        listaLados.add(new LadoRectangular(9.0, 5.0, 15.0));
+        listaLados.add(new LadoRectangular(9.0, 6.0, 12.0));
+        listaLados.add(new LadoRectangular(9.0, 7.0, 10.0));
+        listaLados.add(new LadoRectangular(9.0, 8.0, 8.0));
+        listaLados = new ArrayList<>();
+
+        listaLados = new ArrayList<>();
+        listaLados.add(new LadoRectangular(9.5, 4.0, 22.0));
+        listaLados.add(new LadoRectangular(9.5, 5.0, 17.0));
+        listaLados.add(new LadoRectangular(9.5, 6.0, 13.0));
+        listaLados.add(new LadoRectangular(9.5, 7.0, 11.0));
+        listaLados.add(new LadoRectangular(9.5, 8.0, 9.0));
+        listaLados = new ArrayList<>();
+
+        listaLados = new ArrayList<>();
+        listaLados.add(new LadoRectangular(10.0, 4.0, 25.0));
+        listaLados.add(new LadoRectangular(10.0, 5.0, 19.0));
+        listaLados.add(new LadoRectangular(10.0, 6.0, 15.0));
+        listaLados.add(new LadoRectangular(10.0, 7.0, 12.0));
+        listaLados.add(new LadoRectangular(10.0, 8.0, 10.0));
+        listaLados.add(new LadoRectangular(10.0, 9.0, 9.0));
+        listaLados = new ArrayList<>();
+
+        //TODO: Continuar; 20220424.
     }
 }
