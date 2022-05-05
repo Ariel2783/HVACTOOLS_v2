@@ -172,6 +172,12 @@ public class DimDucto_Temporal extends AppCompatActivity
             if (edTextVelocidad.getText().length() > 0 && edTextDiaEqv.getText().length() > 0)
                 MetodoVelDiaEqv();
         }
+
+        if (edTextLadoADucto.getText().length() > 0)
+        {
+            dimLadoA();
+        }
+
     }
 
     public void MetodoCaudalPerdEstatica()
@@ -814,6 +820,11 @@ public class DimDucto_Temporal extends AppCompatActivity
     }
 
     public void dim1(View view)
+    {
+        dimLadoA();
+    }
+
+    public void dimLadoA()
     {
         if (edTextLadoADucto.getText().length() > 0)
         {
