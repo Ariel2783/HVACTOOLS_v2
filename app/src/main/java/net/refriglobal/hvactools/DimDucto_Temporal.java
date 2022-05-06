@@ -19,6 +19,7 @@ import net.refriglobal.hvactools.ClasificacionListas.LadoRectangular;
 import net.refriglobal.hvactools.ClasificacionListas.Listas;
 import net.refriglobal.hvactools.Operaciones.Calculos;
 import net.refriglobal.hvactools.Operaciones.Casos;
+import net.refriglobal.hvactools.Operaciones.DimRectangular;
 import net.refriglobal.hvactools.Operaciones.Interpolaciones;
 
 import java.text.DecimalFormat;
@@ -826,48 +827,36 @@ public class DimDucto_Temporal extends AppCompatActivity
 
     public void dimLadoA()
     {
+        /**Se obtine el lado introducido por el usuario.**/
+        double ladoA = Double.parseDouble(edTextLadoADucto.getText().toString());
+        DimRectangular objDim = new DimRectangular();
+
+        //TODO: 20220506, CONTINUAR, REVISAR EL DIAMETRO EQV en el segundo intento de calculo del lado del ducto.
         if (edTextLadoADucto.getText().length() > 0)
         {
-            double diaEqv = Double.parseDouble(edTextDiaEqv.getText().toString());
+            objDim.dimensionLadoB(ladoA);
+        }
+        double ladoB = objDim.getLadoB();
 
-            if (diaEqv > 0)
-            {
-                /**Se obtine el lado introducido por el usuario.**/
-                double ladoA = Double.parseDouble(edTextLadoADucto.getText().toString());
-                double ladoB = -1;
+        /**Calculo del diametro equivalente*/
+        if (ladoA > 0 && ladoB > 0)
+        {
+            edTextLadoADucto.setText(String.format(Locale.getDefault(), "%.1f", ladoA));
 
-                for (List<LadoRectangular> listaRectangular : Listas.listaRectangularEqv) {
-                    if (diaEqv == listaRectangular.get(0).DiaEqv) //Se busca el diametro equivalente en las listas*
-                    {
-                        for (LadoRectangular item : listaRectangular) {
-                            if (ladoA == item.LadoHor) //Se compara si el valor ladoA del usuario existe en la lista del diaEqv.
-                            {
-                                ladoB = item.LadoVer;
-                                edTextLadoBDucto.setText(String.format(Locale.getDefault(), "%.1f", ladoB));
-                                break;
-                            }
-                        }
-                        break;
-                    }
-                }
+            edTextLadoBDucto.setText(String.format(Locale.getDefault(), "%.1f", ladoB));
 
-                /**Calculo del diametro equivalente*/
-                if (ladoA > 0 && ladoB > 0)
-                {
-                    //2009 ASHRAE Handbook Fundamentals, CHAPTER 21, pg - 21.7, eq - 25
-                    double diaEqvCal = (1.3 * Math.pow(ladoA*ladoB,0.625))/Math.pow((ladoA + ladoB),0.25);
-                    textViewDiaEqvFinal.setText(String.format(Locale.getDefault(),"%.2f", diaEqvCal) + " ");
+            //2009 ASHRAE Handbook Fundamentals, CHAPTER 21, pg - 21.7, eq - 25
+            double diaEqvCal = (1.3 * Math.pow(ladoA*ladoB,0.625))/Math.pow((ladoA + ladoB),0.25);
+            textViewDiaEqvFinal.setText(String.format(Locale.getDefault(),"%.2f", diaEqvCal) + " ");
 
-                    Interpolaciones interSetGet = new Interpolaciones();
-                    interSetGet.setDiametroEqv(diaEqvCal);
+            Interpolaciones interSetGet = new Interpolaciones();
+            interSetGet.setDiametroEqv(diaEqvCal);
 
-                    Casos operaciones = new Casos();
-                    operaciones.OperacionesFinales(interSetGet.getFlujoAire());
-                    resultados();
+            Casos operaciones = new Casos();
+            operaciones.OperacionesFinales(interSetGet.getFlujoAire());
+            resultados();
 
-                    //TODO: 20220430; continuar
-                }
-            }
+            //TODO: 20220430; continuar
         }
     }
 
