@@ -843,7 +843,7 @@ public class DimDucto_Temporal extends AppCompatActivity
                             if (ladoA == item.LadoHor) //Se compara si el valor ladoA del usuario existe en la lista del diaEqv.
                             {
                                 ladoB = item.LadoVer;
-                                edTextLadoBDucto.setText(String.format(Locale.getDefault(), "%.0f", ladoB));
+                                edTextLadoBDucto.setText(String.format(Locale.getDefault(), "%.1f", ladoB));
                                 break;
                             }
                         }
