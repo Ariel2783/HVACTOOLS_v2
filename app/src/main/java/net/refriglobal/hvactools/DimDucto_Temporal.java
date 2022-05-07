@@ -822,6 +822,7 @@ public class DimDucto_Temporal extends AppCompatActivity
 
     public void dim1(View view)
     {
+        edTextLadoBDucto.setText("");
         dimLadoA();
     }
 
@@ -831,7 +832,6 @@ public class DimDucto_Temporal extends AppCompatActivity
         double ladoA = Double.parseDouble(edTextLadoADucto.getText().toString());
         DimRectangular objDim = new DimRectangular();
 
-        //TODO: 20220506, CONTINUAR, REVISAR EL DIAMETRO EQV en el segundo intento de calculo del lado del ducto.
         if (edTextLadoADucto.getText().length() > 0)
         {
             objDim.dimensionLadoB(ladoA);
@@ -842,7 +842,6 @@ public class DimDucto_Temporal extends AppCompatActivity
         if (ladoA > 0 && ladoB > 0)
         {
             edTextLadoADucto.setText(String.format(Locale.getDefault(), "%.1f", ladoA));
-
             edTextLadoBDucto.setText(String.format(Locale.getDefault(), "%.1f", ladoB));
 
             //2009 ASHRAE Handbook Fundamentals, CHAPTER 21, pg - 21.7, eq - 25
@@ -850,13 +849,10 @@ public class DimDucto_Temporal extends AppCompatActivity
             textViewDiaEqvFinal.setText(String.format(Locale.getDefault(),"%.2f", diaEqvCal) + " ");
 
             Interpolaciones interSetGet = new Interpolaciones();
-            interSetGet.setDiametroEqv(diaEqvCal);
 
             Casos operaciones = new Casos();
             operaciones.OperacionesFinales(interSetGet.getFlujoAire());
             resultados();
-
-            //TODO: 20220430; continuar
         }
     }
 
