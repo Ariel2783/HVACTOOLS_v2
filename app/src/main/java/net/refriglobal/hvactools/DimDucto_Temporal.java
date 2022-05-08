@@ -132,7 +132,6 @@ public class DimDucto_Temporal extends AppCompatActivity
         objListas.ListaPerdida();
         objListas.ListaPPA();
         objListas.ListaVelocidadPPA();
-        objListas.ListaDuctoRectangular();
     }
 
     @SuppressLint({"DefaultLocale", "SetTextI18n"})
@@ -176,7 +175,7 @@ public class DimDucto_Temporal extends AppCompatActivity
 
         if (edTextLadoADucto.getText().length() > 0)
         {
-            dimLadoA();
+            dimLadoABiseccion();
         }
 
     }
@@ -823,19 +822,15 @@ public class DimDucto_Temporal extends AppCompatActivity
     public void dim1(View view)
     {
         edTextLadoBDucto.setText("");
-        dimLadoA();
+        dimLadoABiseccion();
     }
 
-    public void dimLadoA()
+    public void dimLadoABiseccion()
     {
-        /**Se obtine el lado introducido por el usuario.**/
         double ladoA = Double.parseDouble(edTextLadoADucto.getText().toString());
         DimRectangular objDim = new DimRectangular();
+        objDim.dimensionLadoBBiseccion(ladoA);
 
-        if (edTextLadoADucto.getText().length() > 0)
-        {
-            objDim.dimensionLadoB(ladoA);
-        }
         double ladoB = objDim.getLadoB();
 
         /**Calculo del diametro equivalente*/

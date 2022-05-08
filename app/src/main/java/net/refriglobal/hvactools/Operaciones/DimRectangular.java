@@ -21,114 +21,72 @@ public class DimRectangular
     {
         Interpolaciones setGetInfo = new Interpolaciones();
         double diaEqv = setGetInfo.getDiametroEqvFinal();
-        boolean valorRangoHor = false;
-        boolean valorRangoVer = false;
+    }
 
-        if (diaEqv > 0)
+    public void dimensionLadoBBiseccion(double ladoA)
+    {
+        Interpolaciones setGetInter = new Interpolaciones();
+        double diaEqv = setGetInter.getDiametroEqvFinal();
+        double valorFinal = 0;
+        double valorInicial = 0;
+        int i = 0;
+        final double error = 0.001;
+
+        //Busqueda del intervalo.
+        while (true)
         {
-            for (List<LadoRectangular> listaRectangular : Listas.listaRectangularEqv)
+            valorFinal = (1.30*Math.pow( (ladoA*(i+1) ), 0.625) / Math.pow( (ladoA+(i+1)) ,0.25)) - diaEqv;
+
+            if (valorFinal > 0)
             {
-                if (diaEqv == listaRectangular.get(0).DiaEqv) //Se busca el diametro equivalente en las listas*
-                {
-                    for (LadoRectangular item : listaRectangular)
-                    {
-                        if (ladoA == item.LadoHor) //Se compara si el valor ladoA del usuario existe en la lista del diaEqv del lado horzontal.
-                        {
-                            ladoB = item.LadoVer;
-                            break;
-                        }
-
-                        if (item.LadoHor > ladoA)//Termina el ciclo, para no seguir busqcando, ya que no existira el valor
-                        {
-                            valorRangoHor = true;
-                            break;
-                        }
-                    }
-                    //De no encontrar el valor en lado horizontaL se cambia a buscar en el lado vertical
-                    if (ladoB == -1)
-                    {
-                        for (LadoRectangular itemVer : listaRectangular)
-                        {
-                            if (ladoA == itemVer.LadoVer)
-                            {
-                                ladoB = itemVer.LadoHor;
-                                break;
-                            }
-
-                            if (itemVer.LadoVer < ladoA)
-                            {
-                                valorRangoVer = true;
-                                break;
-                            }
-                        }
-                    }
-                    break;
-                }
+                valorFinal = i+1;
+                break;
             }
 
-            //Para cuando no coincide el valor en la lista, pero se encuentra dentro de los rangos de valores
-            //de la lista en lado horizontal, se Procedera con una interpolacion.
-            if (ladoB == -1 && valorRangoHor == true)
+            else
+                valorInicial = i+1;
+
+            i++;
+        }
+
+        //Metodo de biseccion.
+        while (true)
+        {
+            //paso 1
+            double puntoMedio = (valorFinal + valorInicial) / 2;
+
+            //Paso 2
+            //Evaluando valor inicial
+            double xi = (1.30*Math.pow( (ladoA*valorInicial ), 0.625) / Math.pow( (ladoA+valorInicial) ,0.25)) - diaEqv;
+
+            //Evaluando valor final
+            double xs = (1.30*Math.pow( (ladoA*valorFinal ), 0.625) / Math.pow( (ladoA+valorFinal) ,0.25)) - diaEqv;
+
+            //Evaluando punto medio
+            double xm = (1.30*Math.pow( (ladoA*puntoMedio ), 0.625) / Math.pow( (ladoA+puntoMedio) ,0.25)) - diaEqv;
+
+            //Paso 3
+            if ( (xi*xm) > 0)
             {
-                for (List<LadoRectangular> listaRectangular : Listas.listaRectangularEqv)
-                {
-                    if (diaEqv == listaRectangular.get(0).DiaEqv) //Se busca el diametro equivalente en las listas*
-                    {
-                        int i = 0;
-                        for (LadoRectangular item : listaRectangular)
-                        {
-                            if (item.LadoHor > ladoA) //Busqueda en lado horizontal.
-                            {
-                                double datoMayorHor = item.LadoHor;
-                                double datoMenorHor = listaRectangular.get(i-1).LadoHor;
-
-                                double datoMayorHor_Ver = item.LadoVer;
-                                double datoMenorHor_Ver = listaRectangular.get(i-1).LadoVer;
-
-                                double fraccion = (ladoA - datoMenorHor) / (datoMayorHor - datoMenorHor);
-                                double valorXtra = (datoMenorHor_Ver - datoMayorHor_Ver) * fraccion;
-                                ladoB = datoMenorHor_Ver - valorXtra;
-                                break;
-                            }
-
-                            i++;
-                        }
-
-                       break;
-                    }
-                }
+                valorInicial = puntoMedio;
+                valorFinal = valorFinal;
             }
 
-            //Para cuando no coincide el valor en la lista, pero se encuentra dentro de los rangos de valores
-            //de la lista en lado vertical, se Procedera con una interpolacion.
-            if (ladoB == -1 && valorRangoVer == true)
+            else
             {
-                for (List<LadoRectangular> listaRectangular : Listas.listaRectangularEqv)
-                {
-                    if (diaEqv == listaRectangular.get(0).DiaEqv) //Se busca el diametro equivalente en las listas*
-                    {
-                        int i = 0;
-                        for (LadoRectangular item : listaRectangular)
-                        {
-                            if (item.LadoVer < ladoA)
-                            {
-                                double datoMenorVer = item.LadoVer;
-                                double datoMayorVer = listaRectangular.get(i-1).LadoVer;
+                valorInicial = valorInicial;
+                valorFinal = puntoMedio;
+            }
 
-                                double datoMenorVer_Hor = item.LadoHor;
-                                double datoMayorVer_Hor = listaRectangular.get(i-1).LadoHor;
-
-                                double fraccion = (ladoA - datoMenorVer) / (datoMayorVer - datoMenorVer);
-                                double valorXtra = (datoMenorVer_Hor - datoMayorVer_Hor) * fraccion;
-                                ladoB = datoMenorVer_Hor - valorXtra;
-                                break;
-                            }
-                            i++;
-                        }
-                        break;
-                    }
-                }
+            //Paso 4
+            double errorCalc = Math.abs((valorFinal - valorInicial)/2);
+            if (errorCalc <= error)
+            {
+                ladoB = puntoMedio;
+                break;
             }
         }
+
+
     }
 }
