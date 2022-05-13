@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -11,6 +13,9 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import net.refriglobal.hvactools.ClasificacionListas.ClasificacionListaPPA;
 import net.refriglobal.hvactools.ClasificacionListas.ClasificacionListaVelocidad;
@@ -29,13 +34,22 @@ import java.util.Locale;
 public class DimDucto_Temporal extends AppCompatActivity
 {
     Spinner condicionesAmbiente;
-    public static TextView textViewDensidadAire, textViewViscoCinematica, textViewCalorEspcf, textViewFactorEnergia;
-    public static TextView textViewDiaEqvFinal, textViewAreaFlujo, textViewVelFluidoFinal, textViewNumReynolds, textViewPerdFricion, textViewFactorFriccion,
-             textViewPresionVelocidad;
+    public static TextView textViewDensidadAire, textViewViscoCinematica, textViewCalorEspcf,
+                           textViewFactorEnergia;
+    public static TextView textViewDiaEqvFinal, textViewAreaFlujo, textViewVelFluidoFinal,
+                           textViewNumReynolds, textViewPerdFricion, textViewFactorFriccion,
+                           textViewPresionVelocidad;
+
     RadioButton chkCaudal, chkPerdEstatica, chkVelocidad, chkDiaEqv;
-    public static EditText edTextCFM, edTextPerdEstatica, edTextVelocidad, edTextDiaEqv, edTextLadoADucto, edTextLadoBDucto;
+    public static EditText edTextCFM, edTextPerdEstatica, edTextVelocidad, edTextDiaEqv,
+                           edTextLadoADucto, edTextLadoBDucto;
+
     int idCFM, idPerdida, idVelocidad, idDiaEqv;
 
+    boolean isOpen = false;
+
+    FloatingActionButton btnConfigUnidad, fabSI, fabUS;
+    Animation fabAbrir, fabCerrar, fabRotar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +80,13 @@ public class DimDucto_Temporal extends AppCompatActivity
         edTextDiaEqv        = findViewById(R.id.editTextDiaEqv);
         edTextLadoADucto    = findViewById(R.id.editTextLadoADucto);
         edTextLadoBDucto    = findViewById(R.id.editTextLadoBDucto);
+
+        btnConfigUnidad = findViewById(R.id.botonUnidad);
+        fabSI = findViewById(R.id.flButton_SI);
+        fabUS = findViewById(R.id.fltButton_US);
+
+        fabAbrir = AnimationUtils.loadAnimation(this,R.anim.rotacion_unidad_abrir);
+        fabCerrar = AnimationUtils.loadAnimation(this,R.anim.rotacion_unidad_cerrar);
 
         chkCaudal.setChecked(true);
         chkPerdEstatica.setChecked(true);
@@ -128,10 +149,60 @@ public class DimDucto_Temporal extends AppCompatActivity
             }
         });
 
+        btnConfigUnidad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AnimacionBoton();
+            }
+        });
+
+        fabSI.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AnimacionBoton();
+                Toast.makeText(DimDucto_Temporal.this, "Sistema metrico", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        fabUS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AnimacionBoton();
+                Toast.makeText(DimDucto_Temporal.this, "Sistema US", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //TODO: 20220513; CONTINUAR CON LOS BOTONES FLOTANTES.
+
+
+
         Listas objListas = new Listas();
         objListas.ListaPerdida();
         objListas.ListaPPA();
         objListas.ListaVelocidadPPA();
+    }
+
+    private void AnimacionBoton()
+    {
+        if (isOpen)
+        {
+            btnConfigUnidad.startAnimation(fabAbrir);
+            fabSI.startAnimation(fabAbrir);
+            fabUS.startAnimation(fabAbrir);
+            fabSI.setClickable(false);
+            fabUS.setClickable(false);
+            isOpen = false;
+        }
+
+        else
+        {
+            btnConfigUnidad.startAnimation(fabCerrar);
+            fabSI.startAnimation(fabCerrar);
+            fabUS.startAnimation(fabCerrar);
+            fabSI.setClickable(true);
+            fabUS.setClickable(true);
+            isOpen = true;
+        }
     }
 
     @SuppressLint({"DefaultLocale", "SetTextI18n"})
