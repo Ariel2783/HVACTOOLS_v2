@@ -49,7 +49,7 @@ public class DimDucto_Temporal extends AppCompatActivity
     boolean isOpen = false;
 
     FloatingActionButton btnConfigUnidad, fabSI, fabUS;
-    Animation fabAbrir, fabCerrar, fabRotar;
+    Animation fabAbrir, fabCerrar, fabRotarExpandir, fabRotarContraer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,8 +85,10 @@ public class DimDucto_Temporal extends AppCompatActivity
         fabSI = findViewById(R.id.flButton_SI);
         fabUS = findViewById(R.id.fltButton_US);
 
-        fabAbrir = AnimationUtils.loadAnimation(this,R.anim.rotacion_unidad_abrir);
-        fabCerrar = AnimationUtils.loadAnimation(this,R.anim.rotacion_unidad_cerrar);
+        fabAbrir = AnimationUtils.loadAnimation(this,R.anim.fab_open);
+        fabCerrar = AnimationUtils.loadAnimation(this,R.anim.fab_close);
+        fabRotarExpandir = AnimationUtils.loadAnimation(this,R.anim.rotacion_unidad_abrir);
+        fabRotarContraer = AnimationUtils.loadAnimation(this,R.anim.rotacion_unidad_cerrar);
 
         chkCaudal.setChecked(true);
         chkPerdEstatica.setChecked(true);
@@ -186,9 +188,9 @@ public class DimDucto_Temporal extends AppCompatActivity
     {
         if (isOpen)
         {
-            btnConfigUnidad.startAnimation(fabAbrir);
-            fabSI.startAnimation(fabAbrir);
-            fabUS.startAnimation(fabAbrir);
+            btnConfigUnidad.startAnimation(fabRotarExpandir);
+            fabSI.startAnimation(fabCerrar);
+            fabUS.startAnimation(fabCerrar);
             fabSI.setClickable(false);
             fabUS.setClickable(false);
             isOpen = false;
@@ -196,9 +198,9 @@ public class DimDucto_Temporal extends AppCompatActivity
 
         else
         {
-            btnConfigUnidad.startAnimation(fabCerrar);
-            fabSI.startAnimation(fabCerrar);
-            fabUS.startAnimation(fabCerrar);
+            btnConfigUnidad.startAnimation(fabRotarContraer);
+            fabSI.startAnimation(fabAbrir);
+            fabUS.startAnimation(fabAbrir);
             fabSI.setClickable(true);
             fabUS.setClickable(true);
             isOpen = true;

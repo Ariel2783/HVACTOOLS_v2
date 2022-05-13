@@ -3,10 +3,13 @@
            android:fillAfter="true">
 
 
-    <rotate android:pivotX="50%"
+    <rotate
+        android:pivotX="50%"
         android:pivotY="50%"
         android:fromDegrees="45"
         android:toDegrees="0"
-        android:duration="300"/>
+        android:duration="300"
+        android:interpolator="@android:anim/linear_interpolator"
+        />
 
 </set>
