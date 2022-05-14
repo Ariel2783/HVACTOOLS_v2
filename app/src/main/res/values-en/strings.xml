@@ -10,7 +10,7 @@
     <string name="Specific_Heat">Specific heat</string>
     <string name="Energy_factor">Power factor</string>
     <string name="lb_ft3">lb/ft³.</string>
-    <string name="lb_fth.">ft²/s.</string>
+    <string name="lb_fth">ft²/s.</string>
     <string name="Btu_lbF">Btu/lb·°F.</string>
     <string name="Btu_hFcfm">Btu/h·°F·cfm.</string>
     <string name="ft2">ft²</string>
@@ -123,6 +123,12 @@
     <string name="si">Yes</string>
     <string name="no">Cancel</string>
     <string name="factorFriccion">Friction factor</string>
+
+    //UNIDADES SI
+    <string name="Kg_m3">Kg/m³.</string>
+    <string name="centistokes">cm²/s.</string>
+    <string name="KJ_KgC">KJ/Kg·°C.</string>
+    <string name="W_C_Ls">W/°C·L/s</string>
 
     <string-array name="tipo_instalacion">
         <item>Select No. of free sides</item>

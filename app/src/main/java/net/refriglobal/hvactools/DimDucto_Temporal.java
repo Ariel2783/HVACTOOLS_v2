@@ -40,6 +40,9 @@ public class DimDucto_Temporal extends AppCompatActivity
                            textViewNumReynolds, textViewPerdFricion, textViewFactorFriccion,
                            textViewPresionVelocidad;
 
+    public static TextView txtvDensidadAireUnidad, txtvViscosidadCinematica, txtvCalorEspecifico,
+                            txtvFactorEnergia;
+
     RadioButton chkCaudal, chkPerdEstatica, chkVelocidad, chkDiaEqv;
     public static EditText edTextCFM, edTextPerdEstatica, edTextVelocidad, edTextDiaEqv,
                            edTextLadoADucto, edTextLadoBDucto;
@@ -47,6 +50,8 @@ public class DimDucto_Temporal extends AppCompatActivity
     int idCFM, idPerdida, idVelocidad, idDiaEqv;
 
     boolean isOpen = false;
+    boolean configSI = false;
+    boolean configUS = true;
 
     FloatingActionButton btnConfigUnidad, fabSI, fabUS;
     Animation fabAbrir, fabCerrar, fabRotarExpandir, fabRotarContraer;
@@ -68,6 +73,10 @@ public class DimDucto_Temporal extends AppCompatActivity
         textViewPerdFricion   = findViewById(R.id.textViewPerdidaFriccion);
         textViewFactorFriccion = findViewById(R.id.textViewFactorFriccion);
         textViewPresionVelocidad = findViewById(R.id.textViewPresionVelocidad);
+        txtvDensidadAireUnidad = findViewById(R.id.textView7);
+        txtvViscosidadCinematica = findViewById(R.id.textView8);
+        txtvCalorEspecifico = findViewById(R.id.textView9);
+        txtvFactorEnergia = findViewById(R.id.textView10);
 
         chkCaudal       = findViewById(R.id.RadioButtonCaudal);
         chkPerdEstatica = findViewById(R.id.RadioButtonPedEstatica);
@@ -163,6 +172,9 @@ public class DimDucto_Temporal extends AppCompatActivity
             public void onClick(View v) {
                 AnimacionBoton();
                 Toast.makeText(DimDucto_Temporal.this, "Sistema metrico", Toast.LENGTH_SHORT).show();
+                configSI = true;
+                configUS = false;
+                cambioUnidad();
             }
         });
 
@@ -171,10 +183,13 @@ public class DimDucto_Temporal extends AppCompatActivity
             public void onClick(View v) {
                 AnimacionBoton();
                 Toast.makeText(DimDucto_Temporal.this, "Sistema US", Toast.LENGTH_SHORT).show();
+                configSI = false;
+                configUS = true;
+                cambioUnidad();
             }
         });
 
-        //TODO: 20220513; CONTINUAR CON LOS BOTONES FLOTANTES.
+
 
 
 
@@ -182,6 +197,7 @@ public class DimDucto_Temporal extends AppCompatActivity
         objListas.ListaPerdida();
         objListas.ListaPPA();
         objListas.ListaVelocidadPPA();
+        cambioUnidad();
     }
 
     private void AnimacionBoton()
@@ -204,6 +220,27 @@ public class DimDucto_Temporal extends AppCompatActivity
             fabSI.setClickable(true);
             fabUS.setClickable(true);
             isOpen = true;
+        }
+    }
+
+    private void cambioUnidad()
+    { //TODO: 20220513; CONTINUAR CON EL CAMBIO DE UNIDAD.
+
+        if (configSI == true)
+        {
+            txtvDensidadAireUnidad.setText(R.string.Kg_m3);
+            txtvViscosidadCinematica.setText(R.string.centistokes);
+            txtvCalorEspecifico.setText(R.string.KJ_KgC);
+            txtvFactorEnergia.setText(R.string.W_C_Ls);
+
+        }
+
+        if (configUS == true)
+        {
+            txtvDensidadAireUnidad.setText(R.string.lb_ft3);
+            txtvViscosidadCinematica.setText(R.string.lb_fth);
+            txtvCalorEspecifico.setText(R.string.Btu_lbF);
+            txtvFactorEnergia.setText(R.string.Btu_hFcfm);
         }
     }
 
