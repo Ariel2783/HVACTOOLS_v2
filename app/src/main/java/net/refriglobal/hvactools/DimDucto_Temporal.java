@@ -189,6 +189,7 @@ public class DimDucto_Temporal extends AppCompatActivity
                 configSI = true;
                 configUS = false;
                 cambioUnidad();
+
             }
         });
 
@@ -235,8 +236,48 @@ public class DimDucto_Temporal extends AppCompatActivity
 
     private void cambioUnidad()
     {
-        if (configSI == true)
+        if (configSI == true) //Conversion de US a Metrico.
         {
+                //Unidad anterior.
+                String cadenaUnidad = txtvCaudalUnidad.getText().toString();
+
+            if (cadenaUnidad.equals("cfm") && edTextCFM.length() > 0)
+            {
+                double valorL_seg = Double.parseDouble(edTextCFM.getText().toString())/2.119;
+                edTextCFM.setText(String.format(Locale.getDefault(), "%.0f", valorL_seg));
+            }
+
+            if (cadenaUnidad.equals("cfm") && edTextPerdEstatica.length() > 0)
+            {
+                double valor_perd = Double.parseDouble(edTextPerdEstatica.getText().toString()) * 8.173;
+                edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", valor_perd));
+            }
+
+            if (cadenaUnidad.equals("cfm") && edTextVelocidad.length() > 0)
+            {
+                double valorVelm_s = Double.parseDouble(edTextVelocidad.getText().toString()) / 196.850;
+                edTextVelocidad.setText(String.format(Locale.getDefault(), "%.3f", valorVelm_s));
+            }
+
+            if (cadenaUnidad.equals("cfm") && edTextDiaEqv.length() > 0)
+            {
+                double valorDiamm = Double.parseDouble(edTextDiaEqv.getText().toString()) * 25.400;
+                edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.1f", valorDiamm));
+            }
+
+            if (cadenaUnidad.equals("cfm") && edTextLadoADucto.length() > 0)
+            {
+                double valorLongmm = Double.parseDouble(edTextLadoADucto.getText().toString()) * 25.400;
+                edTextLadoADucto.setText(String.format(Locale.getDefault(), "%.0f", valorLongmm));
+            }
+
+            if (cadenaUnidad.equals("cfm") && edTextLadoBDucto.length() > 0)
+            {
+                double valorLongmm = Double.parseDouble(edTextLadoBDucto.getText().toString()) * 25.400;
+                edTextLadoBDucto.setText(String.format(Locale.getDefault(), "%.0f", valorLongmm));
+            }
+
+
             txtvDensidadAireUnidad.setText(R.string.Kg_m3);
             txtvViscosidadCinematica.setText(R.string.centistokes);
             txtvCalorEspecifico.setText(R.string.KJ_KgC);
@@ -252,10 +293,48 @@ public class DimDucto_Temporal extends AppCompatActivity
             txtvVelUnidad2.setText(R.string.ms);
             txtvPresionVelUnidad.setText(R.string.Pa);
             txtvWCUnidad2.setText(R.string.Pam);
+
         }
 
         if (configUS == true)
         {
+            String cadenaUnidad = txtvCaudalUnidad.getText().toString();
+
+            if (edTextCFM.length() > 0 && cadenaUnidad.equals("L/s")) //Conversion de L/seg a cfm.
+            {
+                double valorCFM = Double.parseDouble(edTextCFM.getText().toString()) * 2.119;
+                edTextCFM.setText(String.format(Locale.getDefault(), "%.0f", valorCFM));
+            }
+
+            if (cadenaUnidad.equals("L/s") && edTextPerdEstatica.length() > 0)
+            {
+                double valor_perd = Double.parseDouble(edTextPerdEstatica.getText().toString()) / 8.173;
+                edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", valor_perd));
+            }
+
+            if (cadenaUnidad.equals("L/s") && edTextVelocidad.length() > 0)
+            {
+                double valorVelm_s = Double.parseDouble(edTextVelocidad.getText().toString()) * 196.850;
+                edTextVelocidad.setText(String.format(Locale.getDefault(), "%.1f", valorVelm_s));
+            }
+
+            if (cadenaUnidad.equals("L/s") && edTextDiaEqv.length() > 0)
+            {
+                double valorDiamm = Double.parseDouble(edTextDiaEqv.getText().toString()) / 25.400;
+                edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.1f", valorDiamm));
+            }
+            if (cadenaUnidad.equals("L/s") && edTextLadoADucto.length() > 0)
+            {
+                double valorLongPlg = Double.parseDouble(edTextLadoADucto.getText().toString()) / 25.400;
+                edTextLadoADucto.setText(String.format(Locale.getDefault(), "%.1f", valorLongPlg));
+            }
+
+            if (cadenaUnidad.equals("L/s") && edTextLadoBDucto.length() > 0)
+            {
+                double valorLongPlg = Double.parseDouble(edTextLadoBDucto.getText().toString()) / 25.400;
+                edTextLadoBDucto.setText(String.format(Locale.getDefault(), "%.1f", valorLongPlg));
+            }
+
             txtvDensidadAireUnidad.setText(R.string.lb_ft3);
             txtvViscosidadCinematica.setText(R.string.lb_fth);
             txtvCalorEspecifico.setText(R.string.Btu_lbF);
@@ -271,6 +350,7 @@ public class DimDucto_Temporal extends AppCompatActivity
             txtvVelUnidad2.setText(R.string.fpm);
             txtvPresionVelUnidad.setText(R.string.inWC);
             txtvWCUnidad2.setText(R.string.inWC_100ft);
+
         }
     }
 
