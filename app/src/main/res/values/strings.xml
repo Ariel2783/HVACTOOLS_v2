@@ -51,6 +51,13 @@
     <string name="centistokes">cm²/s.</string>
     <string name="KJ_KgC">KJ/Kg·°C.</string>
     <string name="W_C_Ls">W/°C·L/s</string>
+    <string name="Ls">L/s</string>
+    <string name="Pam">Pa/m</string>
+    <string name="ms">m/s</string>
+    <string name="Diamm">mm</string>
+    <string name="m2">m²</string>
+    <string name="Pa">Pa</string>
+
 
     //Codigo Java
     <string name="Perd_Falt">Introducir la "Pérdida estática</string>

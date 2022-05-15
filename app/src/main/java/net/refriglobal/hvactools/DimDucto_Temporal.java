@@ -41,7 +41,9 @@ public class DimDucto_Temporal extends AppCompatActivity
                            textViewPresionVelocidad;
 
     public static TextView txtvDensidadAireUnidad, txtvViscosidadCinematica, txtvCalorEspecifico,
-                            txtvFactorEnergia;
+                           txtvFactorEnergia, txtvCaudalUnidad, txtvWCUnidad, txtvVelUnidad, txtvDiaUnidad,
+                           txtvLadoA, txtvLadoB, txtvDiaUnidad2, txtvAreaFlujoUnidad, txtvVelUnidad2,
+                           txtvPresionVelUnidad, txtvWCUnidad2;
 
     RadioButton chkCaudal, chkPerdEstatica, chkVelocidad, chkDiaEqv;
     public static EditText edTextCFM, edTextPerdEstatica, edTextVelocidad, edTextDiaEqv,
@@ -77,6 +79,18 @@ public class DimDucto_Temporal extends AppCompatActivity
         txtvViscosidadCinematica = findViewById(R.id.textView8);
         txtvCalorEspecifico = findViewById(R.id.textView9);
         txtvFactorEnergia = findViewById(R.id.textView10);
+        txtvCaudalUnidad = findViewById(R.id.textView);
+        txtvWCUnidad = findViewById(R.id.textView15);
+        txtvVelUnidad = findViewById(R.id.textView16);
+        txtvDiaUnidad = findViewById(R.id.textView17);
+        txtvLadoA = findViewById(R.id.textView18);
+        txtvLadoB = findViewById(R.id.textView21);
+        txtvDiaUnidad2 = findViewById(R.id.textView37);
+        txtvAreaFlujoUnidad = findViewById(R.id.textView38);
+        txtvVelUnidad2 = findViewById(R.id.textView39);
+        txtvPresionVelUnidad = findViewById(R.id.textView62);
+        txtvWCUnidad2 = findViewById(R.id.textView43);
+
 
         chkCaudal       = findViewById(R.id.RadioButtonCaudal);
         chkPerdEstatica = findViewById(R.id.RadioButtonPedEstatica);
@@ -189,10 +203,6 @@ public class DimDucto_Temporal extends AppCompatActivity
             }
         });
 
-
-
-
-
         Listas objListas = new Listas();
         objListas.ListaPerdida();
         objListas.ListaPPA();
@@ -224,15 +234,24 @@ public class DimDucto_Temporal extends AppCompatActivity
     }
 
     private void cambioUnidad()
-    { //TODO: 20220513; CONTINUAR CON EL CAMBIO DE UNIDAD.
-
+    {
         if (configSI == true)
         {
             txtvDensidadAireUnidad.setText(R.string.Kg_m3);
             txtvViscosidadCinematica.setText(R.string.centistokes);
             txtvCalorEspecifico.setText(R.string.KJ_KgC);
             txtvFactorEnergia.setText(R.string.W_C_Ls);
-
+            txtvCaudalUnidad.setText(R.string.Ls);
+            txtvWCUnidad.setText(R.string.Pam);
+            txtvVelUnidad.setText(R.string.ms);
+            txtvDiaUnidad.setText(R.string.Diamm);
+            txtvLadoA.setText(R.string.Diamm);
+            txtvLadoB.setText(R.string.Diamm);
+            txtvDiaUnidad2.setText(R.string.Diamm);
+            txtvAreaFlujoUnidad.setText(R.string.m2);
+            txtvVelUnidad2.setText(R.string.ms);
+            txtvPresionVelUnidad.setText(R.string.Pa);
+            txtvWCUnidad2.setText(R.string.Pam);
         }
 
         if (configUS == true)
@@ -241,6 +260,17 @@ public class DimDucto_Temporal extends AppCompatActivity
             txtvViscosidadCinematica.setText(R.string.lb_fth);
             txtvCalorEspecifico.setText(R.string.Btu_lbF);
             txtvFactorEnergia.setText(R.string.Btu_hFcfm);
+            txtvCaudalUnidad.setText(R.string.cfm);
+            txtvWCUnidad.setText(R.string.inWC_100ft);
+            txtvVelUnidad.setText(R.string.fpm);
+            txtvDiaUnidad.setText(R.string.in);
+            txtvLadoA.setText(R.string.in);
+            txtvLadoB.setText(R.string.in);
+            txtvDiaUnidad2.setText(R.string.in);
+            txtvAreaFlujoUnidad.setText(R.string.ft2);
+            txtvVelUnidad2.setText(R.string.fpm);
+            txtvPresionVelUnidad.setText(R.string.inWC);
+            txtvWCUnidad2.setText(R.string.inWC_100ft);
         }
     }
 
