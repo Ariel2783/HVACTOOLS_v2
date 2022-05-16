@@ -1,16 +1,12 @@
 package net.refriglobal.hvactools.Operaciones;
 
-import com.google.android.gms.dynamic.IFragmentWrapper;
-
 import net.refriglobal.hvactools.ClasificacionListas.ClasificacionListaPPA;
 import net.refriglobal.hvactools.ClasificacionListas.ClasificacionListaVelocidad;
 import net.refriglobal.hvactools.ClasificacionListas.ClasificasionListaPerdida;
 import net.refriglobal.hvactools.ClasificacionListas.Listas;
 import net.refriglobal.hvactools.DimDucto_Temporal;
 
-import java.io.Flushable;
 import java.util.List;
-import java.util.Locale;
 
 public class Casos {
 
@@ -31,14 +27,12 @@ public class Casos {
 
                 operacion.calculoVelDiaEqv(flujoArie);
 
-                DimDucto_Temporal objDim = new DimDucto_Temporal();
-
-                double valorViscoCinematica = Double.parseDouble(DimDucto_Temporal.textViewViscoCinematica.getText().toString());
+                double valorViscoCinematica = DimDucto_Temporal.viscocidadCinematica;
                 operacion.calculoNumeroReynolds(operacion.getVelocidadDiametro(), diaEqv, valorViscoCinematica);
 
                 operacion.calculoFactorFriccion(diaEqv);
 
-                double aireDensidad = Double.parseDouble(objDim.textViewDensidadAire.getText().toString());
+                double aireDensidad = DimDucto_Temporal.densidadAire;
                 operacion.calculoPresionVelocidad(aireDensidad);
 
                 operacion.calculoPerdidaFriccion(diaEqv);
@@ -59,14 +53,12 @@ public class Casos {
 
                 operacion.calculoVelDiaEqv(flujoArie);
 
-                DimDucto_Temporal objDim = new DimDucto_Temporal();
-
-                double valorViscoCinematica = Double.parseDouble(objDim.textViewViscoCinematica.getText().toString());
+                double valorViscoCinematica = DimDucto_Temporal.viscocidadCinematica;
                 operacion.calculoNumeroReynolds(operacion.getVelocidadDiametro(), diaEqv, valorViscoCinematica);
 
                 operacion.calculoFactorFriccion(diaEqv);
 
-                double aireDensidad = Double.parseDouble(objDim.textViewDensidadAire.getText().toString());
+                double aireDensidad = DimDucto_Temporal.densidadAire;
                 operacion.calculoPresionVelocidad(aireDensidad);
 
                 operacion.calculoPerdidaFriccion(diaEqv);
@@ -125,7 +117,7 @@ public class Casos {
                     break;
             }
 
-            if (datoEncontrado == true || fueraRango == true)
+            if (datoEncontrado || fueraRango)
                 break;
         }
 
@@ -302,7 +294,6 @@ public class Casos {
             perdidaInter = perdidaInf + valorExtraPerdida;
         }
 
-        /****************************/
         if (perdidaInter > 0)
         {
             int indexInferior = -1;
@@ -325,8 +316,6 @@ public class Casos {
             }
         }
 
-        /****************************/
-
         return perdidaInter;
     }
 
@@ -346,23 +335,17 @@ public class Casos {
                     Interpolaciones inter = new Interpolaciones();
 
                     //Proceso para encontrar el indice de la perdida obtenida
-                    int indexPerdida = -1;
                     for (ClasificasionListaPerdida itemPerd : Listas.listaPerdida)
                     {
                         if (itemPerd.perdidaTabla == perdidaEstatica)
                         {
                             //Proceso de interpolacion para obtener la velocidad de la grafica.
-                            indexPerdida = itemPerd.index;
+                            int indexPerdida = itemPerd.index;
                             inter.interpolacionVelocidadMetodo2(flujo, indexPerdida);
                             break;
                         }
                     }
 
-                    if (indexPerdida == -1)
-                    {
-                        //TODO: 20220304; Revisar si esto llega a ocurrir, de ser asi mejorar o colocar un mensaje al usuario
-                        // en caso de que no se obtenga la velocidad.
-                    }
                 }
 
                 //Control para no revisar toda la lista de no ser necesario
@@ -377,7 +360,7 @@ public class Casos {
                     break;
             }
 
-            if (finCiclo == true)
+            if (finCiclo)
                 break;
         }
 
@@ -448,15 +431,12 @@ public class Casos {
         int i=0;
         for (List<ClasificacionListaPPA> listaPpa : Listas.listaPPA)
         {
-            int listaDiaSup = -1;
-            int listaDiaInf = -1;
-
             for (ClasificacionListaPPA itemLista : listaPpa)
             {
                 if (itemLista.diametro > diametro)
                 {
-                    listaDiaSup = i;
-                    listaDiaInf = i-1;
+                    int listaDiaSup = i;
+                    int listaDiaInf = i-1;
 
                     Interpolaciones inter = new Interpolaciones();
                     inter.interpolacionPerdida2(listaDiaInf, listaDiaSup, flujo, diametro);
@@ -512,7 +492,7 @@ public class Casos {
             }
         }
 
-        if (resultado == true)
+        if (resultado)
         {
             //Proceso para obtener los cfm correspondientes.
             for (List<ClasificacionListaVelocidad> listaVel : Listas.listaVelocidadPPA)
@@ -551,16 +531,13 @@ public class Casos {
         //Si la perdida del usuario no existe en la lista, entonces el indexPerdida es = -1.
         if (indexPerdida == -1)
         {
-            int indexPerdInf = -1;
-            int indexPerdSup = -1;
-
             //Porceso de interpolacion.
             for (ClasificasionListaPerdida itemPerdida : Listas.listaPerdida)
             {
                 if (perdidaUsuario > itemPerdida.perdidaTabla)
                 {
-                    indexPerdInf = itemPerdida.index;
-                    indexPerdSup = indexPerdInf - 1;
+                    int indexPerdInf = itemPerdida.index;
+                    int indexPerdSup = indexPerdInf - 1;
 
                     Interpolaciones inter = new Interpolaciones();
                     inter.interpolacionCFM(indexPerdInf, indexPerdSup, perdidaUsuario, velocidadUsuario);
@@ -617,7 +594,7 @@ public class Casos {
             inter.interpolacionDiametroEqv(indexPerdInf, indexPerdSup, perdidaUsuario, inter.getFlujoAire());
     }
 
-    public void Caso13(double cfm, double velocidadusuario, double diaEqv)
+    public void Caso13(double cfm, double diaEqv)
     {
         int i = 0;
         int indexListDia = -1;
@@ -719,8 +696,7 @@ public class Casos {
             for (List<ClasificacionListaVelocidad> lista :Listas.listaVelocidadPPA)
                 if (cfm == lista.get(indexPerdida).cfm && cfm != -1)
                 {
-                    double velocidad = 0;
-                    velocidad = lista.get(indexPerdida).velocidad;
+                    double velocidad = lista.get(indexPerdida).velocidad;
                     setGetInter.setVelocidadFlujoAire(velocidad);
                     break;
                 }
@@ -859,14 +835,12 @@ public class Casos {
         operacion.calculoArea(inter.getDiametroEqvFinal());
         operacion.calculoVelDiaEqv(flujoAire);
 
-        DimDucto_Temporal objDim = new DimDucto_Temporal();
-
-        double valorViscoCinematica = Double.parseDouble(objDim.textViewViscoCinematica.getText().toString());
+        double valorViscoCinematica = DimDucto_Temporal.viscocidadCinematica;
         operacion.calculoNumeroReynolds(operacion.getVelocidadDiametro(), inter.getDiametroEqvFinal(), valorViscoCinematica);
 
         operacion.calculoFactorFriccion(inter.getDiametroEqvFinal());
 
-        double aireDensidad = Double.parseDouble(objDim.textViewDensidadAire.getText().toString());
+        double aireDensidad = DimDucto_Temporal.densidadAire;
         operacion.calculoPresionVelocidad(aireDensidad);
 
         operacion.calculoPerdidaFriccion(inter.getDiametroEqvFinal());

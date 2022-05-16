@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
@@ -15,38 +14,35 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import net.refriglobal.hvactools.ClasificacionListas.ClasificacionListaPPA;
-import net.refriglobal.hvactools.ClasificacionListas.ClasificacionListaVelocidad;
 import net.refriglobal.hvactools.ClasificacionListas.ClasificasionListaPerdida;
-import net.refriglobal.hvactools.ClasificacionListas.LadoRectangular;
 import net.refriglobal.hvactools.ClasificacionListas.Listas;
 import net.refriglobal.hvactools.Operaciones.Calculos;
 import net.refriglobal.hvactools.Operaciones.Casos;
 import net.refriglobal.hvactools.Operaciones.DimRectangular;
 import net.refriglobal.hvactools.Operaciones.Interpolaciones;
 
-import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Locale;
 
 public class DimDucto_Temporal extends AppCompatActivity
 {
     Spinner condicionesAmbiente;
-    public static TextView textViewDensidadAire, textViewViscoCinematica, textViewCalorEspcf,
-                           textViewFactorEnergia;
-    public static TextView textViewDiaEqvFinal, textViewAreaFlujo, textViewVelFluidoFinal,
-                           textViewNumReynolds, textViewPerdFricion, textViewFactorFriccion,
-                           textViewPresionVelocidad;
+    public TextView textViewDensidadAire, textViewViscoCinematica, textViewCalorEspcf,
+                    textViewFactorEnergia;
 
-    public static TextView txtvDensidadAireUnidad, txtvViscosidadCinematica, txtvCalorEspecifico,
-                           txtvFactorEnergia, txtvCaudalUnidad, txtvWCUnidad, txtvVelUnidad, txtvDiaUnidad,
-                           txtvLadoA, txtvLadoB, txtvDiaUnidad2, txtvAreaFlujoUnidad, txtvVelUnidad2,
-                           txtvPresionVelUnidad, txtvWCUnidad2;
+    public TextView textViewDiaEqvFinal, textViewAreaFlujo, textViewVelFluidoFinal,
+                    textViewNumReynolds, textViewPerdFricion, textViewFactorFriccion,
+                    textViewPresionVelocidad;
+
+    public TextView txtvDensidadAireUnidad, txtvViscosidadCinematicaUnidad, txtvCalorEspecifico,
+                    txtvFactorEnergia, txtvCaudalUnidad, txtvWCUnidad, txtvVelUnidad, txtvDiaUnidad,
+                    txtvLadoA, txtvLadoB, txtvDiaUnidad2, txtvAreaFlujoUnidad, txtvVelUnidad2,
+                    txtvPresionVelUnidad, txtvWCUnidad2;
 
     RadioButton chkCaudal, chkPerdEstatica, chkVelocidad, chkDiaEqv;
-    public static EditText edTextCFM, edTextPerdEstatica, edTextVelocidad, edTextDiaEqv,
+    public EditText edTextCFM, edTextPerdEstatica, edTextVelocidad, edTextDiaEqv,
                            edTextLadoADucto, edTextLadoBDucto;
 
     int idCFM, idPerdida, idVelocidad, idDiaEqv;
@@ -54,6 +50,8 @@ public class DimDucto_Temporal extends AppCompatActivity
     boolean isOpen = false;
     boolean configSI = false;
     boolean configUS = true;
+
+    public static double viscocidadCinematica, densidadAire, calorEspecifico, factorEnergia;
 
     FloatingActionButton btnConfigUnidad, fabSI, fabUS;
     Animation fabAbrir, fabCerrar, fabRotarExpandir, fabRotarContraer;
@@ -76,7 +74,7 @@ public class DimDucto_Temporal extends AppCompatActivity
         textViewFactorFriccion = findViewById(R.id.textViewFactorFriccion);
         textViewPresionVelocidad = findViewById(R.id.textViewPresionVelocidad);
         txtvDensidadAireUnidad = findViewById(R.id.textView7);
-        txtvViscosidadCinematica = findViewById(R.id.textView8);
+        txtvViscosidadCinematicaUnidad = findViewById(R.id.textView8);
         txtvCalorEspecifico = findViewById(R.id.textView9);
         txtvFactorEnergia = findViewById(R.id.textView10);
         txtvCaudalUnidad = findViewById(R.id.textView);
@@ -139,32 +137,42 @@ public class DimDucto_Temporal extends AppCompatActivity
                 String select1 = condicionesAmbiente.getSelectedItem().toString();
                 if (select1.equals("10°C(50°F) Aire 97% RH 1 atm"))
                 {
-                    textViewDensidadAire.setText("0.0778 ");    textViewViscoCinematica.setText("1.5285e-4 ");
-                    textViewCalorEspcf.setText("0.24 ");      textViewFactorEnergia.setText("1.09 ");
+                    textViewDensidadAire.setText("0.0778 ");    densidadAire = 0.0778;
+                    textViewViscoCinematica.setText("1.5285e-4 ");  viscocidadCinematica = 1.5285e-4;
+                    textViewCalorEspcf.setText("0.24 ");    calorEspecifico = 0.24;
+                    textViewFactorEnergia.setText("1.09 "); factorEnergia = 1.09;
                 }
 
                 if (select1.equals("20°C(68°F) Aire STP"))
                 {
-                    textViewDensidadAire.setText("0.0752 ");    textViewViscoCinematica.setText("1.6253e-4 ");
-                    textViewCalorEspcf.setText("0.24 ");      textViewFactorEnergia.setText("1.08 ");
+                    textViewDensidadAire.setText("0.0752 ");    densidadAire = 0.0752;
+                    textViewViscoCinematica.setText("1.6253e-4 ");  viscocidadCinematica = 1.6253e-4;
+                    textViewCalorEspcf.setText("0.24 ");    calorEspecifico = 0.24;
+                    textViewFactorEnergia.setText("1.08 "); factorEnergia = 1.08;
                 }
 
                 if (select1.equals("23.9°C(75°F) Aire 50% RH 1 atm"))
                 {
-                    textViewDensidadAire.setText("0.0739 ");    textViewViscoCinematica.setText("1.6738e-4 ");
-                    textViewCalorEspcf.setText("0.24 ");      textViewFactorEnergia.setText("1.05 ");
+                    textViewDensidadAire.setText("0.0739 ");    densidadAire = 0.0739;
+                    textViewViscoCinematica.setText("1.6738e-4 ");  viscocidadCinematica = 1.6738e-4;
+                    textViewCalorEspcf.setText("0.24 ");    calorEspecifico = 0.24;
+                    textViewFactorEnergia.setText("1.05 "); factorEnergia = 1.05;
                 }
 
                 if (select1.equals("40°C(104°F) Aire 23% RH 1 atm"))
                 {
-                    textViewDensidadAire.setText("0.0704 ");    textViewViscoCinematica.setText("1.8191e-4 ");
-                    textViewCalorEspcf.setText("0.24 ");      textViewFactorEnergia.setText("1.01 ");
+                    textViewDensidadAire.setText("0.0704 ");    densidadAire = 0.0704;
+                    textViewViscoCinematica.setText("1.8191e-4 ");  viscocidadCinematica = 1.8191e-4;
+                    textViewCalorEspcf.setText("0.24 ");    calorEspecifico = 0.24;
+                    textViewFactorEnergia.setText("1.01 "); factorEnergia = 1.01;
                 }
 
                 if (select1.equals("50°C(122°F) Aire 11% RH 1 atm"))
                 {
-                    textViewDensidadAire.setText("0.0682 ");    textViewViscoCinematica.setText("1.9267e-4 ");
-                    textViewCalorEspcf.setText("0.24 ");      textViewFactorEnergia.setText("0.96 ");
+                    textViewDensidadAire.setText("0.0682 ");    densidadAire = 0.0682;
+                    textViewViscoCinematica.setText("1.9267e-4 ");  viscocidadCinematica = 1.9267e-4;
+                    textViewCalorEspcf.setText("0.24 ");    calorEspecifico = 0.24;
+                    textViewFactorEnergia.setText("0.96 "); factorEnergia = 0.96;
                 }
             }
 
@@ -174,34 +182,23 @@ public class DimDucto_Temporal extends AppCompatActivity
             }
         });
 
-        btnConfigUnidad.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AnimacionBoton();
-            }
+        btnConfigUnidad.setOnClickListener(v -> AnimacionBoton());
+
+        fabSI.setOnClickListener(v -> {
+            AnimacionBoton();
+            Toast.makeText(DimDucto_Temporal.this, "Sistema metrico", Toast.LENGTH_SHORT).show();
+            configSI = true;
+            configUS = false;
+            cambioUnidad();
+
         });
 
-        fabSI.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AnimacionBoton();
-                Toast.makeText(DimDucto_Temporal.this, "Sistema metrico", Toast.LENGTH_SHORT).show();
-                configSI = true;
-                configUS = false;
-                cambioUnidad();
-
-            }
-        });
-
-        fabUS.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AnimacionBoton();
-                Toast.makeText(DimDucto_Temporal.this, "Sistema US", Toast.LENGTH_SHORT).show();
-                configSI = false;
-                configUS = true;
-                cambioUnidad();
-            }
+        fabUS.setOnClickListener(v -> {
+            AnimacionBoton();
+            Toast.makeText(DimDucto_Temporal.this, "Sistema US", Toast.LENGTH_SHORT).show();
+            configSI = false;
+            configUS = true;
+            cambioUnidad();
         });
 
         Listas objListas = new Listas();
@@ -236,7 +233,7 @@ public class DimDucto_Temporal extends AppCompatActivity
 
     private void cambioUnidad()
     {
-        if (configSI == true) //Conversion de US a Metrico.
+        if (configSI) //Conversion de US a Metrico.
         {
                 //Unidad anterior.
                 String cadenaUnidad = txtvCaudalUnidad.getText().toString();
@@ -279,7 +276,7 @@ public class DimDucto_Temporal extends AppCompatActivity
 
             if (cadenaUnidad.equals("cfm") && textViewDiaEqvFinal.length() > 0)
             {
-                double valorDiaEqvmm= Double.parseDouble(textViewDiaEqvFinal.getText().toString()) * 25.400;
+                double valorDiaEqvmm = Double.parseDouble(textViewDiaEqvFinal.getText().toString()) * 25.400;
                 textViewDiaEqvFinal.setText(String.format(Locale.getDefault(), "%.1f", valorDiaEqvmm) + " ");
             }
 
@@ -308,7 +305,7 @@ public class DimDucto_Temporal extends AppCompatActivity
             }
 
             txtvDensidadAireUnidad.setText(R.string.Kg_m3);
-            txtvViscosidadCinematica.setText(R.string.centistokes);
+            txtvViscosidadCinematicaUnidad.setText(R.string.centistokes);
             txtvCalorEspecifico.setText(R.string.KJ_KgC);
             txtvFactorEnergia.setText(R.string.W_C_Ls);
             txtvCaudalUnidad.setText(R.string.Ls);
@@ -325,7 +322,7 @@ public class DimDucto_Temporal extends AppCompatActivity
 
         }
 
-        if (configUS == true)
+        if (configUS)
         {
             String cadenaUnidad = txtvCaudalUnidad.getText().toString();
 
@@ -395,7 +392,7 @@ public class DimDucto_Temporal extends AppCompatActivity
             }
 
             txtvDensidadAireUnidad.setText(R.string.lb_ft3);
-            txtvViscosidadCinematica.setText(R.string.lb_fth);
+            txtvViscosidadCinematicaUnidad.setText(R.string.lb_fth);
             txtvCalorEspecifico.setText(R.string.Btu_lbF);
             txtvFactorEnergia.setText(R.string.Btu_hFcfm);
             txtvCaudalUnidad.setText(R.string.cfm);
@@ -416,37 +413,37 @@ public class DimDucto_Temporal extends AppCompatActivity
     @SuppressLint({"DefaultLocale", "SetTextI18n"})
     public void calcular(View view)
     {
-        if (chkCaudal.isChecked() == true && chkPerdEstatica.isChecked() == true)
+        if (chkCaudal.isChecked() && chkPerdEstatica.isChecked())
         {
             if (edTextCFM.getText().length() > 0 && edTextPerdEstatica.getText().length() > 0)
                 MetodoCaudalPerdEstatica();
         }
 
-        if (chkCaudal.isChecked() == true && chkVelocidad.isChecked() == true)
+        if (chkCaudal.isChecked() && chkVelocidad.isChecked())
         {
             if (edTextCFM.getText().length() > 0 && edTextVelocidad.getText().length() > 0)
                 MetodoCaudalVelocidad();
         }
 
-        if (chkCaudal.isChecked() == true && chkDiaEqv.isChecked() == true)
+        if (chkCaudal.isChecked() && chkDiaEqv.isChecked())
         {
             if (edTextCFM.getText().length() > 0 && edTextDiaEqv.getText().length() > 0)
                 MetodoCaudalDiaEqv();
         }
 
-        if (chkPerdEstatica.isChecked() == true && chkVelocidad.isChecked() == true)
+        if (chkPerdEstatica.isChecked() && chkVelocidad.isChecked())
         {
             if (edTextPerdEstatica.getText().length() > 0 && edTextVelocidad.getText().length() > 0)
                 MetodoPerdidaVelocidad();
         }
 
-        if (chkPerdEstatica.isChecked() == true && chkDiaEqv.isChecked() == true)
+        if (chkPerdEstatica.isChecked() && chkDiaEqv.isChecked())
         {
             if (edTextPerdEstatica.getText().length() > 0 && edTextDiaEqv.getText().length() > 0)
                 MetodoPerdidaDiaEqv();
         }
 
-        if (chkVelocidad.isChecked() == true && chkDiaEqv.isChecked() == true)
+        if (chkVelocidad.isChecked() && chkDiaEqv.isChecked())
         {
             if (edTextVelocidad.getText().length() > 0 && edTextDiaEqv.getText().length() > 0)
                 MetodoVelDiaEqv();
@@ -464,8 +461,16 @@ public class DimDucto_Temporal extends AppCompatActivity
         boolean resultadosFinales = false;
         double flujoArie, perdidaEstatica;
 
-        flujoArie = Double.parseDouble(edTextCFM.getText().toString()); //CFM, conversion de variable.
-        perdidaEstatica = Double.parseDouble(edTextPerdEstatica.getText().toString()); //Perdida, conversion de variable.
+        flujoArie = Double.parseDouble(edTextCFM.getText().toString()); //CFM
+        perdidaEstatica = Double.parseDouble(edTextPerdEstatica.getText().toString()); //Perdida in-H2O/100 Ft
+
+        /*Se convierten los valores introducidos por el usuario en SI al sistema US
+        * ya que el codigo esta escrito para operar con el sitema US*/
+        if (configSI)
+        {
+            flujoArie = RedondearDecimal(flujoArie*2.119 ,0)  ; //CFM, conversion de variable.
+            perdidaEstatica = RedondearDecimal(perdidaEstatica/8.173,2); //Perdida, conversion de variable.
+        }
 
         //Se restablercen a cero los valores del calculo anterior.
         Interpolaciones setInfo = new Interpolaciones();
@@ -478,7 +483,7 @@ public class DimDucto_Temporal extends AppCompatActivity
 
         int indexListaPerdida = -1;
 
-        /**Obtener en este punto la posicion de la lista de perdida, de la perdida introducida por el usario*/
+        /*Obtener en este punto la posicion de la lista de perdida, de la perdida introducida por el usario*/
         int i = 0;
         while (i < Listas.listaPerdida.size())
         {
@@ -490,7 +495,7 @@ public class DimDucto_Temporal extends AppCompatActivity
             i++;
         }
 
-        /**Caso1: la perdida y flujo introducido por el usuario coincide con los valores obtenidos de la lista*/
+        /*Caso1: la perdida y flujo introducido por el usuario coincide con los valores obtenidos de la lista*/
         if (indexListaPerdida >= 0)
             for (List<ClasificacionListaPPA> listaDia: Listas.listaPPA)
             {
@@ -503,11 +508,24 @@ public class DimDucto_Temporal extends AppCompatActivity
                         Casos infoCaso = new Casos();
                         infoCaso.Caso1(diaEqv, flujoArie, indexListaPerdida);
 
-                        if (chkDiaEqv.isChecked() == false)
-                            edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.2f", diaEqv));
+                        //************
+                        if (configSI)
+                        {
+                            if (!chkDiaEqv.isChecked())
+                                edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.1f", (diaEqv *25.4) ));
 
-                        if (chkVelocidad.isChecked() == false)
-                            edTextVelocidad.setText(String.format(Locale.getDefault(), "%.1f", infoCaso.getVelocidadDiametro()));
+                            if (!chkVelocidad.isChecked())
+                                edTextVelocidad.setText(String.format(Locale.getDefault(), "%.3f", (infoCaso.getVelocidadDiametro() / 196.850) ));
+                        }
+
+                        if (configUS)
+                        {
+                            if (!chkDiaEqv.isChecked())
+                                edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.2f", diaEqv));
+
+                            if (!chkVelocidad.isChecked())
+                                edTextVelocidad.setText(String.format(Locale.getDefault(), "%.1f", infoCaso.getVelocidadDiametro()));
+                        }
 
                         resultados();
                         resultadosFinales = true;
@@ -519,28 +537,40 @@ public class DimDucto_Temporal extends AppCompatActivity
                 }
             }
 
-        /**Caso2: perdida coincide, el flujo no.
+        /*Caso2: perdida coincide, el flujo no.
         la perdida introducida por el usuario coincide con la grafica, pero flujo introducido por
         el usuario no coincide con los valores de la grafica.
         Se realizara interpolacion en el flujo de aire y diametros*/
-        if (indexListaPerdida >= 0 && resultadosFinales == false)
+        if (indexListaPerdida >= 0 && !resultadosFinales)
         {
             Casos infoCaso = new Casos();
             infoCaso.Caso2(flujoArie, indexListaPerdida);
 
             Interpolaciones datoInter = new Interpolaciones();
 
-            if (chkDiaEqv.isChecked() == false)
-                edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.2f", datoInter.getDiametroEqvFinal()));
+            if (configSI)
+            {
+                if (!chkDiaEqv.isChecked())
+                    edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.1f", datoInter.getDiametroEqvFinal()*25.4));
 
-            if (chkVelocidad.isChecked() == false)
-                edTextVelocidad.setText(String.format(Locale.getDefault(),"%.1f", datoInter.getVelocidadFlujoAire()));
+                if (!chkVelocidad.isChecked())
+                    edTextVelocidad.setText(String.format(Locale.getDefault(),"%.3f", datoInter.getVelocidadFlujoAire()/ 196.850));
+            }
+
+            if (configUS)
+            {
+                if (!chkDiaEqv.isChecked())
+                    edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.2f", datoInter.getDiametroEqvFinal()));
+
+                if (!chkVelocidad.isChecked())
+                    edTextVelocidad.setText(String.format(Locale.getDefault(),"%.1f", datoInter.getVelocidadFlujoAire()));
+            }
+
 
             resultados(); //muestra los resultados en los textView.
-            resultadosFinales = true;
         }
 
-        /**Caso 3: si el indice de perdida continua == -1, significa que la perdida introducida por el usuario
+        /*Caso 3: si el indice de perdida continua == -1, significa que la perdida introducida por el usuario
          * no es un valor fijo de la lista de perdida, por ende se requiere interpolacion*/
         if (indexListaPerdida == -1)
         {
@@ -556,15 +586,25 @@ public class DimDucto_Temporal extends AppCompatActivity
 
                     Interpolaciones datoInter = new Interpolaciones();
 
-                    if (chkDiaEqv.isChecked() == false)
-                        edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.2f", datoInter.getDiametroEqvFinal()));
+                    if (configSI)
+                    {
+                        if (!chkDiaEqv.isChecked())
+                            edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.1f", datoInter.getDiametroEqvFinal()*25.4));
 
-                    if (chkVelocidad.isChecked() == false)
-                        edTextVelocidad.setText(String.format(Locale.getDefault(),"%.1f", datoInter.getVelocidadFlujoAire()));
+                        if (!chkVelocidad.isChecked())
+                            edTextVelocidad.setText(String.format(Locale.getDefault(),"%.3f", datoInter.getVelocidadFlujoAire()/ 196.850));
+                    }
+
+                    if (configUS)
+                    {
+                        if (!chkDiaEqv.isChecked())
+                            edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.2f", datoInter.getDiametroEqvFinal()));
+
+                        if (!chkVelocidad.isChecked())
+                            edTextVelocidad.setText(String.format(Locale.getDefault(),"%.1f", datoInter.getVelocidadFlujoAire()));
+                    }
 
                     resultados(); //muestra los resultados en los textView.
-                    resultadosFinales = true;
-
                     break;
                 }
             }
@@ -573,10 +613,16 @@ public class DimDucto_Temporal extends AppCompatActivity
 
     public void MetodoCaudalVelocidad()
     {
-        double perdidaEstatica = 0;
         boolean resultadosFinales = false;
+
         double flujoAire = Double.parseDouble(edTextCFM.getText().toString()); //CFM, conversion de variable.
         double velocidaUsuario = Double.parseDouble(edTextVelocidad.getText().toString());
+
+        if (configSI)
+        {
+            flujoAire = RedondearDecimal(flujoAire*2.119 ,0);
+            velocidaUsuario = RedondearDecimal(velocidaUsuario*196.850,1);
+        }
 
         //Se restablercen a cero los valores del calculo anterior.
         Interpolaciones setInfo = new Interpolaciones();
@@ -590,36 +636,60 @@ public class DimDucto_Temporal extends AppCompatActivity
 
         //Caso 4: el flujo y la velocidad conciden con los valores de la lista de velocidad.
         Casos infoCaso = new Casos();
-        perdidaEstatica = infoCaso.Caso4(flujoAire, velocidaUsuario);
+        double perdidaEstatica = infoCaso.Caso4(flujoAire, velocidaUsuario);
 
         if (perdidaEstatica > 0)
         {
-            if (chkPerdEstatica.isChecked() == false)
-                edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", perdidaEstatica));
-
             Interpolaciones inter = new Interpolaciones();
 
-            if (chkDiaEqv.isChecked() == false)
-                edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.2f", inter.getDiametroEqvFinal()));
+            if (configSI)
+            {
+                if (!chkPerdEstatica.isChecked())
+                    edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", perdidaEstatica*8.173));
+
+                if (!chkDiaEqv.isChecked())
+                    edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.1f", inter.getDiametroEqvFinal()*25.4));
+            }
+
+            if (configUS)
+            {
+                if (!chkPerdEstatica.isChecked())
+                    edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", perdidaEstatica));
+
+                if (!chkDiaEqv.isChecked())
+                    edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.2f", inter.getDiametroEqvFinal()));
+            }
 
             resultados(); //muestra los resultados en los textView.
             resultadosFinales = true;
         }
 
         //Caso 5: los CFM no coinciden con la lista y la velocidad si.
-        if (resultadosFinales == false)
+        if (!resultadosFinales)
         {
             perdidaEstatica = infoCaso.Caso5(flujoAire, velocidaUsuario);
 
             if (perdidaEstatica > 0)
             {
-                if (chkPerdEstatica.isChecked() == false)
-                    edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", perdidaEstatica));
-
                 Interpolaciones inter = new Interpolaciones();
 
-                if (chkDiaEqv.isChecked() == false)
-                    edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.2f", inter.getDiametroEqvFinal()));
+                if (configSI)
+                {
+                    if (!chkPerdEstatica.isChecked())
+                        edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", perdidaEstatica*8.173));
+
+                    if (!chkDiaEqv.isChecked())
+                        edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.1f", inter.getDiametroEqvFinal()*25.4));
+                }
+
+                if (configUS)
+                {
+                    if (!chkPerdEstatica.isChecked())
+                        edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", perdidaEstatica));
+
+                    if (!chkDiaEqv.isChecked())
+                        edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.2f", inter.getDiametroEqvFinal()));
+                }
 
                 resultados(); //muestra los resultados en los textView.
                 resultadosFinales = true;
@@ -627,24 +697,36 @@ public class DimDucto_Temporal extends AppCompatActivity
         }
 
         //Caso 6: Los CFM coinciden o no, y la velocidad no.
-        if (resultadosFinales == false)
+        if (!resultadosFinales)
         {
             perdidaEstatica = infoCaso.Caso6(flujoAire, velocidaUsuario);
             if (perdidaEstatica > 0)
             {
-                if (chkPerdEstatica.isChecked() == false)
-                    edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", perdidaEstatica));
-
                 Interpolaciones inter = new Interpolaciones();
 
-                if (chkDiaEqv.isChecked() == false)
-                    edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.2f", inter.getDiametroEqvFinal()));
+                if (configSI)
+                {
+                    if (!chkPerdEstatica.isChecked())
+                        edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", perdidaEstatica*8.173));
+
+                    if (!chkDiaEqv.isChecked())
+                        edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.1f", inter.getDiametroEqvFinal()*25.4));
+                }
+
+                if (configUS)
+                {
+                    if (!chkPerdEstatica.isChecked())
+                        edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", perdidaEstatica));
+
+                    if (!chkDiaEqv.isChecked())
+                        edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.2f", inter.getDiametroEqvFinal()));
+                }
 
                 resultados(); //muestra los resultados en los textView.
-                resultadosFinales = true;
             }
         }
 
+        //TODO: Pendiente.
         /*Caso 7: pendiente cuando la velocidad es inferior al la velocida minima (200)
         * y superior a la maxima (12000)*/
 
@@ -652,10 +734,15 @@ public class DimDucto_Temporal extends AppCompatActivity
 
     public void MetodoCaudalDiaEqv()
     {
-        double perdidaEstatica = 0;
         boolean resultadosFinales = false;
         double flujoAire = Double.parseDouble(edTextCFM.getText().toString()); //CFM, conversion de variable.
         double DiaEqvUsuario = Double.parseDouble(edTextDiaEqv.getText().toString());
+
+        if (configSI)
+        {
+            flujoAire = RedondearDecimal(flujoAire*2.119 ,0);
+            DiaEqvUsuario = RedondearDecimal(DiaEqvUsuario / 25.4,1);
+        }
 
         //Se restablercen a cero los valores del calculo anterior.
         Interpolaciones setInfo = new Interpolaciones();
@@ -670,18 +757,28 @@ public class DimDucto_Temporal extends AppCompatActivity
         //Caso 7: el flujo y diametro conciden con los valores de la lista ListaPPA
         Casos infoCaso = new Casos();
         infoCaso.Caso7(flujoAire, DiaEqvUsuario);
-        perdidaEstatica = inter.getPerdidaFinal();
+        double perdidaEstatica = inter.getPerdidaFinal();
 
         if (perdidaEstatica > 0)
         {
-            edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", perdidaEstatica));
-            edTextVelocidad.setText(String.format(Locale.getDefault(), "%.1f", inter.getVelocidadFlujoAire()));
+            if (configSI)
+            {
+                edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", perdidaEstatica*8.173));
+                edTextVelocidad.setText(String.format(Locale.getDefault(), "%.1f", inter.getVelocidadFlujoAire()/196.850));
+            }
+
+            if (configUS)
+            {
+                edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", perdidaEstatica));
+                edTextVelocidad.setText(String.format(Locale.getDefault(), "%.1f", inter.getVelocidadFlujoAire()));
+            }
+
             resultados();
             resultadosFinales = true;
         }
 
         //Caso 8: el diametro coincide y el caudal no coincide con los valores de la grafica
-        if (resultadosFinales == false)
+        if (!resultadosFinales)
         {
             perdidaEstatica = infoCaso.Caso8(flujoAire, DiaEqvUsuario);
 
@@ -690,7 +787,7 @@ public class DimDucto_Temporal extends AppCompatActivity
         }
 
         //Caso 9: el diametro no coincide y el caudal no coincide con los valores de la grafica
-        if (resultadosFinales == false)
+        if (!resultadosFinales)
         {
             perdidaEstatica = infoCaso.Caso9(flujoAire, DiaEqvUsuario);
 
@@ -698,10 +795,19 @@ public class DimDucto_Temporal extends AppCompatActivity
                 resultadosFinales = true;
         }
 
-        if (resultadosFinales == true)
+        if (resultadosFinales)
         {
-            edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", perdidaEstatica));
-            edTextVelocidad.setText(String.format(Locale.getDefault(), "%.1f", inter.getVelocidadFlujoAire()));
+            if (configSI)
+            {
+                edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", perdidaEstatica*8.173));
+                edTextVelocidad.setText(String.format(Locale.getDefault(), "%.1f", inter.getVelocidadFlujoAire()/196.850));
+            }
+
+            if (configUS)
+            {
+                edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", perdidaEstatica));
+                edTextVelocidad.setText(String.format(Locale.getDefault(), "%.1f", inter.getVelocidadFlujoAire()));
+            }
             resultados();
         }
     }
@@ -711,6 +817,12 @@ public class DimDucto_Temporal extends AppCompatActivity
         boolean resultadosFinales = false;
         double perdidaUsuario = Double.parseDouble(edTextPerdEstatica.getText().toString());
         double velocidadUsuario = Double.parseDouble(edTextVelocidad.getText().toString());
+
+        if (configSI)
+        {
+            perdidaUsuario = RedondearDecimal(perdidaUsuario/8.173,2); //Perdida, conversion de variable.
+            velocidadUsuario = RedondearDecimal(velocidadUsuario*196.850,1);
+        }
 
         //Se restablercen a cero los valores del calculo anterior.
         Interpolaciones setInfo = new Interpolaciones();
@@ -729,7 +841,7 @@ public class DimDucto_Temporal extends AppCompatActivity
             resultadosFinales = true;
 
         //Caso 11: la perdida no coincide la velocidad si.
-        if (resultadosFinales == false)
+        if (!resultadosFinales)
         {
             infoCasos.Caso11(perdidaUsuario, velocidadUsuario);
 
@@ -738,19 +850,29 @@ public class DimDucto_Temporal extends AppCompatActivity
         }
 
         //Caso 12: la perdida y la velocidad no coinciden
-        if (resultadosFinales == false)
+        if (!resultadosFinales)
         {
             infoCasos.Caso12(perdidaUsuario, velocidadUsuario);
             if (setInfo.getFlujoAire() > 0 && setInfo.getDiametroEqvFinal() > 0)
                 resultadosFinales = true;
         }
 
-        if (resultadosFinales == true)
+        if (resultadosFinales)
         {
             Interpolaciones getInfo = new Interpolaciones();
 
-            edTextCFM.setText(String.format(Locale.getDefault(), "%.0f", getInfo.getFlujoAire()));
-            edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.2f", getInfo.getDiametroEqvFinal()));
+            if (configSI)
+            {
+                edTextCFM.setText(String.format(Locale.getDefault(), "%.0f", getInfo.getFlujoAire()/2.119));
+                edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.1f", getInfo.getDiametroEqvFinal()*25.4));
+            }
+
+            if (configUS)
+            {
+                edTextCFM.setText(String.format(Locale.getDefault(), "%.0f", getInfo.getFlujoAire()));
+                edTextDiaEqv.setText(String.format(Locale.getDefault(), "%.1f", getInfo.getDiametroEqvFinal()));
+            }
+
             Casos operaciones = new Casos();
             operaciones.OperacionesFinales(getInfo.getFlujoAire());
             resultados();
@@ -760,8 +882,14 @@ public class DimDucto_Temporal extends AppCompatActivity
     public void MetodoVelDiaEqv()
     {
         boolean resultadosFinales = false;
-        double velocidaUsuario = Double.parseDouble(edTextVelocidad.getText().toString());
+        double velocidadUsuario = Double.parseDouble(edTextVelocidad.getText().toString());
         double DiaEqvUsuario = Double.parseDouble(edTextDiaEqv.getText().toString());
+
+        if (configSI)
+        {
+            velocidadUsuario = RedondearDecimal(velocidadUsuario*196.850,1);
+            DiaEqvUsuario = RedondearDecimal(DiaEqvUsuario/25.4,1);
+        }
 
         //Se restablercen a cero los valores del calculo anterior.
         Interpolaciones setGetInfo = new Interpolaciones();
@@ -769,7 +897,7 @@ public class DimDucto_Temporal extends AppCompatActivity
         setGetInfo.setPerdidaFinal(0.00);
 
         //Calculo de los cfm en funcion de la velocidad y diametro del usuario.
-        double cfm = velocidaUsuario * (Math.PI * Math.pow((DiaEqvUsuario/24), 2));
+        double cfm = velocidadUsuario * (Math.PI * Math.pow((DiaEqvUsuario/24), 2));
         cfm = Math.round(cfm*100.0)/100.0;
 
         //Caso 7: los cfm calculados y el diametro conciden con los valores de la lista ListaPPA
@@ -779,31 +907,41 @@ public class DimDucto_Temporal extends AppCompatActivity
         //Se restablece al valor del usuario ya que
         //en el metodo de interpolacion del caso 7 se obtiene la velocidad de la lista de la grafica.
         setGetInfo.setDiametroEqv(DiaEqvUsuario);
-        setGetInfo.setVelocidadFlujoAire(velocidaUsuario);
+        setGetInfo.setVelocidadFlujoAire(velocidadUsuario);
 
         if (setGetInfo.getPerdidaFinal() > 0)
             resultadosFinales = true;
 
-        if (resultadosFinales == false)
+        if (!resultadosFinales)
         {
             //Caso 13: los cfm calculados no coinciden con la lista y el diametro si concide con los valores de la lista ListaPPA
-            infoCaso.Caso13(cfm, velocidaUsuario, DiaEqvUsuario);
+            infoCaso.Caso13(cfm, DiaEqvUsuario);
             if (setGetInfo.getPerdidaFinal() > 0)
                 resultadosFinales = true;
         }
 
-        if (resultadosFinales == false)
+        if (!resultadosFinales)
         {
             //Caso 14: los cfm calculados y el diametro no concide con los valores de la lista ListaPPA
-            infoCaso.Caso14(cfm, velocidaUsuario, DiaEqvUsuario);
+            infoCaso.Caso14(cfm, velocidadUsuario, DiaEqvUsuario);
             if (setGetInfo.getPerdidaFinal() > 0)
                 resultadosFinales = true;
         }
 
-        if (resultadosFinales == true)
+        if (resultadosFinales)
         {
-            edTextCFM.setText(String.format(Locale.getDefault(), "%.0f", cfm));
-            edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", setGetInfo.getPerdidaFinal()));
+            if (configSI)
+            {
+                edTextCFM.setText(String.format(Locale.getDefault(), "%.0f", cfm/2.119));
+                edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", setGetInfo.getPerdidaFinal()*8.173));
+            }
+
+            if (configUS)
+            {
+                edTextCFM.setText(String.format(Locale.getDefault(), "%.0f", cfm));
+                edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", setGetInfo.getPerdidaFinal()));
+            }
+
             Casos operaciones = new Casos();
             operaciones.OperacionesFinales(cfm);
             resultados();
@@ -815,6 +953,12 @@ public class DimDucto_Temporal extends AppCompatActivity
         boolean resultadosFinales = false;
         double perdidaUsuario = Double.parseDouble(edTextPerdEstatica.getText().toString());
         double DiaEqvUsuario = Double.parseDouble(edTextDiaEqv.getText().toString());
+
+        if (configSI)
+        {
+            perdidaUsuario = RedondearDecimal(perdidaUsuario/8.173,2); //Perdida, conversion de variable.
+            DiaEqvUsuario = RedondearDecimal(DiaEqvUsuario / 25.4,1);
+        }
 
         //Se restablercen a cero los valores del calculo anterior.
         Interpolaciones setGetInfo = new Interpolaciones();
@@ -832,7 +976,7 @@ public class DimDucto_Temporal extends AppCompatActivity
             resultadosFinales = true;
 
         //Caso16: la perdida no coincide el diametro si.
-        if (resultadosFinales == false)
+        if (!resultadosFinales)
         {
             infoCasos.Caso16(perdidaUsuario, DiaEqvUsuario);
 
@@ -841,7 +985,7 @@ public class DimDucto_Temporal extends AppCompatActivity
         }
 
         //Caso17: la perdida coincide el diametro no.
-        if (resultadosFinales == false)
+        if (!resultadosFinales)
         {
             infoCasos.Caso17(perdidaUsuario, DiaEqvUsuario);
 
@@ -850,7 +994,7 @@ public class DimDucto_Temporal extends AppCompatActivity
         }
 
         //Caso18: la perdida no coincide y el diametro tampoco.
-        if (resultadosFinales == false)
+        if (!resultadosFinales)
         {
             infoCasos.Caso18(perdidaUsuario, DiaEqvUsuario);
 
@@ -858,10 +1002,20 @@ public class DimDucto_Temporal extends AppCompatActivity
                 resultadosFinales = true;
         }
 
-        if (resultadosFinales == true)
+        if (resultadosFinales)
         {
-            edTextCFM.setText(String.format(Locale.getDefault(), "%.0f", setGetInfo.getFlujoAire()));
-            edTextVelocidad.setText(String.format(Locale.getDefault(), "%.1f", setGetInfo.getVelocidadFlujoAire()));
+            if (configSI)
+            {
+                edTextCFM.setText(String.format(Locale.getDefault(), "%.0f", setGetInfo.getFlujoAire()/2.119));
+                edTextVelocidad.setText(String.format(Locale.getDefault(), "%.1f", setGetInfo.getVelocidadFlujoAire()/196.850));
+            }
+
+            if (configUS)
+            {
+                edTextCFM.setText(String.format(Locale.getDefault(), "%.0f", setGetInfo.getFlujoAire()));
+                edTextVelocidad.setText(String.format(Locale.getDefault(), "%.1f", setGetInfo.getVelocidadFlujoAire()));
+            }
+
             Casos operaciones = new Casos();
             operaciones.OperacionesFinales(setGetInfo.getFlujoAire());
             resultados();
@@ -871,12 +1025,38 @@ public class DimDucto_Temporal extends AppCompatActivity
     public void resultados()
     {
         Calculos operacion = new Calculos();
-        textViewAreaFlujo.setText(String.format(Locale.getDefault(),"%.4f", operacion.getAreaDiametroEqv())+" ");
-        textViewVelFluidoFinal.setText(String.format(Locale.getDefault(), "%.1f",operacion.getVelocidadDiametro())+" ");
-        textViewNumReynolds.setText(String.format(Locale.getDefault(), "%.0f", operacion.getNumeroReynolds()));
-        textViewFactorFriccion.setText(String.format(Locale.getDefault(),"%.5f", operacion.getFactorFriccion()));
-        textViewPresionVelocidad.setText(String.format(Locale.getDefault(),"%.4f",operacion.getPresionVelocidad())+" ");
-        textViewPerdFricion.setText(String.format(Locale.getDefault(),"%.4f", operacion.getPerdidaFriccion())+" ");
+
+        if (configUS)
+        {
+            textViewAreaFlujo.setText(String.format(Locale.getDefault(),"%.4f", operacion.getAreaDiametroEqv())+" ");
+            textViewVelFluidoFinal.setText(String.format(Locale.getDefault(), "%.1f",operacion.getVelocidadDiametro())+" ");
+            textViewNumReynolds.setText(String.format(Locale.getDefault(), "%.0f", operacion.getNumeroReynolds()));
+            textViewFactorFriccion.setText(String.format(Locale.getDefault(),"%.5f", operacion.getFactorFriccion()));
+            textViewPresionVelocidad.setText(String.format(Locale.getDefault(),"%.4f",operacion.getPresionVelocidad())+" ");
+            textViewPerdFricion.setText(String.format(Locale.getDefault(),"%.4f", operacion.getPerdidaFriccion())+" ");
+        }
+
+        if (configSI)
+        {
+            textViewAreaFlujo.setText(String.format(Locale.getDefault(),"%.4f", operacion.getAreaDiametroEqv() / 10.764)+" ");
+            textViewVelFluidoFinal.setText(String.format(Locale.getDefault(), "%.1f",operacion.getVelocidadDiametro() / 196.850)+" ");
+            textViewNumReynolds.setText(String.format(Locale.getDefault(), "%.0f", operacion.getNumeroReynolds()));
+            textViewFactorFriccion.setText(String.format(Locale.getDefault(),"%.5f", operacion.getFactorFriccion()));
+            textViewPresionVelocidad.setText(String.format(Locale.getDefault(),"%.4f",operacion.getPresionVelocidad() * 249.089)+" ");
+            textViewPerdFricion.setText(String.format(Locale.getDefault(),"%.4f", operacion.getPerdidaFriccion() * 8.173)+" ");
+        }
+    }
+
+    public static Double RedondearDecimal(double valor, int numDecimales)
+    {
+        double parteEntera, resultado;
+        resultado = valor;
+        parteEntera = Math.floor(resultado);
+        resultado = (resultado - parteEntera) * Math.pow(10, numDecimales);
+        resultado = Math.round(resultado);
+        resultado = (resultado/Math.pow(10, numDecimales)) + parteEntera;
+
+        return resultado;
     }
 
     public void chkCaudalClick(View view)
@@ -1110,7 +1290,7 @@ public class DimDucto_Temporal extends AppCompatActivity
 
         double ladoB = objDim.getLadoB();
 
-        /**Calculo del diametro equivalente*/
+        /*Calculo del diametro equivalente*/
         if (ladoA > 0 && ladoB > 0)
         {
             edTextLadoADucto.setText(String.format(Locale.getDefault(), "%.1f", ladoA));
