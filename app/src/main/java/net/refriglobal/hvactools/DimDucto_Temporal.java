@@ -277,6 +277,35 @@ public class DimDucto_Temporal extends AppCompatActivity
                 edTextLadoBDucto.setText(String.format(Locale.getDefault(), "%.0f", valorLongmm));
             }
 
+            if (cadenaUnidad.equals("cfm") && textViewDiaEqvFinal.length() > 0)
+            {
+                double valorDiaEqvmm= Double.parseDouble(textViewDiaEqvFinal.getText().toString()) * 25.400;
+                textViewDiaEqvFinal.setText(String.format(Locale.getDefault(), "%.1f", valorDiaEqvmm) + " ");
+            }
+
+            if (cadenaUnidad.equals("cfm") && textViewAreaFlujo.length() > 0)
+            {
+                double valorAream2 = Double.parseDouble(textViewAreaFlujo.getText().toString()) / 10.764;
+                textViewAreaFlujo.setText(String.format(Locale.getDefault(), "%.4f", valorAream2) + " ");
+            }
+
+            if (cadenaUnidad.equals("cfm") && textViewVelFluidoFinal.length() > 0)
+            {
+                double valorVelms= Double.parseDouble(textViewVelFluidoFinal.getText().toString() ) / 196.850 ;
+                textViewVelFluidoFinal.setText(String.format(Locale.getDefault(), "%.3f", valorVelms) + " ");
+            }
+
+            if (cadenaUnidad.equals("cfm") && textViewPresionVelocidad.length() > 0)
+            {
+                double valorPresionPa = Double.parseDouble(textViewPresionVelocidad.getText().toString()) * 249.089;
+                textViewPresionVelocidad.setText(String.format(Locale.getDefault(), "%.4f", valorPresionPa) + " ");
+            }
+
+            if (cadenaUnidad.equals("cfm") && textViewPerdFricion.length() > 0)
+            {
+                double valorPerdWCFt = Double.parseDouble(textViewPerdFricion.getText().toString()) * 8.173;
+                textViewPerdFricion.setText(String.format(Locale.getDefault(), "%.4f", valorPerdWCFt) + " ");
+            }
 
             txtvDensidadAireUnidad.setText(R.string.Kg_m3);
             txtvViscosidadCinematica.setText(R.string.centistokes);
@@ -335,6 +364,36 @@ public class DimDucto_Temporal extends AppCompatActivity
                 edTextLadoBDucto.setText(String.format(Locale.getDefault(), "%.1f", valorLongPlg));
             }
 
+            if (cadenaUnidad.equals("L/s") && textViewDiaEqvFinal.length() > 0)
+            {
+                double valorDiaEqvPlg = Double.parseDouble(textViewDiaEqvFinal.getText().toString()) / 25.400;
+                textViewDiaEqvFinal.setText(String.format(Locale.getDefault(), "%.1f", valorDiaEqvPlg) + " ");
+            }
+
+            if (cadenaUnidad.equals("L/s") && textViewAreaFlujo.length() > 0)
+            {
+                double valorAreaFt2 = Double.parseDouble(textViewAreaFlujo.getText().toString()) * 10.764 ;
+                textViewAreaFlujo.setText(String.format(Locale.getDefault(), "%.4f", valorAreaFt2) + " ");
+            }
+
+            if (cadenaUnidad.equals("L/s") && textViewVelFluidoFinal.length() > 0)
+            {
+                double valorVelfpm= Double.parseDouble(textViewVelFluidoFinal.getText().toString()) * 196.850 ;
+                textViewVelFluidoFinal.setText(String.format(Locale.getDefault(), "%.1f", valorVelfpm) + " ");
+            }
+
+            if (cadenaUnidad.equals("L/s") && textViewPresionVelocidad.length() > 0)
+            {
+                double valorPresionPlgH2O = Double.parseDouble(textViewPresionVelocidad.getText().toString()) / 249.089;
+                textViewPresionVelocidad.setText(String.format(Locale.getDefault(), "%.4f", valorPresionPlgH2O) + " ");
+            }
+
+            if (cadenaUnidad.equals("L/s") && textViewPerdFricion.length() > 0)
+            {
+                double valorPerPa_m = Double.parseDouble(textViewPerdFricion.getText().toString()) / 8.173;
+                textViewPerdFricion.setText(String.format(Locale.getDefault(), "%.3f", valorPerPa_m) + " ");
+            }
+
             txtvDensidadAireUnidad.setText(R.string.lb_ft3);
             txtvViscosidadCinematica.setText(R.string.lb_fth);
             txtvCalorEspecifico.setText(R.string.Btu_lbF);
@@ -347,7 +406,7 @@ public class DimDucto_Temporal extends AppCompatActivity
             txtvLadoB.setText(R.string.in);
             txtvDiaUnidad2.setText(R.string.in);
             txtvAreaFlujoUnidad.setText(R.string.ft2);
-            txtvVelUnidad2.setText(R.string.fpm);
+            txtvVelUnidad2.setText( R.string.fpm);
             txtvPresionVelUnidad.setText(R.string.inWC);
             txtvWCUnidad2.setText(R.string.inWC_100ft);
 
@@ -812,11 +871,9 @@ public class DimDucto_Temporal extends AppCompatActivity
     public void resultados()
     {
         Calculos operacion = new Calculos();
-        DecimalFormat formatoMilDecimal1 = new DecimalFormat("###,###.#");
-        DecimalFormat formatoMil = new DecimalFormat("###,###");
         textViewAreaFlujo.setText(String.format(Locale.getDefault(),"%.4f", operacion.getAreaDiametroEqv())+" ");
-        textViewVelFluidoFinal.setText(formatoMilDecimal1.format(operacion.getVelocidadDiametro())+" ");
-        textViewNumReynolds.setText(formatoMil.format(operacion.getNumeroReynolds()));
+        textViewVelFluidoFinal.setText(String.format(Locale.getDefault(), "%.1f",operacion.getVelocidadDiametro())+" ");
+        textViewNumReynolds.setText(String.format(Locale.getDefault(), "%.0f", operacion.getNumeroReynolds()));
         textViewFactorFriccion.setText(String.format(Locale.getDefault(),"%.5f", operacion.getFactorFriccion()));
         textViewPresionVelocidad.setText(String.format(Locale.getDefault(),"%.4f",operacion.getPresionVelocidad())+" ");
         textViewPerdFricion.setText(String.format(Locale.getDefault(),"%.4f", operacion.getPerdidaFriccion())+" ");
