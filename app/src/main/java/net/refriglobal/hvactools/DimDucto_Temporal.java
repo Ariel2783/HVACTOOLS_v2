@@ -1285,6 +1285,10 @@ public class DimDucto_Temporal extends AppCompatActivity
     public void dimLadoABiseccion()
     {
         double ladoA = Double.parseDouble(edTextLadoADucto.getText().toString());
+
+        if (configSI)
+            ladoA = RedondearDecimal(ladoA/25.4, 1);
+
         DimRectangular objDim = new DimRectangular();
         objDim.dimensionLadoBBiseccion(ladoA);
 
@@ -1293,12 +1297,22 @@ public class DimDucto_Temporal extends AppCompatActivity
         /*Calculo del diametro equivalente*/
         if (ladoA > 0 && ladoB > 0)
         {
-            edTextLadoADucto.setText(String.format(Locale.getDefault(), "%.1f", ladoA));
-            edTextLadoBDucto.setText(String.format(Locale.getDefault(), "%.1f", ladoB));
-
             //2009 ASHRAE Handbook Fundamentals, CHAPTER 21, pg - 21.7, eq - 25
             double diaEqvCal = (1.3 * Math.pow(ladoA*ladoB,0.625))/Math.pow((ladoA + ladoB),0.25);
-            textViewDiaEqvFinal.setText(String.format(Locale.getDefault(),"%.2f", diaEqvCal) + " ");
+
+            if (configSI)
+            {
+                edTextLadoADucto.setText(String.format(Locale.getDefault(), "%.0f", ladoA*25.4));
+                edTextLadoBDucto.setText(String.format(Locale.getDefault(), "%.0f", ladoB*25.4));
+                textViewDiaEqvFinal.setText(String.format(Locale.getDefault(),"%.1f", diaEqvCal*25.4) + " ");
+            }
+
+            if (configUS)
+            {
+                edTextLadoADucto.setText(String.format(Locale.getDefault(), "%.1f", ladoA));
+                edTextLadoBDucto.setText(String.format(Locale.getDefault(), "%.1f", ladoB));
+                textViewDiaEqvFinal.setText(String.format(Locale.getDefault(),"%.2f", diaEqvCal) + " ");
+            }
 
             Interpolaciones interSetGet = new Interpolaciones();
 

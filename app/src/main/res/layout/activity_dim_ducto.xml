@@ -199,7 +199,6 @@
                     android:layout_weight="1"
                     android:background="@android:drawable/editbox_dropdown_light_frame"
                     android:ems="10"
-                    android:hint="CFM"
                     android:importantForAutofill="no"
                     android:inputType="number"
                     android:minHeight="177dp"
@@ -243,7 +242,6 @@
                     android:layout_weight="1"
                     android:background="@android:drawable/editbox_dropdown_light_frame"
                     android:ems="10"
-                    android:hint="Ingresar valor"
                     android:inputType="numberDecimal"
                     tools:ignore="HardcodedText,TouchTargetSizeCheck,TextContrastCheck"
                     android:importantForAutofill="no" />
@@ -285,7 +283,6 @@
                     android:layout_weight="1"
                     android:background="@android:drawable/editbox_dropdown_light_frame"
                     android:ems="10"
-                    android:hint="Vel."
                     android:importantForAutofill="no"
                     android:inputType="numberDecimal"
                     tools:ignore="HardcodedText,SpeakableTextPresentCheck,TouchTargetSizeCheck,TextContrastCheck" />
@@ -327,7 +324,6 @@
                     android:layout_weight="1"
                     android:background="@android:drawable/editbox_dropdown_light_frame"
                     android:ems="10"
-                    android:hint="Dia. Eqv."
                     android:importantForAutofill="no"
                     android:inputType="numberDecimal"
                     tools:ignore="HardcodedText,TouchTargetSizeCheck,SpeakableTextPresentCheck,TextContrastCheck" />
