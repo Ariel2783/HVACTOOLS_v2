@@ -1,0 +1,20 @@
+Banners de Google AdMod
+
+ID de aplicación: ca-app-pub-5173905522225884~9977403775
+
+BannerPPA	
+	ID de la unidad de anuncios: ca-app-pub-5173905522225884/5523382661
+	
+BannerDimDucto
+	ID de la unidad de anuncios: ca-app-pub-5173905522225884/3910956088
+
+BannerCargaTermica
+	ID de la unidad de anuncios: ca-app-pub-5173905522225884/3351966158
+	
+BannerExtraccionCampana
+	ID de la unidad de anuncios: ca-app-pub-5173905522225884/7838006070	
+	
+BannerCalRefrig
+	ID de la unidad de anuncios: ca-app-pub-5173905522225884/5962404358
+	
+	

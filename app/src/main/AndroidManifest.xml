@@ -19,10 +19,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-9324779143406518~9250232464" />
+            android:value="ca-app-pub-5173905522225884~9977403775" />
 
         <activity
             android:name=".MainActivity_ppa"

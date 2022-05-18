@@ -25,6 +25,7 @@ public class MainActivity_ppa extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_ppa);
+        AdView mAdView;
 
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
@@ -32,7 +33,7 @@ public class MainActivity_ppa extends AppCompatActivity {
             }
         });
 
-        AdView mAdView = findViewById(R.id.adView);
+        mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 

@@ -23,6 +23,12 @@ import net.refriglobal.hvactools.Operaciones.Casos;
 import net.refriglobal.hvactools.Operaciones.DimRectangular;
 import net.refriglobal.hvactools.Operaciones.Interpolaciones;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+
 import java.util.List;
 import java.util.Locale;
 
@@ -60,6 +66,17 @@ public class DimDucto_Temporal extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dim_ducto);
+        AdView mAdView;
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         condicionesAmbiente = findViewById(R.id.spinner1);
         textViewDensidadAire        = findViewById(R.id.textViewDensidadAire);
@@ -142,9 +159,8 @@ public class DimDucto_Temporal extends AppCompatActivity
                     textViewCalorEspcf.setText("0.24 ");    calorEspecifico = 0.24;
                     textViewFactorEnergia.setText("1.09 "); factorEnergia = 1.09;
 
-                    if (edTextCFM.getText().length() > 0 && edTextPerdEstatica.getText().length() > 0 &&
-                        edTextVelocidad.getText().length() > 0 && edTextDiaEqv.getText().length() > 0)
-                        InicioCalculo();
+                    if (textViewAreaFlujo.getText().length() > 0)
+                        calcular(view);
                 }
 
                 if (select1.equals("20°C(68°F) Aire STP"))
@@ -154,9 +170,8 @@ public class DimDucto_Temporal extends AppCompatActivity
                     textViewCalorEspcf.setText("0.24 ");    calorEspecifico = 0.24;
                     textViewFactorEnergia.setText("1.08 "); factorEnergia = 1.08;
 
-                    if (edTextCFM.getText().length() > 0 && edTextPerdEstatica.getText().length() > 0 &&
-                            edTextVelocidad.getText().length() > 0 && edTextDiaEqv.getText().length() > 0)
-                        InicioCalculo();
+                    if (textViewAreaFlujo.getText().length() > 0)
+                        calcular(view);
                 }
 
                 if (select1.equals("23.9°C(75°F) Aire 50% RH 1 atm"))
@@ -166,9 +181,8 @@ public class DimDucto_Temporal extends AppCompatActivity
                     textViewCalorEspcf.setText("0.24 ");    calorEspecifico = 0.24;
                     textViewFactorEnergia.setText("1.05 "); factorEnergia = 1.05;
 
-                    if (edTextCFM.getText().length() > 0 && edTextPerdEstatica.getText().length() > 0 &&
-                            edTextVelocidad.getText().length() > 0 && edTextDiaEqv.getText().length() > 0)
-                        InicioCalculo();
+                    if (textViewAreaFlujo.getText().length() > 0)
+                        calcular(view);
                 }
 
                 if (select1.equals("40°C(104°F) Aire 23% RH 1 atm"))
@@ -178,9 +192,8 @@ public class DimDucto_Temporal extends AppCompatActivity
                     textViewCalorEspcf.setText("0.24 ");    calorEspecifico = 0.24;
                     textViewFactorEnergia.setText("1.01 "); factorEnergia = 1.01;
 
-                    if (edTextCFM.getText().length() > 0 && edTextPerdEstatica.getText().length() > 0 &&
-                            edTextVelocidad.getText().length() > 0 && edTextDiaEqv.getText().length() > 0)
-                        InicioCalculo();
+                    if (textViewAreaFlujo.getText().length() > 0)
+                        calcular(view);
                 }
 
                 if (select1.equals("50°C(122°F) Aire 11% RH 1 atm"))
@@ -190,9 +203,8 @@ public class DimDucto_Temporal extends AppCompatActivity
                     textViewCalorEspcf.setText("0.24 ");    calorEspecifico = 0.24;
                     textViewFactorEnergia.setText("0.96 "); factorEnergia = 0.96;
 
-                    if (edTextCFM.getText().length() > 0 && edTextPerdEstatica.getText().length() > 0 &&
-                            edTextVelocidad.getText().length() > 0 && edTextDiaEqv.getText().length() > 0)
-                        InicioCalculo();
+                    if (textViewAreaFlujo.getText().length() > 0)
+                        calcular(view);
                 }
             }
 
@@ -432,11 +444,6 @@ public class DimDucto_Temporal extends AppCompatActivity
 
     @SuppressLint({"DefaultLocale", "SetTextI18n"})
     public void calcular(View view)
-    {
-        InicioCalculo();
-    }
-
-    public void InicioCalculo()
     {
         if (chkCaudal.isChecked() && chkPerdEstatica.isChecked())
         {
