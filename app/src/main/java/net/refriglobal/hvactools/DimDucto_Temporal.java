@@ -483,7 +483,7 @@ public class DimDucto_Temporal extends AppCompatActivity
 
         if (edTextLadoADucto.getText().length() > 0)
         {
-            dimLadoABiseccion();
+            dim1(view);
         }
     }
 
@@ -1307,45 +1307,40 @@ public class DimDucto_Temporal extends AppCompatActivity
         }
     }
 
-    public void dim1(View view)
+    public void dim1(View view) //Info de entrada en el lado A del ducto, primera dimension.
     {
         edTextLadoBDucto.setText("");
-        dimLadoABiseccion();
-    }
 
-    public void dimLadoABiseccion()
-    {
         double ladoA = Double.parseDouble(edTextLadoADucto.getText().toString());
 
         if (configSI)
             ladoA = RedondearDecimal(ladoA/25.4, 1);
 
         DimRectangular objDim = new DimRectangular();
-        objDim.dimensionLadoBBiseccion(ladoA);
+        objDim.dimensionLadoBBiseccion(ladoA); //Se calcula el lado B.
 
         double ladoB = objDim.getLadoB();
+        ladoB = RedondearDecimal(ladoB, 0);
 
         /*Calculo del diametro equivalente*/
         if (ladoA > 0 && ladoB > 0)
         {
             //2009 ASHRAE Handbook Fundamentals, CHAPTER 21, pg - 21.7, eq - 25
             double diaEqvCal = (1.3 * Math.pow(ladoA*ladoB,0.625))/Math.pow((ladoA + ladoB),0.25);
+            Interpolaciones interSetGet = new Interpolaciones();
+            interSetGet.setDiametroEqv(diaEqvCal);
 
             if (configSI)
             {
-                edTextLadoADucto.setText(String.format(Locale.getDefault(), "%.0f", ladoA*25.4));
                 edTextLadoBDucto.setText(String.format(Locale.getDefault(), "%.0f", ladoB*25.4));
                 textViewDiaEqvFinal.setText(String.format(Locale.getDefault(),"%.1f", diaEqvCal*25.4) + " ");
             }
 
             if (configUS)
             {
-                edTextLadoADucto.setText(String.format(Locale.getDefault(), "%.1f", ladoA));
-                edTextLadoBDucto.setText(String.format(Locale.getDefault(), "%.1f", ladoB));
+                edTextLadoBDucto.setText(String.format(Locale.getDefault(), "%.0f", ladoB));
                 textViewDiaEqvFinal.setText(String.format(Locale.getDefault(),"%.2f", diaEqvCal) + " ");
             }
-
-            Interpolaciones interSetGet = new Interpolaciones();
 
             Casos operaciones = new Casos();
             operaciones.OperacionesFinales(interSetGet.getFlujoAire());
