@@ -1350,6 +1350,40 @@ public class DimDucto_Temporal extends AppCompatActivity
 
     public void dim2(View view)
     {
+        if (edTextLadoADucto.getText().length() > 0)
+        {
+            double ladoA = 0;
+            double ladoB = 0;
+
+            try
+            {
+                ladoA = Double.parseDouble(edTextLadoADucto.getText().toString());
+                ladoB = Double.parseDouble(edTextLadoBDucto.getText().toString());
+            }
+
+            catch (Exception err)
+            {
+            }
+
+            if (ladoA > 0 && ladoB > 0)
+            {
+                //Se recalcula el diametro equivalente
+                //2009 ASHRAE Handbook Fundamentals, CHAPTER 21, pg - 21.7, eq - 25
+                double diaEqvCal = (1.3 * Math.pow(ladoA * ladoB, 0.625)) / Math.pow((ladoA + ladoB), 0.25);
+                Interpolaciones interSetGet = new Interpolaciones();
+                interSetGet.setDiametroEqv(diaEqvCal);
+
+                if (configSI)
+                    textViewDiaEqvFinal.setText(String.format(Locale.getDefault(), "%.1f", diaEqvCal * 25.4) + " ");
+
+                if (configUS)
+                    textViewDiaEqvFinal.setText(String.format(Locale.getDefault(), "%.2f", diaEqvCal) + " ");
+
+                Casos operaciones = new Casos();
+                operaciones.OperacionesFinales(interSetGet.getFlujoAire());
+                resultados();
+            }
+        }
     }
 
     public void borrar(View view)
