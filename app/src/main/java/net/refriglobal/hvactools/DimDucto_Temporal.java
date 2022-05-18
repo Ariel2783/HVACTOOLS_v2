@@ -141,6 +141,10 @@ public class DimDucto_Temporal extends AppCompatActivity
                     textViewViscoCinematica.setText("1.5285e-4 ");  viscocidadCinematica = 1.5285e-4;
                     textViewCalorEspcf.setText("0.24 ");    calorEspecifico = 0.24;
                     textViewFactorEnergia.setText("1.09 "); factorEnergia = 1.09;
+
+                    if (edTextCFM.getText().length() > 0 && edTextPerdEstatica.getText().length() > 0 &&
+                        edTextVelocidad.getText().length() > 0 && edTextDiaEqv.getText().length() > 0)
+                        InicioCalculo();
                 }
 
                 if (select1.equals("20°C(68°F) Aire STP"))
@@ -149,6 +153,10 @@ public class DimDucto_Temporal extends AppCompatActivity
                     textViewViscoCinematica.setText("1.6253e-4 ");  viscocidadCinematica = 1.6253e-4;
                     textViewCalorEspcf.setText("0.24 ");    calorEspecifico = 0.24;
                     textViewFactorEnergia.setText("1.08 "); factorEnergia = 1.08;
+
+                    if (edTextCFM.getText().length() > 0 && edTextPerdEstatica.getText().length() > 0 &&
+                            edTextVelocidad.getText().length() > 0 && edTextDiaEqv.getText().length() > 0)
+                        InicioCalculo();
                 }
 
                 if (select1.equals("23.9°C(75°F) Aire 50% RH 1 atm"))
@@ -157,6 +165,10 @@ public class DimDucto_Temporal extends AppCompatActivity
                     textViewViscoCinematica.setText("1.6738e-4 ");  viscocidadCinematica = 1.6738e-4;
                     textViewCalorEspcf.setText("0.24 ");    calorEspecifico = 0.24;
                     textViewFactorEnergia.setText("1.05 "); factorEnergia = 1.05;
+
+                    if (edTextCFM.getText().length() > 0 && edTextPerdEstatica.getText().length() > 0 &&
+                            edTextVelocidad.getText().length() > 0 && edTextDiaEqv.getText().length() > 0)
+                        InicioCalculo();
                 }
 
                 if (select1.equals("40°C(104°F) Aire 23% RH 1 atm"))
@@ -165,6 +177,10 @@ public class DimDucto_Temporal extends AppCompatActivity
                     textViewViscoCinematica.setText("1.8191e-4 ");  viscocidadCinematica = 1.8191e-4;
                     textViewCalorEspcf.setText("0.24 ");    calorEspecifico = 0.24;
                     textViewFactorEnergia.setText("1.01 "); factorEnergia = 1.01;
+
+                    if (edTextCFM.getText().length() > 0 && edTextPerdEstatica.getText().length() > 0 &&
+                            edTextVelocidad.getText().length() > 0 && edTextDiaEqv.getText().length() > 0)
+                        InicioCalculo();
                 }
 
                 if (select1.equals("50°C(122°F) Aire 11% RH 1 atm"))
@@ -173,6 +189,10 @@ public class DimDucto_Temporal extends AppCompatActivity
                     textViewViscoCinematica.setText("1.9267e-4 ");  viscocidadCinematica = 1.9267e-4;
                     textViewCalorEspcf.setText("0.24 ");    calorEspecifico = 0.24;
                     textViewFactorEnergia.setText("0.96 "); factorEnergia = 0.96;
+
+                    if (edTextCFM.getText().length() > 0 && edTextPerdEstatica.getText().length() > 0 &&
+                            edTextVelocidad.getText().length() > 0 && edTextDiaEqv.getText().length() > 0)
+                        InicioCalculo();
                 }
             }
 
@@ -413,6 +433,11 @@ public class DimDucto_Temporal extends AppCompatActivity
     @SuppressLint({"DefaultLocale", "SetTextI18n"})
     public void calcular(View view)
     {
+        InicioCalculo();
+    }
+
+    public void InicioCalculo()
+    {
         if (chkCaudal.isChecked() && chkPerdEstatica.isChecked())
         {
             if (edTextCFM.getText().length() > 0 && edTextPerdEstatica.getText().length() > 0)
@@ -453,7 +478,6 @@ public class DimDucto_Temporal extends AppCompatActivity
         {
             dimLadoABiseccion();
         }
-
     }
 
     public void MetodoCaudalPerdEstatica()
