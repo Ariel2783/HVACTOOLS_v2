@@ -29,6 +29,7 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Locale;
 
@@ -152,59 +153,158 @@ public class DimDucto_Temporal extends AppCompatActivity
                 //MUESTRA LA SELECCION EN UN MENSAJE TEMPORAL.
                Toast.makeText(adapterView.getContext(), (String) adapterView.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
                 String select1 = condicionesAmbiente.getSelectedItem().toString();
-                if (select1.equals("10°C(50°F) Aire 97% RH 1 atm"))
-                {
-                    textViewDensidadAire.setText("0.0778 ");    densidadAire = 0.0778;
-                    textViewViscoCinematica.setText("1.5285e-4 ");  viscocidadCinematica = 1.5285e-4;
-                    textViewCalorEspcf.setText("0.24 ");    calorEspecifico = 0.24;
-                    textViewFactorEnergia.setText("1.09 "); factorEnergia = 1.09;
 
-                    if (textViewAreaFlujo.getText().length() > 0)
-                        calcular(view);
+                if (configUS)
+                {
+
+                    if (select1.equals("10°C(50°F) Aire 97% RH 1 atm")) {
+                        textViewDensidadAire.setText("0.0778 ");
+                        densidadAire = 0.0778;
+                        textViewViscoCinematica.setText("1.5285e-4 ");
+                        viscocidadCinematica = 1.5285e-4;
+                        textViewCalorEspcf.setText("0.24 ");
+                        calorEspecifico = 0.24;
+                        textViewFactorEnergia.setText("1.09 ");
+                        factorEnergia = 1.09;
+
+                        if (textViewAreaFlujo.getText().length() > 0)
+                            calcular(view);
+                    }
+
+                    if (select1.equals("20°C(68°F) Aire STP")) {
+                        textViewDensidadAire.setText("0.0752 ");
+                        densidadAire = 0.0752;
+                        textViewViscoCinematica.setText("1.6253e-4 ");
+                        viscocidadCinematica = 1.6253e-4;
+                        textViewCalorEspcf.setText("0.24 ");
+                        calorEspecifico = 0.24;
+                        textViewFactorEnergia.setText("1.08 ");
+                        factorEnergia = 1.08;
+
+                        if (textViewAreaFlujo.getText().length() > 0)
+                            calcular(view);
+                    }
+
+                    if (select1.equals("23.9°C(75°F) Aire 50% RH 1 atm")) {
+                        textViewDensidadAire.setText("0.0739 ");
+                        densidadAire = 0.0739;
+                        textViewViscoCinematica.setText("1.6738e-4 ");
+                        viscocidadCinematica = 1.6738e-4;
+                        textViewCalorEspcf.setText("0.24 ");
+                        calorEspecifico = 0.24;
+                        textViewFactorEnergia.setText("1.05 ");
+                        factorEnergia = 1.05;
+
+                        if (textViewAreaFlujo.getText().length() > 0)
+                            calcular(view);
+                    }
+
+                    if (select1.equals("40°C(104°F) Aire 23% RH 1 atm")) {
+                        textViewDensidadAire.setText("0.0704 ");
+                        densidadAire = 0.0704;
+                        textViewViscoCinematica.setText("1.8191e-4 ");
+                        viscocidadCinematica = 1.8191e-4;
+                        textViewCalorEspcf.setText("0.24 ");
+                        calorEspecifico = 0.24;
+                        textViewFactorEnergia.setText("1.01 ");
+                        factorEnergia = 1.01;
+
+                        if (textViewAreaFlujo.getText().length() > 0)
+                            calcular(view);
+                    }
+
+                    if (select1.equals("50°C(122°F) Aire 11% RH 1 atm")) {
+                        textViewDensidadAire.setText("0.0682 ");
+                        densidadAire = 0.0682;
+                        textViewViscoCinematica.setText("1.9267e-4 ");
+                        viscocidadCinematica = 1.9267e-4;
+                        textViewCalorEspcf.setText("0.24 ");
+                        calorEspecifico = 0.24;
+                        textViewFactorEnergia.setText("0.96 ");
+                        factorEnergia = 0.96;
+
+                        if (textViewAreaFlujo.getText().length() > 0)
+                            calcular(view);
+                    }
                 }
 
-                if (select1.equals("20°C(68°F) Aire STP"))
+                else
                 {
-                    textViewDensidadAire.setText("0.0752 ");    densidadAire = 0.0752;
-                    textViewViscoCinematica.setText("1.6253e-4 ");  viscocidadCinematica = 1.6253e-4;
-                    textViewCalorEspcf.setText("0.24 ");    calorEspecifico = 0.24;
-                    textViewFactorEnergia.setText("1.08 "); factorEnergia = 1.08;
+                    if (select1.equals("10°C(50°F) Aire 97% RH 1 atm"))
+                    {
+                        textViewDensidadAire.setText("1.2462 ");
+                        densidadAire = 0.0778;
+                        textViewViscoCinematica.setText("0.1420 ");
+                        viscocidadCinematica = 1.5285e-4;
+                        textViewCalorEspcf.setText("1.0048 ");
+                        calorEspecifico = 0.24;
+                        textViewFactorEnergia.setText("1.22 ");
+                        factorEnergia = 1.09;
 
-                    if (textViewAreaFlujo.getText().length() > 0)
-                        calcular(view);
-                }
+                        if (textViewAreaFlujo.getText().length() > 0)
+                            calcular(view);
+                    }
 
-                if (select1.equals("23.9°C(75°F) Aire 50% RH 1 atm"))
-                {
-                    textViewDensidadAire.setText("0.0739 ");    densidadAire = 0.0739;
-                    textViewViscoCinematica.setText("1.6738e-4 ");  viscocidadCinematica = 1.6738e-4;
-                    textViewCalorEspcf.setText("0.24 ");    calorEspecifico = 0.24;
-                    textViewFactorEnergia.setText("1.05 "); factorEnergia = 1.05;
+                    if (select1.equals("20°C(68°F) Aire STP"))
+                    {
+                        textViewDensidadAire.setText("1.2046 ");
+                        densidadAire = 0.0752;
+                        textViewViscoCinematica.setText("0.1510 ");
+                        viscocidadCinematica = 1.6253e-4;
+                        textViewCalorEspcf.setText("1.0048 ");
+                        calorEspecifico = 0.24;
+                        textViewFactorEnergia.setText("1.21 ");
+                        factorEnergia = 1.08;
 
-                    if (textViewAreaFlujo.getText().length() > 0)
-                        calcular(view);
-                }
+                        if (textViewAreaFlujo.getText().length() > 0)
+                            calcular(view);
+                    }
 
-                if (select1.equals("40°C(104°F) Aire 23% RH 1 atm"))
-                {
-                    textViewDensidadAire.setText("0.0704 ");    densidadAire = 0.0704;
-                    textViewViscoCinematica.setText("1.8191e-4 ");  viscocidadCinematica = 1.8191e-4;
-                    textViewCalorEspcf.setText("0.24 ");    calorEspecifico = 0.24;
-                    textViewFactorEnergia.setText("1.01 "); factorEnergia = 1.01;
+                    if (select1.equals("23.9°C(75°F) Aire 50% RH 1 atm"))
+                    {
+                        textViewDensidadAire.setText("1.1838 ");
+                        densidadAire = 0.0739;
+                        textViewViscoCinematica.setText("0.1555 ");
+                        viscocidadCinematica = 1.6738e-4;
+                        textViewCalorEspcf.setText("1.0048 ");
+                        calorEspecifico = 0.24;
+                        textViewFactorEnergia.setText("1.18 ");
+                        factorEnergia = 1.05;
 
-                    if (textViewAreaFlujo.getText().length() > 0)
-                        calcular(view);
-                }
+                        if (textViewAreaFlujo.getText().length() > 0)
+                            calcular(view);
+                    }
 
-                if (select1.equals("50°C(122°F) Aire 11% RH 1 atm"))
-                {
-                    textViewDensidadAire.setText("0.0682 ");    densidadAire = 0.0682;
-                    textViewViscoCinematica.setText("1.9267e-4 ");  viscocidadCinematica = 1.9267e-4;
-                    textViewCalorEspcf.setText("0.24 ");    calorEspecifico = 0.24;
-                    textViewFactorEnergia.setText("0.96 "); factorEnergia = 0.96;
+                    if (select1.equals("40°C(104°F) Aire 23% RH 1 atm"))
+                    {
+                        textViewDensidadAire.setText("1.1277 ");
+                        densidadAire = 0.0704;
+                        textViewViscoCinematica.setText("0.1690 ");
+                        viscocidadCinematica = 1.8191e-4;
+                        textViewCalorEspcf.setText("1.0048 ");
+                        calorEspecifico = 0.24;
+                        textViewFactorEnergia.setText("1.13 ");
+                        factorEnergia = 1.01;
 
-                    if (textViewAreaFlujo.getText().length() > 0)
-                        calcular(view);
+                        if (textViewAreaFlujo.getText().length() > 0)
+                            calcular(view);
+                    }
+
+                    if (select1.equals("50°C(122°F) Aire 11% RH 1 atm"))
+                    {
+                        textViewDensidadAire.setText("1.0925 ");
+                        densidadAire = 0.0682;
+                        textViewViscoCinematica.setText("0.1790 ");
+                        viscocidadCinematica = 1.9267e-4;
+                        textViewCalorEspcf.setText("1.0048 ");
+                        calorEspecifico = 0.24;
+                        textViewFactorEnergia.setText("1.08 ");
+                        factorEnergia = 0.96;
+
+                        if (textViewAreaFlujo.getText().length() > 0)
+                            calcular(view);
+                    }
+
                 }
             }
 
@@ -269,6 +369,31 @@ public class DimDucto_Temporal extends AppCompatActivity
         {
                 //Unidad anterior.
                 String cadenaUnidad = txtvCaudalUnidad.getText().toString();
+
+            if (cadenaUnidad.equals("cfm"))
+            {
+                double valorDensidad = Double.parseDouble(textViewDensidadAire.getText().toString()) * 16.0185;
+                textViewDensidadAire.setText(String.format( Locale.getDefault(),"%.4f", valorDensidad) + " ");
+            }
+
+            if (cadenaUnidad.equals("cfm"))
+            {
+                double valorViscocidad = Double.parseDouble(textViewViscoCinematica.getText().toString()) * 929.0304;
+                textViewViscoCinematica.setText(String.format(Locale.getDefault(),"%.4f", valorViscocidad) + " ");
+            }
+
+            if (cadenaUnidad.equals("cfm"))
+            {
+                double valorCalorEsp = Double.parseDouble(textViewCalorEspcf.getText().toString())  * 4.1868;
+                textViewCalorEspcf.setText(String.format(Locale.getDefault(),"%.4f", valorCalorEsp) + " ");
+            }
+
+            if (cadenaUnidad.equals("cfm"))
+            {
+                double valorFactorEnergia = Double.parseDouble(textViewFactorEnergia.getText().toString()) * (1.21/1.08) ;
+                textViewFactorEnergia.setText(String.format(Locale.getDefault(),"%.2f", valorFactorEnergia) + " ");
+            }
+
 
             if (cadenaUnidad.equals("cfm") && edTextCFM.length() > 0)
             {
@@ -357,6 +482,32 @@ public class DimDucto_Temporal extends AppCompatActivity
         if (configUS)
         {
             String cadenaUnidad = txtvCaudalUnidad.getText().toString();
+
+            if (cadenaUnidad.equals("L/s"))
+            {
+                double valorDensidad = Double.parseDouble(textViewDensidadAire.getText().toString()) / 16.0185;
+                textViewDensidadAire.setText(String.format( Locale.getDefault(),"%.4f", valorDensidad) + " ");
+            }
+
+            if (cadenaUnidad.equals("L/s"))
+            {
+                double valorViscocidad = Double.parseDouble(textViewViscoCinematica.getText().toString()) / 929.0304;
+                DecimalFormat formato = new DecimalFormat("#.####E0");
+                String nuevoValor = formato.format(valorViscocidad);
+                textViewViscoCinematica.setText(nuevoValor + " ");
+            }
+
+            if (cadenaUnidad.equals("L/s"))
+            {
+                double valorCalorEsp = Double.parseDouble(textViewCalorEspcf.getText().toString())  / 4.1868;
+                textViewCalorEspcf.setText(String.format(Locale.getDefault(),"%.2f", valorCalorEsp) + " ");
+            }
+
+            if (cadenaUnidad.equals("L/s"))
+            {
+                double valorFactorEnergia = Double.parseDouble(textViewFactorEnergia.getText().toString()) / (1.21/1.08) ;
+                textViewFactorEnergia.setText(String.format(Locale.getDefault(),"%.2f", valorFactorEnergia) + " ");
+            }
 
             if (edTextCFM.length() > 0 && cadenaUnidad.equals("L/s")) //Conversion de L/seg a cfm.
             {
@@ -1078,7 +1229,7 @@ public class DimDucto_Temporal extends AppCompatActivity
         }
     }
 
-    public static Double RedondearDecimal(double valor, int numDecimales)
+    public Double RedondearDecimal(double valor, int numDecimales)
     {
         double parteEntera, resultado;
         resultado = valor;
