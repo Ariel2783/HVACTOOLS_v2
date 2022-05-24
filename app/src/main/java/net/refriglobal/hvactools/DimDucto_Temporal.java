@@ -26,8 +26,6 @@ import net.refriglobal.hvactools.Operaciones.Interpolaciones;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -69,10 +67,7 @@ public class DimDucto_Temporal extends AppCompatActivity
         setContentView(R.layout.activity_dim_ducto);
         AdView mAdView;
 
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
+        MobileAds.initialize(this, initializationStatus -> {
         });
 
         mAdView = findViewById(R.id.adView);
@@ -373,25 +368,29 @@ public class DimDucto_Temporal extends AppCompatActivity
             if (cadenaUnidad.equals("cfm"))
             {
                 double valorDensidad = Double.parseDouble(textViewDensidadAire.getText().toString()) * 16.0185;
-                textViewDensidadAire.setText(String.format( Locale.getDefault(),"%.4f", valorDensidad) + " ");
+                String cadenaString = String.format(Locale.getDefault(), "%.4f", valorDensidad) + " ";
+                textViewDensidadAire.setText(cadenaString);
             }
 
             if (cadenaUnidad.equals("cfm"))
             {
                 double valorViscocidad = Double.parseDouble(textViewViscoCinematica.getText().toString()) * 929.0304;
-                textViewViscoCinematica.setText(String.format(Locale.getDefault(),"%.4f", valorViscocidad) + " ");
+                String cadenaString = String.format(Locale.getDefault(),"%.4f", valorViscocidad) + " ";
+                textViewViscoCinematica.setText(cadenaString);
             }
 
             if (cadenaUnidad.equals("cfm"))
             {
                 double valorCalorEsp = Double.parseDouble(textViewCalorEspcf.getText().toString())  * 4.1868;
-                textViewCalorEspcf.setText(String.format(Locale.getDefault(),"%.4f", valorCalorEsp) + " ");
+                String cadenaString = String.format(Locale.getDefault(),"%.4f", valorCalorEsp) + " ";
+                textViewCalorEspcf.setText(cadenaString);
             }
 
             if (cadenaUnidad.equals("cfm"))
             {
-                double valorFactorEnergia = Double.parseDouble(textViewFactorEnergia.getText().toString()) * (1.21/1.08) ;
-                textViewFactorEnergia.setText(String.format(Locale.getDefault(),"%.2f", valorFactorEnergia) + " ");
+                double valorFactorEnergia = Double.parseDouble(textViewFactorEnergia.getText().toString()) * (1.21/1.08);
+                String cadenaString = String.format(Locale.getDefault(),"%.2f", valorFactorEnergia) + " ";
+                textViewFactorEnergia.setText(cadenaString);
             }
 
 
@@ -434,31 +433,36 @@ public class DimDucto_Temporal extends AppCompatActivity
             if (cadenaUnidad.equals("cfm") && textViewDiaEqvFinal.length() > 0)
             {
                 double valorDiaEqvmm = Double.parseDouble(textViewDiaEqvFinal.getText().toString()) * 25.400;
-                textViewDiaEqvFinal.setText(String.format(Locale.getDefault(), "%.1f", valorDiaEqvmm) + " ");
+                String cadenaString = String.format(Locale.getDefault(), "%.1f", valorDiaEqvmm) + " ";
+                textViewDiaEqvFinal.setText(cadenaString);
             }
 
             if (cadenaUnidad.equals("cfm") && textViewAreaFlujo.length() > 0)
             {
                 double valorAream2 = Double.parseDouble(textViewAreaFlujo.getText().toString()) / 10.764;
-                textViewAreaFlujo.setText(String.format(Locale.getDefault(), "%.4f", valorAream2) + " ");
+                String cadenaString = String.format(Locale.getDefault(), "%.4f", valorAream2) + " ";
+                textViewAreaFlujo.setText(cadenaString);
             }
 
             if (cadenaUnidad.equals("cfm") && textViewVelFluidoFinal.length() > 0)
             {
                 double valorVelms= Double.parseDouble(textViewVelFluidoFinal.getText().toString() ) / 196.850 ;
-                textViewVelFluidoFinal.setText(String.format(Locale.getDefault(), "%.3f", valorVelms) + " ");
+                String cadenaString = String.format(Locale.getDefault(), "%.3f", valorVelms) + " ";
+                textViewVelFluidoFinal.setText(cadenaString);
             }
 
             if (cadenaUnidad.equals("cfm") && textViewPresionVelocidad.length() > 0)
             {
                 double valorPresionPa = Double.parseDouble(textViewPresionVelocidad.getText().toString()) * 249.089;
-                textViewPresionVelocidad.setText(String.format(Locale.getDefault(), "%.4f", valorPresionPa) + " ");
+                String cadenaString = String.format(Locale.getDefault(), "%.4f", valorPresionPa) + " ";
+                textViewPresionVelocidad.setText(cadenaString);
             }
 
             if (cadenaUnidad.equals("cfm") && textViewPerdFricion.length() > 0)
             {
                 double valorPerdWCFt = Double.parseDouble(textViewPerdFricion.getText().toString()) * 8.173;
-                textViewPerdFricion.setText(String.format(Locale.getDefault(), "%.4f", valorPerdWCFt) + " ");
+                String cadenaString = String.format(Locale.getDefault(), "%.4f", valorPerdWCFt) + " ";
+                textViewPerdFricion.setText(cadenaString);
             }
 
             txtvDensidadAireUnidad.setText(R.string.Kg_m3);
@@ -486,27 +490,30 @@ public class DimDucto_Temporal extends AppCompatActivity
             if (cadenaUnidad.equals("L/s"))
             {
                 double valorDensidad = Double.parseDouble(textViewDensidadAire.getText().toString()) / 16.0185;
-                textViewDensidadAire.setText(String.format( Locale.getDefault(),"%.4f", valorDensidad) + " ");
+                String cadenaString = String.format( Locale.getDefault(),"%.4f", valorDensidad) + " ";
+                textViewDensidadAire.setText(cadenaString);
             }
 
             if (cadenaUnidad.equals("L/s"))
             {
                 double valorViscocidad = Double.parseDouble(textViewViscoCinematica.getText().toString()) / 929.0304;
                 DecimalFormat formato = new DecimalFormat("#.####E0");
-                String nuevoValor = formato.format(valorViscocidad);
-                textViewViscoCinematica.setText(nuevoValor + " ");
+                String nuevoValor = formato.format(valorViscocidad) + " ";
+                textViewViscoCinematica.setText(nuevoValor);
             }
 
             if (cadenaUnidad.equals("L/s"))
             {
                 double valorCalorEsp = Double.parseDouble(textViewCalorEspcf.getText().toString())  / 4.1868;
-                textViewCalorEspcf.setText(String.format(Locale.getDefault(),"%.2f", valorCalorEsp) + " ");
+                String cadenaString = String.format(Locale.getDefault(),"%.2f", valorCalorEsp) + " ";
+                textViewCalorEspcf.setText(cadenaString);
             }
 
             if (cadenaUnidad.equals("L/s"))
             {
-                double valorFactorEnergia = Double.parseDouble(textViewFactorEnergia.getText().toString()) / (1.21/1.08) ;
-                textViewFactorEnergia.setText(String.format(Locale.getDefault(),"%.2f", valorFactorEnergia) + " ");
+                double valorFactorEnergia = Double.parseDouble(textViewFactorEnergia.getText().toString()) / (1.21/1.08);
+                String cadenaString = String.format(Locale.getDefault(),"%.2f", valorFactorEnergia) + " ";
+                textViewFactorEnergia.setText(cadenaString);
             }
 
             if (edTextCFM.length() > 0 && cadenaUnidad.equals("L/s")) //Conversion de L/seg a cfm.
@@ -547,31 +554,36 @@ public class DimDucto_Temporal extends AppCompatActivity
             if (cadenaUnidad.equals("L/s") && textViewDiaEqvFinal.length() > 0)
             {
                 double valorDiaEqvPlg = Double.parseDouble(textViewDiaEqvFinal.getText().toString()) / 25.400;
-                textViewDiaEqvFinal.setText(String.format(Locale.getDefault(), "%.1f", valorDiaEqvPlg) + " ");
+                String cadenaString = String.format(Locale.getDefault(), "%.1f", valorDiaEqvPlg) + " ";
+                textViewDiaEqvFinal.setText(cadenaString);
             }
 
             if (cadenaUnidad.equals("L/s") && textViewAreaFlujo.length() > 0)
             {
-                double valorAreaFt2 = Double.parseDouble(textViewAreaFlujo.getText().toString()) * 10.764 ;
-                textViewAreaFlujo.setText(String.format(Locale.getDefault(), "%.4f", valorAreaFt2) + " ");
+                double valorAreaFt2 = Double.parseDouble(textViewAreaFlujo.getText().toString()) * 10.764;
+                String cadenaString = String.format(Locale.getDefault(), "%.4f", valorAreaFt2) + " ";
+                textViewAreaFlujo.setText(cadenaString);
             }
 
             if (cadenaUnidad.equals("L/s") && textViewVelFluidoFinal.length() > 0)
             {
-                double valorVelfpm= Double.parseDouble(textViewVelFluidoFinal.getText().toString()) * 196.850 ;
-                textViewVelFluidoFinal.setText(String.format(Locale.getDefault(), "%.1f", valorVelfpm) + " ");
+                double valorVelfpm= Double.parseDouble(textViewVelFluidoFinal.getText().toString()) * 196.850;
+                String cadenaString = String.format(Locale.getDefault(), "%.1f", valorVelfpm) + " ";
+                textViewVelFluidoFinal.setText(cadenaString);
             }
 
             if (cadenaUnidad.equals("L/s") && textViewPresionVelocidad.length() > 0)
             {
                 double valorPresionPlgH2O = Double.parseDouble(textViewPresionVelocidad.getText().toString()) / 249.089;
-                textViewPresionVelocidad.setText(String.format(Locale.getDefault(), "%.4f", valorPresionPlgH2O) + " ");
+                String cadenaString = String.format(Locale.getDefault(), "%.4f", valorPresionPlgH2O) + " ";
+                textViewPresionVelocidad.setText(cadenaString);
             }
 
             if (cadenaUnidad.equals("L/s") && textViewPerdFricion.length() > 0)
             {
                 double valorPerPa_m = Double.parseDouble(textViewPerdFricion.getText().toString()) / 8.173;
-                textViewPerdFricion.setText(String.format(Locale.getDefault(), "%.3f", valorPerPa_m) + " ");
+                String cadenaString = String.format(Locale.getDefault(), "%.3f", valorPerPa_m) + " ";
+                textViewPerdFricion.setText(cadenaString);
             }
 
             txtvDensidadAireUnidad.setText(R.string.lb_ft3);
@@ -1210,22 +1222,44 @@ public class DimDucto_Temporal extends AppCompatActivity
 
         if (configUS)
         {
-            textViewAreaFlujo.setText(String.format(Locale.getDefault(),"%.4f", operacion.getAreaDiametroEqv())+" ");
-            textViewVelFluidoFinal.setText(String.format(Locale.getDefault(), "%.1f",operacion.getVelocidadDiametro())+" ");
-            textViewNumReynolds.setText(String.format(Locale.getDefault(), "%.0f", operacion.getNumeroReynolds()));
-            textViewFactorFriccion.setText(String.format(Locale.getDefault(),"%.5f", operacion.getFactorFriccion()));
-            textViewPresionVelocidad.setText(String.format(Locale.getDefault(),"%.4f",operacion.getPresionVelocidad())+" ");
-            textViewPerdFricion.setText(String.format(Locale.getDefault(),"%.4f", operacion.getPerdidaFriccion())+" ");
+            String cadenaString = String.format(Locale.getDefault(),"%.4f", operacion.getAreaDiametroEqv())+" ";
+            textViewAreaFlujo.setText(cadenaString);
+
+            cadenaString = String.format(Locale.getDefault(), "%.1f",operacion.getVelocidadDiametro())+" ";
+            textViewVelFluidoFinal.setText(cadenaString);
+
+            cadenaString = String.format(Locale.getDefault(), "%.0f", operacion.getNumeroReynolds());
+            textViewNumReynolds.setText(cadenaString);
+
+            cadenaString = String.format(Locale.getDefault(),"%.5f", operacion.getFactorFriccion());
+            textViewFactorFriccion.setText(cadenaString);
+
+            cadenaString = String.format(Locale.getDefault(),"%.4f",operacion.getPresionVelocidad())+" ";
+            textViewPresionVelocidad.setText(cadenaString);
+
+            cadenaString = String.format(Locale.getDefault(),"%.4f", operacion.getPerdidaFriccion())+" ";
+            textViewPerdFricion.setText(cadenaString);
         }
 
         if (configSI)
         {
-            textViewAreaFlujo.setText(String.format(Locale.getDefault(),"%.4f", operacion.getAreaDiametroEqv() / 10.764)+" ");
-            textViewVelFluidoFinal.setText(String.format(Locale.getDefault(), "%.1f",operacion.getVelocidadDiametro() / 196.850)+" ");
-            textViewNumReynolds.setText(String.format(Locale.getDefault(), "%.0f", operacion.getNumeroReynolds()));
-            textViewFactorFriccion.setText(String.format(Locale.getDefault(),"%.5f", operacion.getFactorFriccion()));
-            textViewPresionVelocidad.setText(String.format(Locale.getDefault(),"%.4f",operacion.getPresionVelocidad() * 249.089)+" ");
-            textViewPerdFricion.setText(String.format(Locale.getDefault(),"%.4f", operacion.getPerdidaFriccion() * 8.173)+" ");
+            String cadenaString = String.format(Locale.getDefault(),"%.4f", operacion.getAreaDiametroEqv() / 10.764)+" ";
+            textViewAreaFlujo.setText(cadenaString);
+
+            cadenaString = String.format(Locale.getDefault(), "%.1f",operacion.getVelocidadDiametro() / 196.850)+" ";
+            textViewVelFluidoFinal.setText(cadenaString);
+
+            cadenaString = String.format(Locale.getDefault(), "%.0f", operacion.getNumeroReynolds());
+            textViewNumReynolds.setText(cadenaString);
+
+            cadenaString = String.format(Locale.getDefault(),"%.5f", operacion.getFactorFriccion());
+            textViewFactorFriccion.setText(cadenaString);
+
+            cadenaString = String.format(Locale.getDefault(),"%.4f",operacion.getPresionVelocidad() * 249.089)+" ";
+            textViewPresionVelocidad.setText(cadenaString);
+
+            cadenaString = String.format(Locale.getDefault(),"%.4f", operacion.getPerdidaFriccion() * 8.173)+" ";
+            textViewPerdFricion.setText(cadenaString);
         }
     }
 
@@ -1484,13 +1518,17 @@ public class DimDucto_Temporal extends AppCompatActivity
             if (configSI)
             {
                 edTextLadoBDucto.setText(String.format(Locale.getDefault(), "%.0f", ladoB*25.4));
-                textViewDiaEqvFinal.setText(String.format(Locale.getDefault(),"%.1f", diaEqvCal*25.4) + " ");
+
+                String stringDiaEqvFinal = String.format(Locale.getDefault(),"%.1f", diaEqvCal*25.4) + " ";
+                textViewDiaEqvFinal.setText(stringDiaEqvFinal);
             }
 
             if (configUS)
             {
                 edTextLadoBDucto.setText(String.format(Locale.getDefault(), "%.0f", ladoB));
-                textViewDiaEqvFinal.setText(String.format(Locale.getDefault(),"%.2f", diaEqvCal) + " ");
+
+                String stringDiaEqvFinal = String.format(Locale.getDefault(),"%.2f", diaEqvCal) + " ";
+                textViewDiaEqvFinal.setText(stringDiaEqvFinal);
             }
 
             Casos operaciones = new Casos();
@@ -1525,10 +1563,16 @@ public class DimDucto_Temporal extends AppCompatActivity
                 interSetGet.setDiametroEqv(diaEqvCal);
 
                 if (configSI)
-                    textViewDiaEqvFinal.setText(String.format(Locale.getDefault(), "%.1f", diaEqvCal * 25.4) + " ");
+                {
+                    String stringDiaEqvFinal = String.format(Locale.getDefault(), "%.1f", diaEqvCal * 25.4) + " ";
+                    textViewDiaEqvFinal.setText(stringDiaEqvFinal);
+                }
 
                 if (configUS)
-                    textViewDiaEqvFinal.setText(String.format(Locale.getDefault(), "%.2f", diaEqvCal) + " ");
+                {
+                    String stringDiaEqvFinal = String.format(Locale.getDefault(), "%.2f", diaEqvCal) + " ";
+                    textViewDiaEqvFinal.setText(stringDiaEqvFinal);
+                }
 
                 Casos operaciones = new Casos();
                 operaciones.OperacionesFinales(interSetGet.getFlujoAire());
