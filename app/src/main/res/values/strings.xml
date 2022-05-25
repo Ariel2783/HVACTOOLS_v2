@@ -14,6 +14,12 @@
     <string name="Fluid_viscosity">Viscosidad cinemática</string>
     <string name="Specific_Heat">Calor especifico</string>
     <string name="Energy_factor">Factor de energía</string>
+    <string name="CaudalFueraRango">EL Caudal introducido está fuera de rango del
+        gráfico de fricción para conducto. Limite mínimo 10, máximo 75,000 CFM.
+        2009 ASHRAE Handbook-Fundamentals, cap. 21.8, Fig. 9</string>
+    <string name="PerdidaFueraRango">La pérdida introducida está fuera de rango de la
+        gráfica de pérdidas por fricción. Límite mínimo 0.10 máximo 6.75 plg/100ft.
+        2009 ASHRAE Handbook-Fundamentals, cap. 21.8, Fig. 9</string>
 
     //UNIDADES US
     <string name="lb_ft3">lb/ft³.</string>

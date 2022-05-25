@@ -1,5 +1,6 @@
 package net.refriglobal.hvactools;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -611,7 +612,21 @@ public class DimDucto_Temporal extends AppCompatActivity
         if (chkCaudal.isChecked() && chkPerdEstatica.isChecked())
         {
             if (edTextCFM.getText().length() > 0 && edTextPerdEstatica.getText().length() > 0)
-                MetodoCaudalPerdEstatica();
+            {
+                double caudal = Double.parseDouble(edTextCFM.getText().toString());
+                double perdida = Double.parseDouble(edTextPerdEstatica.getText().toString());
+
+                if ((caudal >= 10 && caudal <= 75000) && (perdida >= 0.1 && perdida <= 10))
+                {
+                    MetodoCaudalPerdEstatica();
+                }
+
+                else
+                {
+                 alertas();
+                }
+
+            }
         }
 
         if (chkCaudal.isChecked() && chkVelocidad.isChecked())
@@ -1597,4 +1612,45 @@ public class DimDucto_Temporal extends AppCompatActivity
         textViewPresionVelocidad.setText("");
         textViewPerdFricion.setText("");
     }
+
+    public void alertas()
+    {
+        //TODO: 20220525; Continuar con las alertas y modificar para el sistema metrico.
+
+        if (edTextCFM.getText().length() > 0)
+        {
+            double caudal = Double.parseDouble(edTextCFM.getText().toString());
+            if (caudal < 10 || caudal > 75000)
+            {
+                AlertDialog.Builder mensaje = new AlertDialog.Builder(this);
+                mensaje.setTitle("Fuera de rango");
+                if (configUS){
+                    mensaje.setMessage(R.string.CaudalFueraRango);
+                }
+                else if (configSI){
+
+                }
+
+                mensaje.setPositiveButton("Aceptar",null);
+                mensaje.create();
+                mensaje.show();
+            }
+        }
+
+        if (edTextPerdEstatica.getText().length() > 0)
+        {
+            double perdida = Double.parseDouble(edTextPerdEstatica.getText().toString());
+            if (perdida < 0.01 || perdida > 10)
+            {
+                AlertDialog.Builder mensaje = new AlertDialog.Builder(this);
+                mensaje.setTitle("Fuera de rango");
+                mensaje.setMessage(R.string.CaudalFueraRango);
+                mensaje.setPositiveButton("Aceptar",null);
+                mensaje.create();
+                mensaje.show();
+            }
+        }
+
+    }
+
 }

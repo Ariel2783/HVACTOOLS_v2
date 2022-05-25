@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    //DimDucto
+    <string name="CaudalFueraRango">The flow rate entered is outside the range of the
+        friction graph for duct. Minimum limit 10, maximum 75,000 CFM. 2009 ASHRAE
+        Handbook-Fundamentals, Ch. 21.8, Fig. 9</string>
+    <string name="PerdidaFueraRango">The loss entered is outside the range of the
+        friction loss graph. Minimum limit 0.10 maximum 6.75 in./100ft. 2009 ASHRAE
+        Handbook-Fundamentals, Ch. 21.8, Fig. 9</string>
+
     <string name="app_name">HVAC TOOLS</string>
     <string name="dimducto">DimDuct</string>
     <string name="cargatermica">Thermal load</string>
