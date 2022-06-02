@@ -613,18 +613,26 @@ public class DimDucto_Temporal extends AppCompatActivity
         {
             if (edTextCFM.getText().length() > 0 && edTextPerdEstatica.getText().length() > 0)
             {
-                double caudal = Double.parseDouble(edTextCFM.getText().toString());
-                double perdida = Double.parseDouble(edTextPerdEstatica.getText().toString());
+                double caudal=0;
+                double perdida=0;
 
-                if ((caudal >= 10 && caudal <= 75000) && (perdida >= 0.1 && perdida <= 10))
+                if (configSI) //Conversio de SI a US.
                 {
-                    MetodoCaudalPerdEstatica();
+                    caudal = Double.parseDouble(edTextCFM.getText().toString()) * 2.119;
+                    perdida = Double.parseDouble(edTextPerdEstatica.getText().toString()) / 8.173;
                 }
+
+                else //Unidad en US, el codigo esta escrito para trabajar en el sist. US.
+                {
+                    caudal = Double.parseDouble(edTextCFM.getText().toString());
+                    perdida = Double.parseDouble(edTextPerdEstatica.getText().toString());
+                }
+
+                if ((caudal >= 10 && caudal <= 75000) && (perdida >= 0.01 && perdida <= 10))
+                    MetodoCaudalPerdEstatica();
 
                 else
-                {
                  alertas();
-                }
 
             }
         }
@@ -632,13 +640,55 @@ public class DimDucto_Temporal extends AppCompatActivity
         if (chkCaudal.isChecked() && chkVelocidad.isChecked())
         {
             if (edTextCFM.getText().length() > 0 && edTextVelocidad.getText().length() > 0)
-                MetodoCaudalVelocidad();
+            {
+                double caudal=0;
+                double velocidad=0;
+
+                if (configSI) //Conversio de SI a US.
+                {
+                    caudal = Double.parseDouble(edTextCFM.getText().toString()) * 2.119;
+                    velocidad = Double.parseDouble(edTextVelocidad.getText().toString()) * 196.85;
+                }
+
+                else //Unidad en US, el codigo esta escrito para trabajar en el sist. US.
+                {
+                    caudal = Double.parseDouble(edTextCFM.getText().toString());
+                    velocidad = Double.parseDouble(edTextVelocidad.getText().toString());
+                }
+
+                if ((caudal >= 10 && caudal <= 75000) && (velocidad >= 200 && velocidad <= 12000))
+                    MetodoCaudalVelocidad();
+
+                else
+                    alertas();
+            }
         }
 
         if (chkCaudal.isChecked() && chkDiaEqv.isChecked())
         {
             if (edTextCFM.getText().length() > 0 && edTextDiaEqv.getText().length() > 0)
-                MetodoCaudalDiaEqv();
+            {
+                double caudal = 0;
+                double diaEqv = 0;
+
+                if (configSI)
+                {
+                    caudal = Double.parseDouble(edTextCFM.getText().toString()) * 2.119;
+                    diaEqv = Double.parseDouble(edTextDiaEqv.getText().toString()) / 25.40;
+                }
+
+                else //Unidad en US, el codigo esta escrito para trabajar en el sist. US.
+                {
+                    caudal = Double.parseDouble(edTextCFM.getText().toString());
+                    diaEqv = Double.parseDouble(edTextDiaEqv.getText().toString());
+                }
+
+                if ((caudal >= 10 && caudal <= 75000) && (diaEqv >= 1.5 && diaEqv <= 80))
+                    MetodoCaudalDiaEqv();
+
+                else
+                    alertas();
+            }
         }
 
         if (chkPerdEstatica.isChecked() && chkVelocidad.isChecked())
@@ -1017,6 +1067,9 @@ public class DimDucto_Temporal extends AppCompatActivity
                 edTextPerdEstatica.setText(String.format(Locale.getDefault(), "%.3f", perdidaEstatica));
                 edTextVelocidad.setText(String.format(Locale.getDefault(), "%.1f", inter.getVelocidadFlujoAire()));
             }
+
+            Casos operaciones = new Casos();
+            operaciones.OperacionesFinales(flujoAire);
             resultados();
         }
     }
@@ -1615,42 +1668,130 @@ public class DimDucto_Temporal extends AppCompatActivity
 
     public void alertas()
     {
-        //TODO: 20220525; Continuar con las alertas y modificar para el sistema metrico.
+        //TODO: 20220602; Continuar con las alertas y modificar para el sistema metrico.
 
         if (edTextCFM.getText().length() > 0)
         {
-            double caudal = Double.parseDouble(edTextCFM.getText().toString());
-            if (caudal < 10 || caudal > 75000)
+            double caudal = Double.parseDouble(edTextCFM.getText().toString()); //TODO: 20220527; hacer conversion de unidad.
+
+            if (configUS)
             {
-                AlertDialog.Builder mensaje = new AlertDialog.Builder(this);
-                mensaje.setTitle("Fuera de rango");
-                if (configUS){
-                    mensaje.setMessage(R.string.CaudalFueraRango);
+                if (caudal < 10 || caudal > 75000)
+                {
+                    AlertDialog.Builder mensaje = new AlertDialog.Builder(this);
+                    mensaje.setTitle(R.string.FueraRango);
+                    mensaje.setMessage(R.string.CaudalFueraRangoUS);
+                    mensaje.setPositiveButton(R.string.Aceptar,null);
+                    mensaje.create();
+                    mensaje.show();
                 }
-                else if (configSI){
+            }
 
+            else if (configSI)
+            {
+                if (caudal < 4.70 || caudal > 35396)
+                {
+                    AlertDialog.Builder mensaje = new AlertDialog.Builder(this);
+                    mensaje.setTitle(R.string.FueraRango);
+                    mensaje.setMessage(R.string.CaudalFueraRangoSI);
+                    mensaje.setPositiveButton(R.string.Aceptar,null);
+                    mensaje.create();
+                    mensaje.show();
                 }
-
-                mensaje.setPositiveButton("Aceptar",null);
-                mensaje.create();
-                mensaje.show();
             }
         }
 
         if (edTextPerdEstatica.getText().length() > 0)
         {
             double perdida = Double.parseDouble(edTextPerdEstatica.getText().toString());
-            if (perdida < 0.01 || perdida > 10)
+
+            if (configUS)
             {
-                AlertDialog.Builder mensaje = new AlertDialog.Builder(this);
-                mensaje.setTitle("Fuera de rango");
-                mensaje.setMessage(R.string.CaudalFueraRango);
-                mensaje.setPositiveButton("Aceptar",null);
-                mensaje.create();
-                mensaje.show();
+                if (perdida < 0.01 || perdida > 10)
+                {
+                    AlertDialog.Builder mensaje = new AlertDialog.Builder(this);
+                    mensaje.setTitle(R.string.FueraRango);
+                    mensaje.setMessage(R.string.PerdidaFueraRangoUS);
+                    mensaje.setPositiveButton(R.string.Aceptar,null);
+                    mensaje.create();
+                    mensaje.show();
+                }
+            }
+
+            else if (configSI)
+            {
+                if (perdida < 0.082 || perdida > 81.73)
+                {
+                    AlertDialog.Builder mensaje = new AlertDialog.Builder(this);
+                    mensaje.setTitle(R.string.FueraRango);
+                    mensaje.setMessage(R.string.PerdidaFueraRangoSI);
+                    mensaje.setPositiveButton(R.string.Aceptar,null);
+                    mensaje.create();
+                    mensaje.show();
+                }
             }
         }
 
-    }
+        if (edTextVelocidad.getText().length() > 0)
+        {
+            double velocidad = Double.parseDouble(edTextVelocidad.getText().toString());
 
+            if (configUS)
+            {
+                if (velocidad < 200 || velocidad > 12000)
+                {
+                    AlertDialog.Builder mensaje = new AlertDialog.Builder(this);
+                    mensaje.setTitle(R.string.FueraRango);
+                    mensaje.setMessage(R.string.VelocidadFueraRangoUS);
+                    mensaje.setPositiveButton(R.string.Aceptar,null);
+                    mensaje.create();
+                    mensaje.show();
+                }
+            }
+
+            else if (configSI)
+            {
+                if (velocidad < 1.1 || velocidad > 60.96)
+                {
+                    AlertDialog.Builder mensaje = new AlertDialog.Builder(this);
+                    mensaje.setTitle(R.string.FueraRango);
+                    mensaje.setMessage(R.string.VelocidadFueraRangoSI);
+                    mensaje.setPositiveButton(R.string.Aceptar,null);
+                    mensaje.create();
+                    mensaje.show();
+                }
+            }
+        }
+
+        if (edTextDiaEqv.getText().length() > 0)
+        {
+            double diaEqv = Double.parseDouble(edTextDiaEqv.getText().toString());
+
+            if (configUS)
+            {
+                if (diaEqv < 1.5 || diaEqv > 80)
+                {
+                    AlertDialog.Builder mensaje = new AlertDialog.Builder(this);
+                    mensaje.setTitle(R.string.FueraRango);
+                    mensaje.setMessage(R.string.DiaEquivalenteFueraRangoUS);
+                    mensaje.setPositiveButton(R.string.Aceptar,null);
+                    mensaje.create();
+                    mensaje.show();
+                }
+            }
+
+            else if (configSI)
+            {
+                if (diaEqv < 38.1 || diaEqv > 2032.00 )
+                {
+                    AlertDialog.Builder mensaje = new AlertDialog.Builder(this);
+                    mensaje.setTitle(R.string.FueraRango);
+                    mensaje.setMessage(R.string.DiaEquivalenteFueraRangoSI);
+                    mensaje.setPositiveButton(R.string.Aceptar,null);
+                    mensaje.create();
+                    mensaje.show();
+                }
+            }
+        }
+    }
 }

@@ -2,12 +2,39 @@
 <resources>
 
     //DimDucto
-    <string name="CaudalFueraRango">The flow rate entered is outside the range of the
+    <string name="FueraRango">Out of range</string>
+    <string name="Aceptar">Ok</string>
+    <string name="CaudalFueraRangoUS">The flow rate entered is outside the range of the
         friction graph for duct. Minimum limit 10, maximum 75,000 CFM. 2009 ASHRAE
         Handbook-Fundamentals, Ch. 21.8, Fig. 9</string>
-    <string name="PerdidaFueraRango">The loss entered is outside the range of the
+
+    <string name="CaudalFueraRangoSI">The flow introduced is out of the range of the
+         friction chart for duct. Minimum limit 4.7, maximum 35396 L/sec.
+         2009 ASHRAE Handbook-Fundamentals, Ch. 21.8, Fig. 9</string>
+
+    <string name="PerdidaFueraRangoUS">The loss entered is outside the range of the
         friction loss graph. Minimum limit 0.10 maximum 6.75 in./100ft. 2009 ASHRAE
         Handbook-Fundamentals, Ch. 21.8, Fig. 9</string>
+
+    <string name="PerdidaFueraRangoSI">The loss entered is outside the range of the
+        friction loss graph. Minimum limit 0.082 maximum 81.73 Pa/m.
+        2009 ASHRAE Handbook-Fundamentals, cap. 21.8, Fig. 9</string>
+
+    <string name="VelocidadFueraRangoUS">The entered speed is out of range of the
+        friction loss graph. Minimum limit 200 maximum 12000 Ft/min.
+        2009 ASHRAE Handbook-Fundamentals, cap. 21.8, Fig. 9</string>
+
+    <string name="VelocidadFueraRangoSI">The entered speed is out of range of the
+        friction loss graph. Minimum limit 1.1 maximum 60.96 m/s.
+        2009 ASHRAE Handbook-Fundamentals, cap. 21.8, Fig. 9</string>
+
+    <string name="DiaEquivalenteFueraRangoUS">The entered diameter is out of range on the
+        friction loss graph. Minimum limit 1.5 maximum 80 in.
+     2009 ASHRAE Handbook-Fundamentals, Ch. 21.8, Fig. 9</string>
+
+    <string name="DiaEquivalenteFueraRangoSI">The entered diameter is out of range on the
+        friction loss graph. Minimum limit 38.1 maximum 2032 mm.
+     2009 ASHRAE Handbook-Fundamentals, Ch. 21.8, Fig. 9</string>
 
     <string name="app_name">HVAC TOOLS</string>
     <string name="dimducto">DimDuct</string>
